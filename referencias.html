@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referencias gráficas — La Gaceta de Cuauhtémoc × Arte urbano mexicano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=Bungee+Shade&family=Permanent+Marker&family=Oswald:wght@400;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --concreto:#23211e; --concreto-2:#2f2c28; --cal:#f4f1ea; --tinta:#111010;
+    --rosa:#e4007c; --turquesa:#00a39a; --amarillo:#ffb400; --rojo:#e23b2e;
+    --anil:#1f4ea1; --verde:#2faa4f; --naranja:#f5821f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--concreto);color:var(--cal);font-family:'Spectral',Georgia,serif;line-height:1.55;
+    background-image:
+      linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),
+      radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);
+    background-size:auto,5px 5px;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px;}
+  a{color:var(--turquesa);}
+  h2.sec{font-family:'Bungee',sans-serif;font-size:clamp(20px,3.5vw,30px);margin:54px 0 6px;color:#fff;}
+  h2.sec .num{color:var(--rosa);margin-right:12px;}
+  .sub{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:#b9b3a6;margin-bottom:22px;}
+  .tape{display:inline-block;background:var(--amarillo);color:#111;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:12px;font-weight:700;padding:3px 12px;transform:rotate(-2deg);box-shadow:2px 2px 0 rgba(0,0,0,.4);}
+
+  /* HERO */
+  .hero{position:relative;overflow:hidden;border-bottom:5px solid var(--rosa);padding:70px 0 60px;text-align:center;
+    background:
+      repeating-linear-gradient(45deg,rgba(228,0,124,.08) 0 18px,transparent 18px 36px),
+      radial-gradient(circle at 30% 20%,rgba(0,163,154,.25),transparent 55%),
+      radial-gradient(circle at 80% 70%,rgba(255,180,0,.18),transparent 55%),
+      var(--concreto);}
+  .hero .kick{font-family:'Permanent Marker',cursive;color:var(--turquesa);font-size:22px;transform:rotate(-3deg);display:inline-block;}
+  .hero h1{font-family:'Bungee',sans-serif;font-size:clamp(34px,8vw,80px);line-height:.95;margin:6px 0 4px;color:#fff;
+    text-shadow:4px 4px 0 var(--rosa),8px 8px 0 rgba(0,0,0,.4);}
+  .hero h1 .b{color:var(--amarillo);}
+  .hero p{max-width:640px;margin:18px auto 0;color:#e7e2d6;font-size:18px;}
+  .stencil{font-family:'Archivo Black',sans-serif;letter-spacing:.02em;}
+
+  .lead{font-size:19px;color:#e7e2d6;max-width:760px;margin:30px auto 0;}
+
+  /* PALETTE */
+  .pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+  .sw{border:2px solid #000;box-shadow:5px 5px 0 #000;min-height:130px;display:flex;flex-direction:column;justify-content:flex-end;padding:12px;color:#111;font-family:'Oswald',sans-serif;}
+  .sw b{font-size:15px;text-transform:uppercase;letter-spacing:.05em;}
+  .sw span{font-size:12px;opacity:.8;}
+  .sw.dark{color:#fff;}
+
+  /* TYPE */
+  .typ{border-left:5px solid var(--rosa);padding:14px 0 14px 18px;margin:16px 0;background:rgba(255,255,255,.03);}
+  .typ .name{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--amarillo);}
+  .t-bungee{font-family:'Bungee',sans-serif;font-size:34px;color:#fff;}
+  .t-marker{font-family:'Permanent Marker',cursive;font-size:36px;color:var(--turquesa);transform:rotate(-1.5deg);}
+  .t-archivo{font-family:'Archivo Black',sans-serif;font-size:32px;color:#fff;letter-spacing:.01em;}
+  .t-oswald{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:26px;color:#fff;}
+  .t-spectral{font-family:'Spectral',serif;font-size:20px;color:#e7e2d6;}
+
+  /* GRID of style cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;}
+  .gc{background:var(--concreto-2);border:2px solid #000;box-shadow:6px 6px 0 #000;overflow:hidden;}
+  .gc .demo{height:110px;display:flex;align-items:center;justify-content:center;font-size:40px;position:relative;overflow:hidden;}
+  .gc .body{padding:14px 16px;}
+  .gc h4{font-family:'Bungee',sans-serif;font-size:17px;margin:0 0 6px;color:#fff;}
+  .gc p{margin:0;font-size:14px;color:#cdc7ba;}
+  /* demos */
+  .d-tag{background:#1a1a1a;color:#fff;font-family:'Permanent Marker',cursive;transform:skewX(-8deg);}
+  .d-throw{background:var(--anil);color:var(--amarillo);font-family:'Bungee',sans-serif;-webkit-text-stroke:2px #000;}
+  .d-bubble{background:var(--rosa);color:#fff;font-family:'Bungee Shade',cursive;}
+  .d-wild{background:#111;color:var(--verde);font-family:'Archivo Black',sans-serif;font-style:italic;transform:skewX(-12deg);-webkit-text-stroke:1px var(--rosa);}
+  .d-stencil{background:repeating-linear-gradient(45deg,#3a3733 0 10px,#2c2925 10px 20px);color:#fff;font-family:'Archivo Black',sans-serif;letter-spacing:.1em;}
+  .d-real{background:linear-gradient(135deg,#5b3a2e,#caa07a);color:#fff;font-family:'Playfair Display',serif;font-weight:900;}
+
+  /* photos */
+  .photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .photos figure{margin:0;border:2px solid #000;box-shadow:5px 5px 0 #000;overflow:hidden;background:#000;}
+  .photos img{width:100%;height:190px;object-fit:cover;display:block;filter:saturate(1.15) contrast(1.05);}
+  .photos figcaption{font-family:'Oswald',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#b9b3a6;padding:7px 10px;}
+
+  /* APPLICATION mock */
+  .app{border:3px solid #000;box-shadow:8px 8px 0 #000;overflow:hidden;background:var(--cal);color:#1c1a17;}
+  .app .mhead{background:var(--tinta);color:#fff;padding:22px 24px;position:relative;border-bottom:5px solid var(--rosa);
+    background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:5px 5px;}
+  .app .mhead .kick{font-family:'Permanent Marker',cursive;color:var(--turquesa);transform:rotate(-2deg);display:inline-block;font-size:16px;}
+  .app .mhead h3{font-family:'Bungee',sans-serif;font-size:clamp(26px,5vw,44px);margin:2px 0 0;text-shadow:3px 3px 0 var(--rosa);}
+  .app .mhead .stamp{position:absolute;top:18px;right:18px;background:var(--amarillo);color:#111;font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:11px;padding:4px 10px;transform:rotate(4deg);}
+  .app .strip{display:flex;gap:0;background:var(--rosa);}
+  .app .strip span{flex:1;text-align:center;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:#fff;padding:8px 4px;border-right:1px solid rgba(0,0,0,.2);}
+  .app .strip span:nth-child(2){background:var(--turquesa);}
+  .app .strip span:nth-child(3){background:var(--amarillo);color:#111;}
+  .app .strip span:nth-child(4){background:var(--anil);}
+  .app .biz{display:grid;grid-template-columns:140px 1fr;gap:0;}
+  .app .biz .ph{background:linear-gradient(135deg,#2f2c28,#6b5d44);min-height:130px;position:relative;}
+  .app .biz .ph::after{content:"FOTO";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;color:rgba(255,255,255,.5);letter-spacing:.2em;font-size:12px;}
+  .app .biz .info{padding:16px 18px;}
+  .app .biz .cat{display:inline-block;background:var(--verde);color:#fff;font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:11px;letter-spacing:.1em;padding:2px 8px;}
+  .app .biz h4{font-family:'Archivo Black',sans-serif;font-size:22px;margin:8px 0 4px;}
+  .app .biz p{margin:0;font-size:14px;color:#403b34;}
+
+  .note{background:rgba(228,0,124,.12);border:1px dashed var(--rosa);padding:16px 18px;margin:24px 0;font-size:15px;color:#f0d9e6;}
+  ul.clean{list-style:none;padding:0;}
+  ul.clean li{padding:7px 0 7px 26px;position:relative;border-bottom:1px solid rgba(255,255,255,.08);}
+  ul.clean li::before{content:"▌";position:absolute;left:0;color:var(--rosa);}
+  footer{margin-top:60px;border-top:5px solid var(--rosa);background:var(--tinta);padding:26px 0;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.05em;color:#8f897c;text-transform:uppercase;}
+  .back{display:inline-block;margin-top:10px;background:var(--turquesa);color:#06302d;font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:9px 16px;text-decoration:none;box-shadow:4px 4px 0 #000;}
+</style>
+</head>
+<body>
+
+<section class="hero"><div class="wrap">
+  <span class="kick">Referencia gráfica · boceto</span>
+  <h1>Gaceta <span class="b">×</span> Calle</h1>
+  <p>Cómo mezclar la estética de <b>periódico de barrio</b> con la energía del <b>arte urbano mexicano</b> para darle a La Gaceta de Cuauhtémoc una identidad joven, local y con autenticidad de calle.</p>
+</div></section>
+
+<main class="wrap">
+
+  <p class="lead">El reto: un periódico se ve serio y confiable; el graffiti se ve vivo y del barrio. La fusión correcta toma la <b>estructura</b> del periódico (columnas, secciones, jerarquía) y le inyecta una <b>capa de calle</b> (color spray, tipografía de letrero, texturas de concreto, stickers y stencil). Resultado: se siente hecho aquí, por gente de aquí — perfecto para un candidato de barrio.</p>
+
+  <h2 class="sec"><span class="num">01</span>Paleta</h2>
+  <div class="sub">Colores de spray + muro + cal · vibrantes sobre concreto</div>
+  <div class="pal">
+    <div class="sw" style="background:#e4007c"><b>Rosa mexicano</b><span>#E4007C</span></div>
+    <div class="sw" style="background:#00a39a"><b>Turquesa</b><span>#00A39A</span></div>
+    <div class="sw" style="background:#ffb400"><b>Amarillo</b><span>#FFB400</span></div>
+    <div class="sw" style="background:#e23b2e"><b>Rojo</b><span>#E23B2E</span></div>
+    <div class="sw dark" style="background:#1f4ea1"><b>Añil</b><span>#1F4EA1</span></div>
+    <div class="sw" style="background:#2faa4f"><b>Verde</b><span>#2FAA4F</span></div>
+    <div class="sw dark" style="background:#23211e"><b>Concreto</b><span>#23211E</span></div>
+    <div class="sw" style="background:#f4f1ea"><b>Cal / papel</b><span>#F4F1EA</span></div>
+  </div>
+
+  <h2 class="sec"><span class="num">02</span>Tipografía</h2>
+  <div class="sub">Letrero + marcador + estructura de periódico</div>
+  <div class="typ"><div class="name">Display / cabecera — Bungee</div><div class="t-bungee">LA GACETA</div></div>
+  <div class="typ"><div class="name">Acento de calle — Permanent Marker</div><div class="t-marker">del barrio, para el barrio</div></div>
+  <div class="typ"><div class="name">Bloque / nombres — Archivo Black</div><div class="t-archivo">Fonda Doña Chole</div></div>
+  <div class="typ"><div class="name">Etiquetas / secciones — Oswald</div><div class="t-oswald">Restaurantes · Servicios · Cultura</div></div>
+  <div class="typ"><div class="name">Cuerpo de texto — Spectral (legible, de periódico)</div><div class="t-spectral">Comida corrida casera desde 1994, famosa por su mole de los jueves.</div></div>
+
+  <h2 class="sec"><span class="num">03</span>Estilos de graffiti</h2>
+  <div class="sub">Vocabulario visual y dónde usar cada uno</div>
+  <div class="cards">
+    <div class="gc"><div class="demo d-tag">Tag</div><div class="body"><h4>Tag</h4><p>Firma rápida de marcador. Úsalo para acentos, frases y la "voz" del barrio.</p></div></div>
+    <div class="gc"><div class="demo d-throw">ABC</div><div class="body"><h4>Throw-up</h4><p>Letras infladas a dos colores con contorno grueso. Bueno para títulos llamativos.</p></div></div>
+    <div class="gc"><div class="demo d-bubble">Hola</div><div class="body"><h4>Bubble / burbuja</h4><p>Redondas, frescas y legibles. Ideal para botones y elementos comerciales.</p></div></div>
+    <div class="gc"><div class="demo d-wild">WILD</div><div class="body"><h4>Wildstyle</h4><p>Letras entrelazadas, flechas, alta complejidad. Solo como adorno, no para leer.</p></div></div>
+    <div class="gc"><div class="demo d-stencil">STENCIL</div><div class="body"><h4>Stencil / plantilla</h4><p>Recortado, político, directo. Perfecto para sellos, lemas y el toque de campaña.</p></div></div>
+    <div class="gc"><div class="demo d-real">Arte</div><div class="body"><h4>Realismo / mural</h4><p>Retratos y muralismo. Para fotos destacadas y portadas de "negocio del barrio".</p></div></div>
+  </div>
+
+  <h2 class="sec"><span class="num">04</span>Capa mexicana</h2>
+  <div class="sub">Lo que vuelve "mexicano" al arte urbano de CDMX</div>
+  <ul class="clean">
+    <li><b>Neomuralismo:</b> herencia de Rivera/Siqueiros llevada al muro de calle — figuras grandes, narrativa social.</li>
+    <li><b>Símbolos prehispánicos:</b> Quetzalcóatl, glifos, geometría — "el ADN de México" sobre el concreto.</li>
+    <li><b>Color de fiesta:</b> rosa mexicano, papel picado, lotería, talavera — saturación alta y contraste.</li>
+    <li><b>Cultura de barrio:</b> luchadores, Tepito, mercados, fútbol llanero, la Santa Muerte, lo popular.</li>
+    <li><b>Lettering de letrero:</b> rótulos pintados a mano de tiendas y puestos — la tipografía vernácula real del comercio.</li>
+  </ul>
+  <div class="note">💡 <b>Idea de oro para ti:</b> el <b>rótulo pintado a mano</b> (el del puesto de tacos, la tlapalería) es el puente perfecto entre "periódico" y "graffiti", y es 100% auténtico del comercio que quieres catalogar. Podríamos darle a cada giro un rótulo estilo letrero.</div>
+
+  <h2 class="sec"><span class="num">05</span>Aplicación: así se vería la gaceta</h2>
+  <div class="sub">Boceto de cómo la referencia aterriza en el producto</div>
+  <div class="app">
+    <div class="mhead">
+      <span class="kick">Directorio del comercio · Alcaldía Cuauhtémoc</span>
+      <h3>LA GACETA DE CUAUHTÉMOC</h3>
+      <span class="stamp">Gratis</span>
+    </div>
+    <div class="strip"><span>Restaurantes</span><span>Cafés</span><span>Tiendas</span><span>Servicios</span></div>
+    <div class="biz">
+      <div class="ph"></div>
+      <div class="info">
+        <span class="cat">Restaurantes y Antojitos</span>
+        <h4>Fonda Doña Chole</h4>
+        <p>Comida corrida casera desde 1994. Mole los jueves · Doctores · 55 5512 0000</p>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sec"><span class="num">06</span>Fotos de referencia</h2>
+  <div class="sub">Arte urbano real de CDMX (muestras automáticas)</div>
+  <div class="photos">
+    <figure><img src="https://loremflickr.com/500/380/graffiti,mexico?lock=11" onerror="this.onerror=null;this.src='https://picsum.photos/seed/g1/500/380'"><figcaption>Graffiti · CDMX</figcaption></figure>
+    <figure><img src="https://loremflickr.com/500/380/streetart,mural?lock=22" onerror="this.onerror=null;this.src='https://picsum.photos/seed/g2/500/380'"><figcaption>Mural / neomuralismo</figcaption></figure>
+    <figure><img src="https://loremflickr.com/500/380/graffiti,wall?lock=33" onerror="this.onerror=null;this.src='https://picsum.photos/seed/g3/500/380'"><figcaption>Wildstyle / throw-up</figcaption></figure>
+    <figure><img src="https://loremflickr.com/500/380/mexico,market,sign?lock=44" onerror="this.onerror=null;this.src='https://picsum.photos/seed/g4/500/380'"><figcaption>Rótulo / letrero de comercio</figcaption></figure>
+  </div>
+
+  <a class="back" href="./index.html">← Volver a la gaceta</a>
+
+</main>
+
+<footer><div class="wrap">
+  Referencias gráficas — boceto · La Gaceta de Cuauhtémoc · Fuentes: Lamudi, Gatopardo, Revista Código, Discurso Visual (UNAM), Olor a Pintura
+</div></footer>
+</body>
+</html>
