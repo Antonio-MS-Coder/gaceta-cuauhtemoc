@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- v6-variantes -->
+<!-- v7-causa -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,6 +56,14 @@
   .search .ico{padding:0 12px;font-size:16px;}
   .count{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:#5b554a;}
 
+  /* banner de causa */
+  .causa-banner{display:flex;align-items:center;gap:14px;margin:18px 0 2px;background:var(--rosa);color:#fff;border:3px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta);padding:14px 18px;text-decoration:none;transition:transform .1s,box-shadow .1s;}
+  .causa-banner:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--tinta);}
+  .causa-banner .cb-ico{font-size:30px;line-height:1;}
+  .causa-banner .cb-txt{flex:1;font-family:'Spectral',serif;font-size:16px;}
+  .causa-banner .cb-go{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:13px;background:var(--tinta);color:#fff;padding:9px 14px;white-space:nowrap;}
+  @media(max-width:560px){.causa-banner{flex-wrap:wrap;} .causa-banner .cb-txt{flex:1 1 100%;}}
+
   /* featured */
   .featured{position:relative;margin:6px 0 10px;border:4px solid var(--tinta);overflow:hidden;min-height:440px;display:flex;align-items:flex-end;box-shadow:9px 9px 0 var(--tinta);}
   .featured .fbg{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,var(--c,#e4007c),var(--concreto));background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.08) 0 16px,transparent 16px 32px);}
@@ -92,6 +100,7 @@
   .card .info div{display:flex;gap:8px;align-items:flex-start;}
   .card .info .k{color:var(--c,#8a7e63);min-width:15px;text-align:center;}
   .card .colonia{display:inline-block;margin-top:12px;align-self:flex-start;font-family:'Oswald',sans-serif;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--tinta);color:#fff;padding:3px 10px;transform:rotate(-1.5deg);}
+  .card .acopio-badge{display:inline-block;margin-top:8px;align-self:flex-start;font-family:'Oswald',sans-serif;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--anil);color:#fff;padding:3px 9px;}
 
   .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:#5b554a;font-style:italic;font-size:18px;}
 
@@ -140,6 +149,11 @@
 <nav class="sections"><div class="wrap" id="nav"></div></nav>
 
 <main class="wrap">
+  <a class="causa-banner" href="causa.html">
+    <span class="cb-ico">🧢</span>
+    <span class="cb-txt"><b>Edición con causa:</b> Tapatón por el barrio — junta tapas, ayuda a pagar quimios de niños.</span>
+    <span class="cb-go">Participar →</span>
+  </a>
   <div class="toolbar">
     <label class="search"><span class="ico">🔎</span>
       <input id="q" type="search" placeholder="Busca un negocio, calle o colonia…" autocomplete="off"></label>
@@ -227,6 +241,9 @@ function icoFor(b){return ICON[b.c]||"🏪";}
 function imgFor(b){return b._img || ((CATMETA[b.c]||{}).imgs||[])[0] || "";}
 // Reparte una variante distinta a cada negocio dentro de su categoría (da dinamismo)
 (function(){const seen={};NEGOCIOS.forEach(b=>{const arr=(CATMETA[b.c]||{}).imgs||[];seen[b.c]=seen[b.c]||0;b._img=arr.length?arr[seen[b.c]%arr.length]:"";seen[b.c]++;});})();
+// Negocios que son centro de acopio de tapas (en la versión real saldrá de una columna del Sheet)
+const ACOPIO_SET=new Set(["Fonda Doña Chole","Café de la Esquina","Abarrotes Don Memo","Farmacia del Pueblo","Panadería La Esperanza","Barbería El Navajazo"]);
+NEGOCIOS.forEach(b=>{if(ACOPIO_SET.has(b.n))b.acopio=true;});
 const CATS=Object.keys(CATMETA).filter(c=>NEGOCIOS.some(b=>b.c===c));
 let activeCat="Todos", query="";
 
@@ -284,6 +301,7 @@ function card(b,i){
         <div><span class="k">🕑</span><span>${b.h}</span></div>
       </div>
       <span class="colonia">${b.col}</span>
+      ${b.acopio?'<span class="acopio-badge">🧢 Acopio de tapas</span>':''}
     </div>
   </article>`;
 }

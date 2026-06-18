@@ -16,11 +16,13 @@ function doPost(e){
   var sheet = ss.getSheetByName('Negocios') || ss.insertSheet('Negocios');
   if (sheet.getLastRow() === 0){
     sheet.appendRow(['Fecha','Nombre','Giro','Colonia','Dirección','Teléfono','Horario',
-      'Descripción','Foto','Dueño','Contacto','Afinidad','Temas','Seguimiento','Capturó','Consentimiento']);
+      'Descripción','Foto','Dueño','Contacto','Afinidad','Tamaño','Moviliza','Temas',
+      'Seguimiento','Capturó','Consentimiento']);
   }
   var d = JSON.parse(e.postData.contents);
   sheet.appendRow([d.fecha, d.nombre, d.giro, d.colonia, d.direccion, d.telefono, d.horario,
-    d.descripcion, d.fotoUrl, d.dueno, d.contacto, d.afinidad, d.temas, d.seguimiento, d.capturadoPor, d.consentimiento]);
+    d.descripcion, d.fotoUrl, d.dueno, d.contacto, d.afinidad, d.tamano, d.moviliza, d.temas,
+    d.seguimiento, d.capturadoPor, d.consentimiento]);
   return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
 }
 ```

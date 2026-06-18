@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- captura v1 -->
+<!-- captura v2 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -109,6 +109,22 @@
         <option>Baja — frío</option>
         <option>Contra — opositor</option>
       </select>
+      <div class="row">
+        <div>
+          <label>Tamaño del negocio</label>
+          <select name="tamano">
+            <option value="">Sin evaluar</option>
+            <option>Microempresa (1–2 personas)</option>
+            <option>Pequeño (3–10)</option>
+            <option>Mediano (11–30)</option>
+            <option>Grande (30+)</option>
+          </select>
+        </div>
+        <div>
+          <label>Gente que podría movilizar (aprox.)</label>
+          <input name="moviliza" type="number" min="0" inputmode="numeric" placeholder="Empleados + familia + red">
+        </div>
+      </div>
       <label>¿Qué le preocupa del barrio?</label>
       <textarea name="temas" placeholder="Inseguridad, basura, cobro de piso, banquetas, etc."></textarea>
       <div class="row">
