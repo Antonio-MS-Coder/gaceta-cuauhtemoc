@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- v5-img -->
+<!-- v6-variantes -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -171,13 +171,13 @@
 
 <script>
 const CATMETA = {
-  "Restaurantes y Antojitos":{c:"#e23b2e", img:"img/restaurantes.png"},
-  "Cafés y Panaderías":{c:"#f5821f", img:"img/cafes.png"},
-  "Tiendas y Abarrotes":{c:"#2faa4f", img:"img/tiendas.png"},
-  "Servicios":{c:"#1f4ea1", img:"img/servicios.png"},
-  "Salud y Bienestar":{c:"#00a39a", img:"img/salud.png"},
-  "Belleza y Estética":{c:"#e4007c", img:"img/belleza.png"},
-  "Cultura y Arte":{c:"#7a3fb0", img:"img/cultura.png"},
+  "Restaurantes y Antojitos":{c:"#e23b2e", imgs:["img/restaurantes.png","img/restaurantes-2.png","img/restaurantes-3.png"]},
+  "Cafés y Panaderías":{c:"#f5821f", imgs:["img/cafes.png","img/cafes-2.png","img/cafes-3.png"]},
+  "Tiendas y Abarrotes":{c:"#2faa4f", imgs:["img/tiendas.png","img/tiendas-2.png","img/tiendas-3.png"]},
+  "Servicios":{c:"#1f4ea1", imgs:["img/servicios.png","img/servicios-2.png","img/servicios-3.png"]},
+  "Salud y Bienestar":{c:"#00a39a", imgs:["img/salud.png","img/salud-2.png","img/salud-3.png"]},
+  "Belleza y Estética":{c:"#e4007c", imgs:["img/belleza.png","img/belleza-2.png","img/belleza-3.png"]},
+  "Cultura y Arte":{c:"#7a3fb0", imgs:["img/cultura.png","img/cultura-2.png","img/cultura-3.png"]},
 };
 
 const NEGOCIOS = [
@@ -224,7 +224,9 @@ const ICON={
   "Cultura y Arte":"🎨",
 };
 function icoFor(b){return ICON[b.c]||"🏪";}
-function imgFor(b){return (CATMETA[b.c]||{}).img||"";}
+function imgFor(b){return b._img || ((CATMETA[b.c]||{}).imgs||[])[0] || "";}
+// Reparte una variante distinta a cada negocio dentro de su categoría (da dinamismo)
+(function(){const seen={};NEGOCIOS.forEach(b=>{const arr=(CATMETA[b.c]||{}).imgs||[];seen[b.c]=seen[b.c]||0;b._img=arr.length?arr[seen[b.c]%arr.length]:"";seen[b.c]++;});})();
 const CATS=Object.keys(CATMETA).filter(c=>NEGOCIOS.some(b=>b.c===c));
 let activeCat="Todos", query="";
 
