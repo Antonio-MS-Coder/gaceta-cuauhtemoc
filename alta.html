@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- captura v1 -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrar negocio — La Gaceta de Cuauhtémoc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=Permanent+Marker&family=Oswald:wght@400;500;600;700&family=Spectral:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--concreto:#23211e;--cal:#f4f1ea;--tinta:#141312;--rosa:#e4007c;--turquesa:#00a39a;--amarillo:#ffb400;--verde:#2faa4f;--anil:#1f4ea1;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cal);color:var(--tinta);font-family:'Spectral',Georgia,serif;
+    background-image:radial-gradient(rgba(35,33,30,.06) 1.1px,transparent 1.1px);background-size:6px 6px;}
+  .wrap{max-width:680px;margin:0 auto;padding:0 16px 60px;}
+  header{background:var(--concreto);color:#fff;border-bottom:6px solid var(--rosa);text-align:center;padding:26px 16px 22px;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:5px 5px;}
+  header .kick{font-family:'Permanent Marker',cursive;color:var(--turquesa);transform:rotate(-2deg);display:inline-block;font-size:16px;}
+  header h1{font-family:'Bungee',sans-serif;font-size:clamp(24px,6vw,40px);margin:6px 0 0;text-shadow:2px 2px 0 var(--rosa);}
+  header p{margin:8px 0 0;color:#cfc9bc;font-size:14px;}
+
+  .demo{background:var(--amarillo);color:#111;text-align:center;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:12px;padding:7px;}
+
+  form{margin-top:24px;}
+  fieldset{border:3px solid var(--tinta);background:#fff;box-shadow:6px 6px 0 var(--tinta);margin:0 0 24px;padding:18px 18px 22px;}
+  legend{font-family:'Bungee',sans-serif;font-size:16px;padding:4px 12px;color:#fff;}
+  fieldset.pub legend{background:var(--verde);}
+  fieldset.priv legend{background:var(--anil);}
+  .hint{font-size:13px;color:#5b554a;margin:-4px 0 16px;}
+  label{display:block;font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:12px;margin:14px 0 5px;}
+  label .req{color:var(--rosa);}
+  input,select,textarea{width:100%;border:2px solid var(--tinta);background:var(--cal);padding:11px;font-family:'Spectral',serif;font-size:16px;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--rosa);background:#fff;}
+  textarea{min-height:74px;resize:vertical;}
+  .row{display:flex;gap:12px;flex-wrap:wrap;}
+  .row>div{flex:1;min-width:140px;}
+  .consent{display:flex;gap:10px;align-items:flex-start;margin-top:6px;font-size:14px;font-family:'Spectral',serif;}
+  .consent input{width:auto;margin-top:3px;}
+  .consent a{color:var(--anil);}
+  button{width:100%;border:3px solid var(--tinta);background:var(--rosa);color:#fff;font-family:'Bungee',sans-serif;font-size:18px;padding:15px;cursor:pointer;box-shadow:6px 6px 0 var(--tinta);transition:transform .1s,box-shadow .1s;}
+  button:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--tinta);}
+  button:disabled{background:#9a9384;cursor:not-allowed;}
+  .ok{display:none;border:3px solid var(--tinta);background:var(--turquesa);color:#06302d;padding:24px;text-align:center;box-shadow:6px 6px 0 var(--tinta);}
+  .ok h3{font-family:'Bungee',sans-serif;margin:0 0 8px;}
+  .ok pre{text-align:left;background:rgba(0,0,0,.08);padding:12px;overflow:auto;font-size:12px;border-radius:4px;}
+  .ok button{margin-top:14px;background:var(--tinta);}
+  .back{display:inline-block;margin-top:18px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:13px;color:var(--anil);text-decoration:none;}
+</style>
+</head>
+<body>
+<header>
+  <span class="kick">por tu barrio, por ti</span>
+  <h1>Registra tu negocio</h1>
+  <p>Gratis · Directorio del comercio · Alcaldía Cuauhtémoc</p>
+</header>
+<div class="demo" id="modebar">Modo demostración — sin conexión a Google Sheets todavía (ver instrucciones)</div>
+
+<div class="wrap">
+  <form id="f">
+    <fieldset class="pub">
+      <legend>Datos del negocio</legend>
+      <div class="hint">Esto es lo que aparece en la gaceta pública.</div>
+      <label>Nombre del negocio <span class="req">*</span></label>
+      <input name="nombre" required placeholder="Ej. Fonda Doña Chole">
+      <div class="row">
+        <div>
+          <label>Giro <span class="req">*</span></label>
+          <select name="giro" required>
+            <option value="">Elige…</option>
+            <option>Restaurantes y Antojitos</option>
+            <option>Cafés y Panaderías</option>
+            <option>Tiendas y Abarrotes</option>
+            <option>Servicios</option>
+            <option>Salud y Bienestar</option>
+            <option>Belleza y Estética</option>
+            <option>Cultura y Arte</option>
+          </select>
+        </div>
+        <div>
+          <label>Colonia <span class="req">*</span></label>
+          <input name="colonia" required placeholder="Ej. Doctores">
+        </div>
+      </div>
+      <label>Dirección</label>
+      <input name="direccion" placeholder="Calle y número">
+      <div class="row">
+        <div><label>Teléfono / WhatsApp</label><input name="telefono" inputmode="tel" placeholder="55 ..."></div>
+        <div><label>Horario</label><input name="horario" placeholder="L-S 9:00–18:00"></div>
+      </div>
+      <label>Descripción corta</label>
+      <textarea name="descripcion" placeholder="¿Qué lo hace especial? Una o dos líneas."></textarea>
+      <label>Foto (liga, opcional)</label>
+      <input name="fotoUrl" placeholder="Pega una liga de foto (después la subimos directo)">
+    </fieldset>
+
+    <fieldset class="priv">
+      <legend>Notas del equipo</legend>
+      <div class="hint">🔒 Privado. No se muestra en la gaceta — es para tu seguimiento (CRM).</div>
+      <div class="row">
+        <div><label>Nombre del dueño/encargado</label><input name="dueno"></div>
+        <div><label>Contacto directo</label><input name="contacto" placeholder="Cel / WhatsApp personal"></div>
+      </div>
+      <label>Nivel de afinidad</label>
+      <select name="afinidad">
+        <option value="">Sin evaluar</option>
+        <option>Alta — nos apoya</option>
+        <option>Media — abierto</option>
+        <option>Baja — frío</option>
+        <option>Contra — opositor</option>
+      </select>
+      <label>¿Qué le preocupa del barrio?</label>
+      <textarea name="temas" placeholder="Inseguridad, basura, cobro de piso, banquetas, etc."></textarea>
+      <div class="row">
+        <div><label>Fecha de seguimiento</label><input name="seguimiento" type="date"></div>
+        <div><label>Capturado por</label><input name="capturadoPor" placeholder="Tu nombre"></div>
+      </div>
+    </fieldset>
+
+    <label class="consent">
+      <input type="checkbox" name="consentimiento" required>
+      <span>El negocio acepta aparecer en el directorio y el <a href="#" onclick="alert('Aquí irá el aviso de privacidad conforme a la LFPDPPP.');return false;">aviso de privacidad</a> (LFPDPPP).</span>
+    </label>
+    <br>
+    <button type="submit" id="submit">Guardar negocio</button>
+  </form>
+
+  <div class="ok" id="ok">
+    <h3>¡Listo! ✊</h3>
+    <p id="okmsg">Negocio capturado.</p>
+    <pre id="okdata"></pre>
+    <button onclick="location.reload()">Capturar otro</button>
+  </div>
+
+  <a class="back" href="./index.html">← Volver a la gaceta</a>
+</div>
+
+<script>
+// ===== CONFIG: pega aquí la URL del Web App de Google Apps Script para conectar a tu Sheet =====
+const CONFIG = { endpoint: "" };   // vacío = modo demostración (guarda en este dispositivo)
+
+const f=document.getElementById('f');
+if(CONFIG.endpoint) document.getElementById('modebar').style.display='none';
+
+f.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const btn=document.getElementById('submit'); btn.disabled=true; btn.textContent='Guardando…';
+  const data=Object.fromEntries(new FormData(f).entries());
+  data.consentimiento = f.consentimiento.checked ? 'sí' : 'no';
+  data.fecha = new Date().toISOString();
+
+  try{
+    if(CONFIG.endpoint){
+      await fetch(CONFIG.endpoint, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(data)});
+    }else{
+      const arr=JSON.parse(localStorage.getItem('gaceta_altas')||'[]'); arr.push(data);
+      localStorage.setItem('gaceta_altas', JSON.stringify(arr));
+    }
+    f.style.display='none';
+    document.getElementById('ok').style.display='block';
+    document.getElementById('okmsg').textContent = CONFIG.endpoint ? 'Enviado a tu Google Sheet.' : 'Guardado en este dispositivo (modo demo). Conecta Google Sheets para enviarlo de verdad.';
+    document.getElementById('okdata').textContent = JSON.stringify(data,null,2);
+  }catch(err){
+    alert('No se pudo guardar: '+err.message); btn.disabled=false; btn.textContent='Guardar negocio';
+  }
+});
+</script>
+</body>
+</html>
