@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Gaceta de Cuauhtémoc — Directorio del Comercio Local</title>
+<meta name="description" content="Directorio del comercio local de la Alcaldía Cuauhtémoc, CDMX. Una gaceta digital al servicio de los negocios del barrio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f1e6;
+    --paper-2:#efe8d8;
+    --ink:#1c1a17;
+    --ink-soft:#403b34;
+    --rule:#cabfa6;
+    --rule-dark:#8a7e63;
+    --accent:#8b1e1e;
+    --accent-2:#0f3d2e;
+    --shadow:rgba(28,26,23,.12);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    line-height:1.5;
+    /* subtle newsprint texture */
+    background-image:radial-gradient(rgba(140,126,99,.05) 1px, transparent 1px);
+    background-size:4px 4px;
+  }
+  a{color:inherit;}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px;}
+
+  /* ---- Top utility bar ---- */
+  .topbar{
+    border-bottom:1px solid var(--ink);
+    font-family:'Oswald',sans-serif;
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:7px;padding-bottom:7px;flex-wrap:wrap;}
+  .topbar .pill{background:var(--accent);color:#fff;padding:2px 9px;border-radius:2px;letter-spacing:.1em;}
+
+  /* ---- Masthead ---- */
+  header.masthead{padding:22px 0 12px;text-align:center;border-bottom:3px double var(--ink);}
+  .masthead .kicker{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.35em;font-size:12px;color:var(--accent);margin-bottom:6px;}
+  .masthead h1{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(40px,8vw,86px);line-height:.95;margin:0;letter-spacing:-.01em;
+  }
+  .masthead .sub{font-style:italic;font-size:clamp(14px,2.2vw,18px);color:var(--ink-soft);margin-top:8px;}
+  .masthead .dateline{
+    display:flex;justify-content:center;gap:18px;flex-wrap:wrap;align-items:center;
+    margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);
+    font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:11.5px;color:var(--ink-soft);
+  }
+
+  /* ---- Section nav ---- */
+  nav.sections{position:sticky;top:0;z-index:30;background:var(--ink);border-bottom:3px solid var(--accent);}
+  nav.sections .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:0;padding-bottom:0;scrollbar-width:none;}
+  nav.sections .wrap::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto;background:none;border:none;cursor:pointer;
+    color:#e8e2d2;font-family:'Oswald',sans-serif;text-transform:uppercase;
+    font-size:13px;letter-spacing:.08em;padding:13px 14px;white-space:nowrap;
+    border-bottom:3px solid transparent;transition:.15s;
+  }
+  .chip:hover{color:#fff;background:rgba(255,255,255,.06);}
+  .chip.active{color:#fff;border-bottom-color:var(--accent);}
+
+  /* ---- Search row ---- */
+  .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:22px 0 8px;}
+  .search{flex:1;min-width:220px;display:flex;align-items:center;border:1.5px solid var(--ink);background:#fff;}
+  .search input{flex:1;border:none;outline:none;padding:11px 12px;font-family:'Spectral',serif;font-size:16px;background:transparent;}
+  .search .ico{padding:0 12px;color:var(--ink-soft);font-size:16px;}
+  .count{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--ink-soft);}
+
+  /* ---- Featured ---- */
+  .featured{display:grid;grid-template-columns:1.2fr 1fr;gap:0;margin:14px 0 6px;border:1px solid var(--ink);background:#fff;}
+  .featured .photo{
+    background:linear-gradient(135deg,#3a342a,#6b5d44);min-height:300px;
+    display:flex;align-items:flex-end;color:#f6f1e6;position:relative;overflow:hidden;
+  }
+  .featured .photo::after{content:"📷 foto del negocio";position:absolute;top:12px;left:14px;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;}
+  .featured .photo .cap{padding:18px 20px;background:linear-gradient(transparent,rgba(0,0,0,.55));width:100%;}
+  .featured .photo .cap b{font-family:'Oswald',sans-serif;letter-spacing:.1em;text-transform:uppercase;font-size:12px;}
+  .featured .body{padding:26px 28px;}
+  .featured .label{font-family:'Oswald',sans-serif;color:var(--accent);text-transform:uppercase;letter-spacing:.2em;font-size:12px;font-weight:600;}
+  .featured h2{font-family:'Playfair Display',serif;font-size:34px;line-height:1.05;margin:8px 0 10px;}
+  .featured p{margin:0 0 14px;font-size:17px;color:var(--ink-soft);}
+  .featured p:first-letter{font-family:'Playfair Display',serif;font-size:3.4em;line-height:.8;float:left;padding:6px 10px 0 0;color:var(--accent);font-weight:700;}
+  .featured .meta{font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.04em;color:var(--ink);border-top:1px solid var(--rule);padding-top:12px;}
+  .featured .meta span{display:inline-block;margin-right:16px;}
+
+  /* ---- Section heading ---- */
+  .sec-head{display:flex;align-items:center;gap:14px;margin:34px 0 14px;}
+  .sec-head h3{font-family:'Playfair Display',serif;font-weight:700;font-size:24px;margin:0;white-space:nowrap;}
+  .sec-head .line{flex:1;height:0;border-top:1px solid var(--rule-dark);}
+  .sec-head .tag{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);}
+
+  /* ---- Cards grid (classifieds) ---- */
+  .grid{column-count:3;column-gap:26px;}
+  @media(max-width:900px){.grid{column-count:2;} .featured{grid-template-columns:1fr;}}
+  @media(max-width:600px){.grid{column-count:1;} .featured .body{padding:20px;}}
+  .card{
+    break-inside:avoid;margin:0 0 26px;padding-bottom:22px;border-bottom:1px solid var(--rule);
+    display:inline-block;width:100%;
+  }
+  .card .cat{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);}
+  .card h4{font-family:'Playfair Display',serif;font-weight:700;font-size:21px;line-height:1.1;margin:4px 0 6px;}
+  .card .desc{font-size:15.5px;color:var(--ink-soft);margin:0 0 10px;}
+  .card .info{font-family:'Oswald',sans-serif;font-size:12.5px;letter-spacing:.02em;color:var(--ink);line-height:1.8;}
+  .card .info div{display:flex;gap:7px;}
+  .card .info .k{color:var(--rule-dark);min-width:16px;text-align:center;}
+  .card .colonia{display:inline-block;margin-top:8px;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--paper-2);border:1px solid var(--rule);padding:2px 8px;}
+
+  .empty{text-align:center;padding:60px 20px;color:var(--ink-soft);font-style:italic;font-size:18px;}
+
+  /* ---- Candidate banner ---- */
+  .candidate{margin:40px 0 0;border:2px solid var(--ink);background:var(--paper-2);padding:24px 26px;display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:center;}
+  .candidate .seal{width:64px;height:64px;border-radius:50%;background:var(--accent-2);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;font-size:26px;}
+  .candidate .label{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:var(--accent-2);}
+  .candidate h4{font-family:'Playfair Display',serif;font-size:22px;margin:4px 0 4px;}
+  .candidate p{margin:0;font-size:15px;color:var(--ink-soft);}
+
+  /* ---- Footer ---- */
+  footer{margin-top:42px;border-top:3px double var(--ink);background:var(--ink);color:#d8d2c2;}
+  footer .wrap{padding:28px 18px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px;}
+  footer h5{font-family:'Playfair Display',serif;color:#fff;font-size:20px;margin:0 0 8px;}
+  footer .small{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.05em;line-height:2;text-transform:uppercase;color:#aaa291;}
+  footer a{text-decoration:none;}
+  footer a:hover{color:#fff;}
+  .draft{background:var(--accent);color:#fff;text-align:center;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:12px;padding:8px;}
+  @media(max-width:700px){footer .wrap{grid-template-columns:1fr;} .candidate{grid-template-columns:1fr;text-align:center;justify-items:center;}}
+</style>
+</head>
+<body>
+
+<div class="draft">⚠ Boceto / muestra — datos de ejemplo, no reales · diseño preliminar para revisión</div>
+
+<div class="topbar"><div class="wrap">
+  <span>Alcaldía Cuauhtémoc · Ciudad de México</span>
+  <span class="pill">Distribución gratuita</span>
+  <span id="today">—</span>
+</div></div>
+
+<header class="masthead"><div class="wrap">
+  <div class="kicker">Directorio del comercio local</div>
+  <h1>La Gaceta de Cuauhtémoc</h1>
+  <div class="sub">«El barrio que conoce a sus negocios, los cuida»</div>
+  <div class="dateline">
+    <span id="dateline-date">Edición digital</span>
+    <span>·</span>
+    <span>Año I — Núm. 1</span>
+    <span>·</span>
+    <span id="biz-total">— negocios registrados</span>
+    <span>·</span>
+    <span>33 colonias</span>
+  </div>
+</div></header>
+
+<nav class="sections"><div class="wrap" id="nav"></div></nav>
+
+<main class="wrap">
+
+  <div class="toolbar">
+    <label class="search">
+      <span class="ico">🔎</span>
+      <input id="q" type="search" placeholder="Busca un negocio, calle o colonia…" autocomplete="off">
+    </label>
+    <span class="count" id="count"></span>
+  </div>
+
+  <!-- Featured / Negocio de portada -->
+  <article class="featured" id="featured"></article>
+
+  <!-- Listings -->
+  <div id="listings"></div>
+
+  <!-- Candidate banner -->
+  <section class="candidate">
+    <div class="seal">▲</div>
+    <div>
+      <div class="label">Una iniciativa ciudadana</div>
+      <h4>Promovido por [Tu Nombre] — por un Cuauhtémoc que apoya a quien lo trabaja</h4>
+      <p>Esta gaceta es un servicio gratuito para dar a conocer al comercio del barrio. ¿Tienes un negocio en la alcaldía? Pídenos que te incluyamos, sin costo.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h5>La Gaceta de Cuauhtémoc</h5>
+      <p style="margin:0;color:#aaa291;font-size:14px;">Directorio digital del comercio local de la Alcaldía Cuauhtémoc, CDMX. Hecho por y para el barrio.</p>
+    </div>
+    <div>
+      <div class="small">Secciones</div>
+      <div class="small" id="foot-secs"></div>
+    </div>
+    <div>
+      <div class="small">Contacto</div>
+      <div class="small">
+        Registra tu negocio<br>
+        WhatsApp [pendiente]<br>
+        Instagram [pendiente]
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ DATOS DE MUESTRA (placeholder) ============ */
+const NEGOCIOS = [
+  {n:"Fonda Doña Chole", c:"Restaurantes y Antojitos", col:"Doctores", d:"Comida corrida casera desde 1994. Famosa por su mole de los jueves y sus aguas frescas.", dir:"Dr. Lavista 88", tel:"55 5512 0000", h:"L-S 8:00–18:00", fav:true, foto:"Tres generaciones cocinando para el barrio"},
+  {n:"Tacos El Güero", c:"Restaurantes y Antojitos", col:"Obrera", d:"Suadero y campechanos al carbón. Cola de fieles cada noche.", dir:"Av. Chapultepec 210", tel:"55 5511 1111", h:"Mar-Dom 19:00–02:00"},
+  {n:"Cocina Económica La Roma", c:"Restaurantes y Antojitos", col:"Roma Sur", d:"Menú del día a buen precio, opción vegetariana diaria.", dir:"Tonalá 145", tel:"55 5564 2222", h:"L-V 9:00–17:00"},
+  {n:"Mariscos El Faro", c:"Restaurantes y Antojitos", col:"Buenavista", d:"Tostadas de pulpo y caldo de camarón estilo Sinaloa.", dir:"Aldama 30", tel:"55 5547 3333", h:"L-D 10:00–18:00"},
+
+  {n:"Café de la Esquina", c:"Cafés y Panaderías", col:"Roma Norte", d:"Tueste de la casa, pan dulce de horno y wifi para trabajar.", dir:"Córdoba 77", tel:"55 5208 4444", h:"L-D 7:00–21:00", fav:false},
+  {n:"Panadería La Esperanza", c:"Cafés y Panaderías", col:"Guerrero", d:"Bolillo, concha y rosca de temporada. Horneado desde las 5 a.m.", dir:"Mosqueta 12", tel:"55 5526 5555", h:"L-D 6:00–22:00"},
+  {n:"Churrería del Centro", c:"Cafés y Panaderías", col:"Centro", d:"Churros rellenos y chocolate espeso a la antigua.", dir:"Bolívar 40", tel:"55 5518 6666", h:"L-D 8:00–23:00"},
+  {n:"Tostado Condesa", c:"Cafés y Panaderías", col:"Condesa", d:"Café de especialidad, métodos de filtrado y repostería sin azúcar.", dir:"Michoacán 56", tel:"55 5211 7777", h:"L-D 8:00–20:00"},
+
+  {n:"Abarrotes Don Memo", c:"Tiendas y Abarrotes", col:"Santa María la Ribera", d:"La tiendita de siempre: del huevo al hielo, fían a los conocidos.", dir:"Sabino 33", tel:"55 5547 8888", h:"L-D 7:00–22:00"},
+  {n:"Mercería La Aguja de Oro", c:"Tiendas y Abarrotes", col:"Centro", d:"Hilos, botones, telas por metro y todo para coser.", dir:"Correo Mayor 110", tel:"55 5522 9999", h:"L-S 9:00–19:00"},
+  {n:"Ferretería El Tornillo Feliz", c:"Tiendas y Abarrotes", col:"San Rafael", d:"Plomería, eléctrico y herramienta. Asesoría honesta.", dir:"Serapio Rendón 14", tel:"55 5535 1212", h:"L-S 8:30–19:30"},
+  {n:"Florería Primavera", c:"Tiendas y Abarrotes", col:"Juárez", d:"Arreglos, coronas y plantas de interior. Envíos en la zona.", dir:"Berlín 25", tel:"55 5525 1313", h:"L-D 8:00–20:00"},
+
+  {n:"Lavandería Burbujas", c:"Servicios", col:"Roma Sur", d:"Autoservicio y encargo por kilo. Entrega el mismo día.", dir:"Zacatecas 99", tel:"55 5564 1414", h:"L-S 8:00–21:00"},
+  {n:"Cerrajería 24 Horas El Candado", c:"Servicios", col:"Tabacalera", d:"Aperturas, copias y chapas de seguridad a domicilio.", dir:"Ramos Arizpe 8", tel:"55 5566 1515", h:"24 horas"},
+  {n:"Taller Mecánico El Pistón", c:"Servicios", col:"Obrera", d:"Afinación, frenos y diagnóstico. Presupuesto sin compromiso.", dir:"Bolívar 320", tel:"55 5519 1616", h:"L-S 9:00–18:00"},
+  {n:"Imprenta Rápida Gutenberg", c:"Servicios", col:"Centro", d:"Tarjetas, lonas y volantes. Trabajo urgente en 2 horas.", dir:"Donceles 55", tel:"55 5510 1717", h:"L-V 9:00–19:00"},
+
+  {n:"Farmacia del Pueblo", c:"Salud y Bienestar", col:"Doctores", d:"Medicamento genérico y de patente, consultorio anexo.", dir:"Dr. Vértiz 120", tel:"55 5578 1818", h:"L-D 8:00–23:00"},
+  {n:"Consultorio Dental Sonríe", c:"Salud y Bienestar", col:"Roma Norte", d:"Limpieza, ortodoncia y blanqueamiento. Primera cita sin costo.", dir:"Orizaba 60", tel:"55 5207 1919", h:"L-S 10:00–19:00"},
+  {n:"Óptica Visión Clara", c:"Salud y Bienestar", col:"Juárez", d:"Examen de la vista gratis al comprar tus armazones.", dir:"Liverpool 8", tel:"55 5525 2020", h:"L-S 10:00–20:00"},
+
+  {n:"Estética Glamour", c:"Belleza y Estética", col:"Guerrero", d:"Corte, tinte y peinado de evento. 20 años en la colonia.", dir:"Galeana 18", tel:"55 5526 2121", h:"Mar-Dom 10:00–20:00"},
+  {n:"Barbería El Navajazo", c:"Belleza y Estética", col:"Condesa", d:"Corte clásico, afeitado a toalla caliente y ambiente de barrio.", dir:"Tamaulipas 90", tel:"55 5211 2222", h:"L-S 11:00–21:00"},
+  {n:"Uñas & Spa Bella", c:"Belleza y Estética", col:"Roma Sur", d:"Manicure, pedicure y faciales. Promoción de martes.", dir:"Coahuila 70", tel:"55 5564 2323", h:"L-S 10:00–20:00"},
+
+  {n:"Librería de Viejo El Hojaldre", c:"Cultura y Arte", col:"Centro", d:"Libros usados, primeras ediciones y rincón de poesía.", dir:"Donceles 80", tel:"55 5512 2424", h:"L-S 10:00–19:00"},
+  {n:"Galería Taller Tepito Arte Acá", c:"Cultura y Arte", col:"Morelos", d:"Exposición de artistas del barrio y clases de grabado.", dir:"Av. del Trabajo 15", tel:"55 5526 2525", h:"Mié-Dom 11:00–18:00"},
+  {n:"Escuela de Danza Folklórica Raíces", c:"Cultura y Arte", col:"Santa María la Ribera", d:"Clases para niños y adultos. Presentaciones en el kiosko morisco.", dir:"Dr. Atl 44", tel:"55 5547 2626", h:"L-V 16:00–20:00"},
+];
+
+/* ============ RENDER ============ */
+const CATS = [...new Set(NEGOCIOS.map(b=>b.c))];
+let activeCat = "Todos";
+let query = "";
+
+const meses=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const dias=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+const D=new Date();
+const fechaTxt = `${dias[D.getDay()]}, ${D.getDate()} de ${meses[D.getMonth()]} de ${D.getFullYear()}`;
+document.getElementById('today').textContent = fechaTxt;
+document.getElementById('dateline-date').textContent = fechaTxt.charAt(0).toUpperCase()+fechaTxt.slice(1);
+document.getElementById('biz-total').textContent = NEGOCIOS.length + " negocios registrados";
+
+// Nav chips
+const nav = document.getElementById('nav');
+["Todos",...CATS].forEach(cat=>{
+  const b=document.createElement('button');
+  b.className='chip'+(cat==="Todos"?' active':'');
+  b.textContent=cat;
+  b.onclick=()=>{activeCat=cat;[...nav.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');render();};
+  nav.appendChild(b);
+});
+// Footer sections
+document.getElementById('foot-secs').innerHTML = CATS.map(c=>`<a href="#">${c}</a>`).join('<br>');
+
+// Featured
+const fav = NEGOCIOS.find(b=>b.fav) || NEGOCIOS[0];
+document.getElementById('featured').innerHTML = `
+  <div class="photo"><div class="cap"><b>Negocio de la portada</b><br>${fav.foto||fav.n}</div></div>
+  <div class="body">
+    <div class="label">★ Negocio de la portada</div>
+    <h2>${fav.n}</h2>
+    <p>${fav.d}</p>
+    <div class="meta">
+      <span>📍 ${fav.dir}, ${fav.col}</span>
+      <span>☎ ${fav.tel}</span>
+      <span>🕑 ${fav.h}</span>
+    </div>
+  </div>`;
+
+function card(b){
+  return `<article class="card">
+    <div class="cat">${b.c}</div>
+    <h4>${b.n}</h4>
+    <p class="desc">${b.d}</p>
+    <div class="info">
+      <div><span class="k">📍</span><span>${b.dir}</span></div>
+      <div><span class="k">☎</span><span>${b.tel}</span></div>
+      <div><span class="k">🕑</span><span>${b.h}</span></div>
+    </div>
+    <span class="colonia">${b.col}</span>
+  </article>`;
+}
+
+function render(){
+  const q=query.trim().toLowerCase();
+  let list=NEGOCIOS.filter(b=>{
+    const okCat = activeCat==="Todos" || b.c===activeCat;
+    const okQ = !q || (b.n+" "+b.col+" "+b.dir+" "+b.c+" "+b.d).toLowerCase().includes(q);
+    return okCat && okQ;
+  });
+  document.getElementById('count').textContent = list.length + (list.length===1?" resultado":" resultados");
+
+  const cont=document.getElementById('listings');
+  if(!list.length){cont.innerHTML=`<div class="empty">No encontramos negocios con ese criterio. Prueba con otra palabra o categoría.</div>`;return;}
+
+  // group by category for section headings (only when "Todos")
+  let html="";
+  if(activeCat==="Todos" && !q){
+    CATS.forEach(cat=>{
+      const grp=list.filter(b=>b.c===cat);
+      if(!grp.length)return;
+      html+=`<div class="sec-head"><span class="tag">Sección</span><h3>${cat}</h3><span class="line"></span></div>`;
+      html+=`<div class="grid">${grp.map(card).join('')}</div>`;
+    });
+  } else {
+    html+=`<div class="grid">${list.map(card).join('')}</div>`;
+  }
+  cont.innerHTML=html;
+}
+
+document.getElementById('q').addEventListener('input',e=>{query=e.target.value;render();});
+render();
+</script>
+</body>
+</html>
