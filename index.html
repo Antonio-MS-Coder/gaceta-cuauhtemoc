@@ -339,7 +339,7 @@ function buildNav(){
     b.onclick=()=>{activeCat=cat;[...nav.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');render();};
     nav.appendChild(b);
   });
-  document.getElementById('foot-secs').innerHTML=CATS.map(c=>`<a href="#">${c}</a>`).join('<br>');
+  document.getElementById('foot-secs').innerHTML=CATS.map(c=>`<a href="#">${esc(c)}</a>`).join('<br>');
 }
 
 function buildFeatured(){
@@ -404,7 +404,7 @@ function render(){
       const grp=list.filter(({b})=>b.c===cat);
       if(!grp.length)return;
       const c=(CATMETA[cat]||{}).c||"#23211e";
-      html+=`<div class="sec-head" style="--c:${c}"><span class="bar"></span><h3>${cat}</h3><span class="line"></span><span class="tag">Sección</span></div>`;
+      html+=`<div class="sec-head" style="--c:${c}"><span class="bar"></span><h3>${esc(cat)}</h3><span class="line"></span><span class="tag">Sección</span></div>`;
       html+=`<div class="grid">${grp.map(({b,i})=>card(b,i)).join('')}</div>`;
     });
   } else {
