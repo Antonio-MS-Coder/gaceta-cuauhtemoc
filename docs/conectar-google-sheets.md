@@ -32,15 +32,20 @@ El sitio lee estas columnas por nombre (no importa el orden, ni mayúsculas/acen
 | `direccion` | Calle y número | Dr. Lavista 88 |
 | `telefono` | Opcional (vacío = no se muestra) | 55 1234 5678 |
 | `horario` | Opcional (vacío = no se muestra) | L-S 8:00–18:00 |
-| `portada` | `x` en **un** negocio = el destacado | x |
-| `acopio` | `x` = centro de acopio de tapas (sale en la causa) | x |
-| `activo` | `x` = visible en la gaceta · **vacío = oculto** (sirve para aprobar altas) | x |
+| `portada` | "sí" en **un** negocio = el destacado | x / Sí / Portada |
+| `acopio` | "sí" = centro de acopio de tapas (sale en la causa) | x / Sí / Acopio |
+| `activo` | "sí/visible" = se muestra · "no" = oculto (sirve para aprobar altas) | Publicado / Oculto |
 | `prioridad` | Número para ordenar: **más alto = más arriba** (según qué tanto apoya; vacío = 0) | 50 |
 | `fuente` | Liga de dónde se verificó (no se muestra) | https://… |
 
-> **Columna `activo`:** si la hoja la trae, la gaceta **solo muestra las filas con `x`**. Una fila
-> sin `x` queda oculta (pendiente). Así puedes aprobar/bajar negocios sin borrarlos. Si quitas la
-> columna por completo, se muestran todos.
+> **Pastillas (dropdowns):** puedes convertir `portada`, `acopio` y `activo` en menús con pastillas.
+> La app entiende como **"sí / visible"** cualquiera de: `x`, `Sí`, `Activo`, `Publicado`, `Visible`,
+> `Portada`, `Acopio`, `✓`, `1`. Cualquier otra cosa (vacío, `No`, `Oculto`, `Inactivo`, `Borrador`,
+> `Pendiente`) cuenta como **"no"**. Para `activo`, además, puedes nombrar la columna `estado`,
+> `visibilidad` o `publicación` y también la lee.
+>
+> **Columna `activo`:** si la hoja la trae, la gaceta **solo muestra las filas marcadas como
+> "sí/Publicado"**. Lo demás queda oculto (pendiente). Si quitas la columna, se muestran todos.
 
 **Las 7 categorías con color e ícono propios** (cópialas exactas):
 `Restaurantes y Antojitos`, `Cafés y Panaderías`, `Tiendas y Abarrotes`, `Servicios`,

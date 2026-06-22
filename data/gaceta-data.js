@@ -17,7 +17,11 @@ window.GACETA = {
   // Convierte una fila de la hoja (objeto por encabezado) a un negocio de la gaceta.
   rowToNegocio(r){
     const get=(...keys)=>{for(const k of keys){const v=r[k];if(v!=null&&String(v).trim()!=='')return String(v).trim();}return '';};
-    const truthy=v=>/^(x|s[ií]|true|1|✓|activ[oa]|visible)$/i.test(String(v||'').trim());
+    // Palabras que cuentan como "sí / visible" (en pastillas o texto). Todo lo demás = "no".
+    const AFIRMATIVO=['x','✓','✔','sí','si','s','true','verdadero','1','yes','on',
+      'activo','activa','visible','público','publico','publicado','publicada',
+      'portada','destacado','destacada','acopio'];
+    const truthy=v=>AFIRMATIVO.includes(String(v||'').trim().toLowerCase());
     return {
       n:   get('nombre','negocio','name','n'),
       c:   get('categoria','categoría','category','giro','c'),
@@ -29,7 +33,7 @@ window.GACETA = {
       src: get('fuente','source','src'),
       fav:    truthy(get('portada','fav','destacado')),
       acopio: truthy(get('acopio','tapas')),
-      activo: truthy(get('activo','visible','estatus','status','publicar')),
+      activo: truthy(get('activo','visible','estatus','status','publicar','estado','visibilidad','publicación','publicacion')),
       prioridad: parseFloat(get('prioridad','orden','rank','ranking'))||0
     };
   },
@@ -64,7 +68,7 @@ window.GACETA = {
       const rows = this.parseCSV(await res.text()).filter(r=>r.some(c=>String(c).trim()!==''));
       if(rows.length < 2) return null;
       const headers = rows[0].map(h=>h.trim().toLowerCase());
-      const activoKeys = ['activo','visible','estatus','status','publicar'];
+      const activoKeys = ['activo','visible','estatus','status','publicar','estado','visibilidad','publicación','publicacion'];
       const hasActivo = headers.some(h=>activoKeys.includes(h));
       let list = rows.slice(1).map(cells=>{
         const obj={}; headers.forEach((h,i)=>obj[h]=cells[i]!=null?cells[i]:'');
