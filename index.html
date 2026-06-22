@@ -149,7 +149,7 @@
 <nav class="sections"><div class="wrap" id="nav"></div></nav>
 
 <main class="wrap">
-  <a class="causa-banner" href="causa.html">
+  <a class="causa-banner" id="causa-banner" href="causa.html">
     <span class="cb-ico">🧢</span>
     <span class="cb-txt"><b>Edición con causa:</b> Tapatón por el barrio — junta tapas, ayuda a pagar quimios de niños.</span>
     <span class="cb-go">Participar →</span>
@@ -301,6 +301,7 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;',
 let NEGOCIOS = NEGOCIOS_LOCAL;
 let CATS = [];
 let activeCat="Todos", query="";
+let CAUSA_ACTIVA = true;  // se ajusta desde la pestaña "Ajustes" del Sheet
 
 // Centros de acopio de respaldo (se usan si la hoja no trae columna "acopio").
 const ACOPIO_SET=new Set(["Café Moka","BUNA La Tostadora","Pastelería Ideal","Florería Cleo","Ollin Pan y Café","Lavandería Más por Menos"]);
@@ -383,7 +384,7 @@ function card(b,i){
       <p class="desc">${esc(b.d)}</p>
       ${infoRows(b)}
       <span class="colonia">${esc(b.col)}</span>
-      ${b.acopio?'<span class="acopio-badge">🧢 Acopio de tapas</span>':''}
+      ${(b.acopio && CAUSA_ACTIVA)?'<span class="acopio-badge">🧢 Acopio de tapas</span>':''}
     </div>
   </article>`;
 }
@@ -427,13 +428,29 @@ function buildPage(){
 
 document.getElementById('q').addEventListener('input',e=>{query=e.target.value;render();});
 
-// Arranca con datos locales y, si hay un Google Sheet configurado, lo carga y re-renderiza.
+// Prende/apaga la causa y el banner según la pestaña "Ajustes" del Sheet.
+function applyConfig(cfg){
+  cfg = cfg || {};
+  const tieneAjuste = ('causa_activa' in cfg)||('causa' in cfg)||('banner_causa' in cfg)||('banner' in cfg);
+  CAUSA_ACTIVA = tieneAjuste ? GACETA.esSi(cfg.causa_activa||cfg.causa||cfg.banner_causa||cfg.banner) : true;
+  const banner=document.getElementById('causa-banner');
+  if(banner){
+    banner.style.display = CAUSA_ACTIVA ? '' : 'none';
+    const txt=(cfg.banner_texto||cfg.texto_banner||'').trim();
+    const t=banner.querySelector('.cb-txt');
+    if(CAUSA_ACTIVA && txt && t) t.textContent = txt;
+  }
+}
+
+// Arranca con datos locales y luego trae Ajustes + datos del Sheet (en paralelo).
 (async function init(){
   buildPage();
-  if(window.GACETA && GACETA.SHEET_CSV_URL){
-    const sheet=await GACETA.load();
-    if(sheet && sheet.length){ NEGOCIOS=sheet; buildPage(); }
-  }
+  const cfgP   = (window.GACETA && GACETA.CONFIG_CSV_URL) ? GACETA.loadConfig() : Promise.resolve({});
+  const sheetP = (window.GACETA && GACETA.SHEET_CSV_URL) ? GACETA.load() : Promise.resolve(null);
+  const [cfg, sheet] = await Promise.all([cfgP, sheetP]);
+  if(sheet && sheet.length) NEGOCIOS = sheet;
+  applyConfig(cfg);
+  buildPage();
 })();
 </script>
 </body>

@@ -181,6 +181,16 @@ function renderAcopio(list){
 }
 (async function(){
   renderAcopio(ACOPIO_LOCAL);
+  // Si la causa está apagada en "Ajustes", muestra un aviso arriba.
+  const cfg = (window.GACETA && GACETA.CONFIG_CSV_URL) ? await GACETA.loadConfig() : {};
+  const tieneAjuste = ('causa_activa' in cfg)||('causa' in cfg);
+  const activa = tieneAjuste ? GACETA.esSi(cfg.causa_activa||cfg.causa) : true;
+  if(!activa){
+    const n=document.createElement('div');
+    n.style.cssText='background:#ffb400;color:#111;text-align:center;font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:13px;padding:10px;';
+    n.textContent='⏸ Esta campaña no está activa por ahora.';
+    document.body.insertBefore(n, document.body.firstChild);
+  }
   if(window.GACETA && GACETA.SHEET_CSV_URL){
     const sheet = await GACETA.load();
     if(sheet){

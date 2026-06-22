@@ -14,14 +14,19 @@ window.GACETA = {
   // 👇 URL CSV publicada de tu hoja (pestaña pública del directorio).
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vThzEmLuywepHg9dJH-ohe7eSNVFE_DGxp_cEr8Mc9M8sTk58fIugedzZbsPn3GEYfDjOMp4lQKk5OP/pub?gid=1619426642&single=true&output=csv",
 
+  // 👇 (Opcional) CSV publicado de la pestaña "Ajustes" para prender/apagar la causa y el banner.
+  CONFIG_CSV_URL: "",
+
+  // Palabras que cuentan como "sí / visible" (en columnas y en Ajustes). Todo lo demás = "no".
+  AFIRMATIVO: ['x','✓','✔','sí','si','s','true','verdadero','1','yes','on',
+    'activo','activa','visible','público','publico','publicado','publicada',
+    'portada','destacado','destacada','acopio'],
+  esSi(v){ return this.AFIRMATIVO.includes(String(v||'').trim().toLowerCase()); },
+
   // Convierte una fila de la hoja (objeto por encabezado) a un negocio de la gaceta.
   rowToNegocio(r){
     const get=(...keys)=>{for(const k of keys){const v=r[k];if(v!=null&&String(v).trim()!=='')return String(v).trim();}return '';};
-    // Palabras que cuentan como "sí / visible" (en pastillas o texto). Todo lo demás = "no".
-    const AFIRMATIVO=['x','✓','✔','sí','si','s','true','verdadero','1','yes','on',
-      'activo','activa','visible','público','publico','publicado','publicada',
-      'portada','destacado','destacada','acopio'];
-    const truthy=v=>AFIRMATIVO.includes(String(v||'').trim().toLowerCase());
+    const truthy=v=>this.esSi(v);
     return {
       n:   get('nombre','negocio','name','n'),
       c:   get('categoria','categoría','category','giro','c'),
@@ -81,5 +86,24 @@ window.GACETA = {
       console.warn('No se pudo cargar el Google Sheet, uso datos locales:', e);
       return null;
     }
+  },
+
+  // Lee la pestaña "Ajustes" (filas clave,valor) para prender/apagar la causa, banner, etc.
+  async loadConfig(){
+    const url = this.CONFIG_CSV_URL && this.CONFIG_CSV_URL.trim();
+    if(!url) return {};
+    try{
+      const res = await fetch(url, {cache:'no-store'});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const rows = this.parseCSV(await res.text());
+      const skip = new Set(['ajuste','clave','key','setting','config']);
+      const cfg = {};
+      rows.forEach(r=>{
+        const k = String(r[0]||'').trim().toLowerCase();
+        if(!k || skip.has(k)) return;
+        cfg[k] = String(r[1]!=null?r[1]:'').trim();
+      });
+      return cfg;
+    }catch(e){ console.warn('No se pudo cargar Ajustes:', e); return {}; }
   }
 };

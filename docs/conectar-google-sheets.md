@@ -161,4 +161,33 @@ Para **bajar**: borra la `x` (no pierdes el registro).
 **Privacidad (clave):** publica en la web **solo la pestaña del directorio** (no "todo el documento")
 y **no** cambies el acceso del archivo a "cualquiera con el enlace". Así la pestaña `Altas (CRM)`
 con los datos sensibles queda privada.
+
+---
+
+## Parte D · Prender/apagar la causa y el banner (pestaña "Ajustes")
+
+Para controlar desde el Excel si se muestra el **banner del Tapatón** (y los badges de acopio):
+
+### 1. Crea una pestaña `Ajustes`
+En tu hoja, nueva pestaña llamada **`Ajustes`**, con dos columnas:
+
+| ajuste | valor |
+|---|---|
+| causa_activa | sí |
+| banner_texto | Edición con causa: Tapatón por el barrio — junta tapas. |
+
+- **`causa_activa`**: `sí` = se ve el banner y los badges de acopio · `no` = se ocultan.
+- **`banner_texto`** (opcional): cambia el texto del banner. Vacío = usa el de siempre.
+
+### 2. Publica la pestaña `Ajustes` como CSV
+**Archivo → Compartir → Publicar en la web** → pestaña **Ajustes** → **CSV** → Publicar → copia la URL.
+
+### 3. Pégala en el sitio
+En `data/gaceta-data.js`, línea `CONFIG_CSV_URL`:
+
+```javascript
+CONFIG_CSV_URL: "https://docs.google.com/.../pub?gid=XXXX&single=true&output=csv",
 ```
+
+Commit/push. Listo: cambias `causa_activa` a `no` en la hoja y el banner desaparece (1–5 min de
+refresco). Mientras `CONFIG_CSV_URL` esté vacío, la causa queda **activa** por defecto (no se rompe nada).

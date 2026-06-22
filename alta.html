@@ -144,7 +144,6 @@
   <div class="ok" id="ok">
     <h3>¡Listo! ✊</h3>
     <p id="okmsg">Negocio capturado.</p>
-    <pre id="okdata"></pre>
     <button onclick="location.reload()">Capturar otro</button>
   </div>
 
@@ -176,8 +175,7 @@ f.addEventListener('submit', async (e)=>{
     }
     f.style.display='none';
     document.getElementById('ok').style.display='block';
-    document.getElementById('okmsg').textContent = CONFIG.endpoint ? 'Enviado a tu Google Sheet.' : 'Guardado en este dispositivo (modo demo). Conecta Google Sheets para enviarlo de verdad.';
-    document.getElementById('okdata').textContent = JSON.stringify(data,null,2);
+    document.getElementById('okmsg').textContent = CONFIG.endpoint ? '¡Gracias! Recibimos tu negocio. Lo revisamos y aparecerá pronto en la gaceta.' : 'Guardado en este dispositivo (modo demo). Conecta Google Sheets para enviarlo de verdad.';
   }catch(err){
     alert('No se pudo guardar: '+err.message); btn.disabled=false; btn.textContent='Guardar negocio';
   }
