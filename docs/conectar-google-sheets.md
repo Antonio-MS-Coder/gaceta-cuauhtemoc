@@ -34,11 +34,24 @@ El sitio lee estas columnas por nombre (no importa el orden, ni mayúsculas/acen
 | `horario` | Opcional (vacío = no se muestra) | L-S 8:00–18:00 |
 | `portada` | `x` en **un** negocio = el destacado | x |
 | `acopio` | `x` = centro de acopio de tapas (sale en la causa) | x |
+| `activo` | `x` = visible en la gaceta · **vacío = oculto** (sirve para aprobar altas) | x |
 | `fuente` | Liga de dónde se verificó (no se muestra) | https://… |
 
-**Las 7 categorías válidas** (cópialas exactas para que tomen color e ícono):
+> **Columna `activo`:** si la hoja la trae, la gaceta **solo muestra las filas con `x`**. Una fila
+> sin `x` queda oculta (pendiente). Así puedes aprobar/bajar negocios sin borrarlos. Si quitas la
+> columna por completo, se muestran todos.
+
+**Las 7 categorías con color e ícono propios** (cópialas exactas):
 `Restaurantes y Antojitos`, `Cafés y Panaderías`, `Tiendas y Abarrotes`, `Servicios`,
 `Salud y Bienestar`, `Belleza y Estética`, `Cultura y Arte`.
+
+Puedes inventar **categorías nuevas**: si escribes una categoría distinta, la gaceta crea su
+sección igual (con color gris por defecto). Si quieres que lleve color e ícono propios, se agrega
+en el código (`CATMETA` en `index.html`).
+
+**Tip — categoría como lista desplegable (evita errores de dedo):** en la hoja selecciona la
+columna `categoria` → menú **Datos → Validación de datos** → Criterios: "Lista de elementos" →
+pega las 7 categorías separadas por coma → Listo. Cada alta se elige de un menú.
 
 ### 3. Publica la hoja como CSV
 1. En la hoja: **Archivo → Compartir → Publicar en la web**.
@@ -116,4 +129,26 @@ Sube el cambio y listo: cada alta cae en tu hoja.
 - **Fotos:** hoy se captura una liga; subir foto del celular directo requiere Drive (se ve después).
 - **CORS:** el envío usa `mode:'no-cors'`, así que el navegador no lee la respuesta; se asume éxito.
   Es lo normal con Apps Script desde una página estática.
+
+---
+
+## Parte C · Flujo de aprobación (pre-aprobados)
+
+Para que cualquiera pueda proponer su negocio pero **tú decides qué se publica**:
+
+1. El formulario (`alta.html`, Parte B) escribe cada alta en la hoja con la columna `activo`
+   **en blanco** → queda pendiente, no se ve en la gaceta.
+2. Revisas la fila y, si la apruebas, pones `x` en `activo`. En minutos aparece en el sitio.
+3. Para bajar un negocio, borra la `x` (o pon "no"): desaparece de la gaceta sin perder el registro.
+
+**Privado vs. público (clave):** "Publicar en la web" publica **toda la pestaña**, así que las
+columnas privadas del CRM (dueño, contacto, afinidad, temas) también se harían públicas si están en
+la misma pestaña. Para evitarlo:
+
+- Pestaña **privada** `Altas`: aquí cae el formulario, con todas las columnas (incluido el CRM) y `activo`.
+- Pestaña **pública** `Directorio`: una fórmula jala solo las columnas públicas y solo las aprobadas, p. ej.
+  `=FILTER({Altas!A2:G, Altas!J2:J}, Altas!K2:K="x")` (ajusta las letras a tus columnas: públicas + fuente,
+  filtrando por `activo`). Publica **esta** pestaña como CSV y pégala en `data/gaceta-data.js`.
+
+Así el formulario alimenta tu CRM privado y la gaceta solo muestra lo aprobado y lo público.
 ```

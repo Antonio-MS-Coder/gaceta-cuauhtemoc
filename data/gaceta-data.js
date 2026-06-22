@@ -17,7 +17,7 @@ window.GACETA = {
   // Convierte una fila de la hoja (objeto por encabezado) a un negocio de la gaceta.
   rowToNegocio(r){
     const get=(...keys)=>{for(const k of keys){const v=r[k];if(v!=null&&String(v).trim()!=='')return String(v).trim();}return '';};
-    const truthy=v=>/^(x|s[ií]|true|1|✓)$/i.test(String(v||'').trim());
+    const truthy=v=>/^(x|s[ií]|true|1|✓|activ[oa]|visible)$/i.test(String(v||'').trim());
     return {
       n:   get('nombre','negocio','name','n'),
       c:   get('categoria','categoría','category','giro','c'),
@@ -28,7 +28,8 @@ window.GACETA = {
       h:   get('horario','horarios','h'),
       src: get('fuente','source','src'),
       fav:    truthy(get('portada','fav','destacado')),
-      acopio: truthy(get('acopio','tapas'))
+      acopio: truthy(get('acopio','tapas')),
+      activo: truthy(get('activo','visible','estatus','status','publicar'))
     };
   },
 
@@ -62,10 +63,14 @@ window.GACETA = {
       const rows = this.parseCSV(await res.text()).filter(r=>r.some(c=>String(c).trim()!==''));
       if(rows.length < 2) return null;
       const headers = rows[0].map(h=>h.trim().toLowerCase());
-      const list = rows.slice(1).map(cells=>{
+      const activoKeys = ['activo','visible','estatus','status','publicar'];
+      const hasActivo = headers.some(h=>activoKeys.includes(h));
+      let list = rows.slice(1).map(cells=>{
         const obj={}; headers.forEach((h,i)=>obj[h]=cells[i]!=null?cells[i]:'');
         return this.rowToNegocio(obj);
       }).filter(b=>b.n && b.c);
+      // Si la hoja trae columna "activo", solo se muestran las filas marcadas (control de visibilidad).
+      if(hasActivo) list = list.filter(b=>b.activo);
       return list.length ? list : null;
     }catch(e){
       console.warn('No se pudo cargar el Google Sheet, uso datos locales:', e);

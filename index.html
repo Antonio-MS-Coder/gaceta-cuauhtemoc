@@ -403,7 +403,7 @@ function render(){
     CATS.forEach(cat=>{
       const grp=list.filter(({b})=>b.c===cat);
       if(!grp.length)return;
-      const c=CATMETA[cat].c;
+      const c=(CATMETA[cat]||{}).c||"#23211e";
       html+=`<div class="sec-head" style="--c:${c}"><span class="bar"></span><h3>${cat}</h3><span class="line"></span><span class="tag">Sección</span></div>`;
       html+=`<div class="grid">${grp.map(({b,i})=>card(b,i)).join('')}</div>`;
     });
@@ -414,7 +414,9 @@ function render(){
 }
 function buildPage(){
   decorate(NEGOCIOS);
+  // Las categorías las define la hoja: primero las conocidas (con color/ícono), luego cualquier extra.
   CATS=Object.keys(CATMETA).filter(c=>NEGOCIOS.some(b=>b.c===c));
+  [...new Set(NEGOCIOS.map(b=>b.c))].forEach(c=>{ if(c && !CATS.includes(c)) CATS.push(c); });
   document.getElementById('biz-total').textContent=NEGOCIOS.length+" negocios";
   buildNav();
   buildFeatured();
