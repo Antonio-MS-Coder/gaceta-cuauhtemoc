@@ -294,7 +294,7 @@ const ICON={
   "Cultura y Arte":"🎨",
 };
 function icoFor(b){return ICON[b.c]||"🏪";}
-function imgFor(b){return b._img || ((CATMETA[b.c]||{}).imgs||[])[0] || "";}
+function imgFor(b){return b.img || b._img || ((CATMETA[b.c]||{}).imgs||[])[0] || "";}
 // Escapa texto antes de meterlo al HTML (la data viene del Sheet, así que no se confía).
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 // ── Datos: del Google Sheet si está configurado; si no, los locales de arriba ──
@@ -351,7 +351,7 @@ function buildFeatured(){
   featEl.innerHTML=`
   <div class="fbg"></div>
   <span class="fg-ico">${icoFor(fav)}</span>
-  <img class="fcov" src="${imgFor(fav)}" alt="${esc(fav.n)}" onerror="this.remove()">
+  <img class="fcov" src="${esc(imgFor(fav))}" alt="${esc(fav.n)}" onerror="this.remove()">
   <div class="scrim"></div>
   <div class="body">
     <span class="label">★ Negocio de la portada</span>
@@ -374,10 +374,10 @@ function card(b,i){
   return `<article class="card" style="--c:${c}">
     <div class="ph">
       <span class="giro">${icoFor(b)}</span>
-      <img class="cov" src="${imgFor(b)}" alt="${esc(b.n)}" loading="lazy" onerror="this.remove()">
+      <img class="cov" src="${esc(imgFor(b))}" alt="${esc(b.n)}" loading="lazy" onerror="this.remove()">
       <span class="ribbon">${esc(b.c)}</span>
       ${b.fav?'<span class="star">★</span>':''}
-      <span class="phtag">ilustración de muestra</span>
+      ${b.img?'':'<span class="phtag">ilustración de muestra</span>'}
     </div>
     <div class="body">
       <h4>${esc(b.n)}</h4>

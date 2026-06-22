@@ -36,6 +36,7 @@ window.GACETA = {
       tel: get('telefono','teléfono','tel'),
       h:   get('horario','horarios','h'),
       src: get('fuente','source','src'),
+      img: get('imagen','foto','image','img','foto_url','fotourl'),
       fav:    truthy(get('portada','fav','destacado')),
       acopio: truthy(get('acopio','tapas')),
       activo: truthy(get('activo','visible','estatus','status','publicar','estado','visibilidad','publicación','publicacion')),

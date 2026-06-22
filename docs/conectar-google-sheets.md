@@ -36,6 +36,7 @@ El sitio lee estas columnas por nombre (no importa el orden, ni mayúsculas/acen
 | `acopio` | "sí" = centro de acopio de tapas (sale en la causa) | x / Sí / Acopio |
 | `activo` | "sí/visible" = se muestra · "no" = oculto (sirve para aprobar altas) | Publicado / Oculto |
 | `prioridad` | Número para ordenar: **más alto = más arriba** (según qué tanto apoya; vacío = 0) | 50 |
+| `imagen` | (Opcional) liga **directa** a la foto; si está, la tarjeta la usa en vez de la ilustración | https://…/foto.jpg |
 | `fuente` | Liga de dónde se verificó (no se muestra) | https://… |
 
 > **Pastillas (dropdowns):** puedes convertir `portada`, `acopio` y `activo` en menús con pastillas.
