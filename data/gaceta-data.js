@@ -11,8 +11,8 @@
    Guía completa: docs/conectar-google-sheets.md
    ========================================================================== */
 window.GACETA = {
-  // 👇 Pega aquí la URL CSV publicada de tu hoja (vacío = usa datos locales).
-  SHEET_CSV_URL: "",
+  // 👇 URL CSV publicada de tu hoja (pestaña pública del directorio).
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vThzEmLuywepHg9dJH-ohe7eSNVFE_DGxp_cEr8Mc9M8sTk58fIugedzZbsPn3GEYfDjOMp4lQKk5OP/pub?gid=1619426642&single=true&output=csv",
 
   // Convierte una fila de la hoja (objeto por encabezado) a un negocio de la gaceta.
   rowToNegocio(r){

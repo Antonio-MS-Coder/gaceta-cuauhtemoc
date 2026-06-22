@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- captura v2 -->
+<!-- captura v3 — notas del equipo con candado -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,7 +94,7 @@
       <input name="fotoUrl" placeholder="Pega una liga de foto (después la subimos directo)">
     </fieldset>
 
-    <fieldset class="priv">
+    <fieldset class="priv" id="equipo" style="display:none">
       <legend>Notas del equipo</legend>
       <div class="hint">🔒 Privado. No se muestra en la gaceta — es para tu seguimiento (CRM).</div>
       <div class="row">
@@ -149,6 +149,8 @@
   </div>
 
   <a class="back" href="./index.html">← Volver a la gaceta</a>
+  <a class="back" id="equipo-link" href="#" style="margin-left:18px;color:#8a7e63;">🔒 Soy del equipo</a>
+  <span id="equipo-on" style="display:none;margin-left:18px;font-family:'Oswald',sans-serif;font-size:12px;color:var(--verde);text-transform:uppercase;letter-spacing:.06em;">✓ Modo equipo activado</span>
 </div>
 
 <script>
@@ -180,6 +182,29 @@ f.addEventListener('submit', async (e)=>{
     alert('No se pudo guardar: '+err.message); btn.disabled=false; btn.textContent='Guardar negocio';
   }
 });
+
+// ===== Modo equipo: "Notas del equipo" oculto por defecto; se abre con contraseña =====
+// Nota: es un candado de interfaz (no seguridad fuerte). Los datos del CRM ya van a una
+// pestaña privada del Sheet; esto solo evita que el negocio vea/llene los campos internos.
+const EQUIPO_PASS = "orlez";   // cámbiala cuando quieras
+function unlockEquipo(){
+  document.getElementById('equipo').style.display='';
+  var l=document.getElementById('equipo-link'); if(l) l.style.display='none';
+  var on=document.getElementById('equipo-on'); if(on) on.style.display='inline';
+}
+(function(){
+  var link=document.getElementById('equipo-link');
+  if(link) link.addEventListener('click', function(e){
+    e.preventDefault();
+    var pw=prompt('Contraseña del equipo:');
+    if(pw===null) return;
+    if(pw.trim().toLowerCase()===EQUIPO_PASS) unlockEquipo();
+    else alert('Contraseña incorrecta.');
+  });
+  // También se puede abrir con la liga: alta.html?equipo=orlez
+  var params=new URLSearchParams(location.search);
+  if((params.get('equipo')||'').trim().toLowerCase()===EQUIPO_PASS) unlockEquipo();
+})();
 </script>
 </body>
 </html>
