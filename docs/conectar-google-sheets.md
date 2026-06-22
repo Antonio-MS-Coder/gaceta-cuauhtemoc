@@ -85,9 +85,10 @@ El formulario `alta.html` funciona en **modo demostración** (guarda en el dispo
 las altas caigan en una hoja de Google, usa Apps Script (porque el formulario **escribe**, y un CSV
 publicado solo sirve para **leer**).
 
-### 1. Crea la hoja
-1. [sheets.new](https://sheets.new), nómbrala **Gaceta Cuauhtémoc - Altas (CRM)**.
-2. Renombra la pestaña a `Altas`.
+### 1. Abre tu hoja
+Abre **Gaceta Cuauhtémoc - Directorio** (la del directorio). El script vive dentro de ella:
+agrega las altas nuevas como filas **pendientes** en la pestaña del directorio y guarda lo
+privado (CRM) en una pestaña aparte `Altas (CRM)` que **no** se publica.
 
 ### 2. Pega el script
 En la hoja: **Extensiones → Apps Script**. Borra lo que haya y pega:
@@ -95,22 +96,28 @@ En la hoja: **Extensiones → Apps Script**. Borra lo que haya y pega:
 ```javascript
 function doPost(e){
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName('Altas') || ss.insertSheet('Altas');
-  if (sheet.getLastRow() === 0){
-    // Columnas públicas primero (las que lee la gaceta), luego el CRM privado.
-    sheet.appendRow(['fecha','nombre','categoria','colonia','direccion','telefono','horario',
-      'descripcion','foto','activo','prioridad','fuente',
-      'dueno','contacto','afinidad','tamano','moviliza','temas','seguimiento','capturo','consentimiento']);
-  }
   var d = JSON.parse(e.postData.contents);
-  sheet.appendRow([d.fecha, d.nombre, d.giro, d.colonia, d.direccion, d.telefono, d.horario,
-    d.descripcion, d.fotoUrl, '', '', '',   // activo (vacío = PENDIENTE), prioridad, fuente
-    d.dueno, d.contacto, d.afinidad, d.tamano, d.moviliza, d.temas, d.seguimiento, d.capturadoPor, d.consentimiento]);
+
+  // 1) Fila PÚBLICA (pendiente: activo vacío) en la pestaña que lee la gaceta (la primera).
+  var pub = ss.getSheets()[0];
+  if (pub.getLastRow() === 0){
+    pub.appendRow(['nombre','categoria','colonia','descripcion','direccion','telefono','horario','portada','acopio','activo','prioridad','fuente']);
+  }
+  pub.appendRow([d.nombre, d.giro, d.colonia, d.descripcion, d.direccion, d.telefono, d.horario, '', '', '', '', '']);
+
+  // 2) Fila PRIVADA (CRM) en una pestaña aparte que NO se publica.
+  var crm = ss.getSheetByName('Altas (CRM)') || ss.insertSheet('Altas (CRM)');
+  if (crm.getLastRow() === 0){
+    crm.appendRow(['fecha','nombre','dueno','contacto','afinidad','tamano','moviliza','temas','seguimiento','capturo','consentimiento']);
+  }
+  crm.appendRow([d.fecha, d.nombre, d.dueno, d.contacto, d.afinidad, d.tamano, d.moviliza, d.temas, d.seguimiento, d.capturadoPor, d.consentimiento]);
+
   return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
 }
 ```
 
-> Cada alta entra con `activo` **vacío** (pendiente). Aparece en la gaceta hasta que tú escribas `x`.
+> Cada alta entra con `activo` **vacío** (pendiente) en el directorio, y sus datos privados van a
+> la pestaña `Altas (CRM)`. Aparece en la gaceta cuando tú escribas `x` en `activo`.
 
 ### 3. Publícalo como Web App
 1. **Implementar → Nueva implementación** → Tipo: **Aplicación web**.
@@ -138,21 +145,15 @@ Sube el cambio y listo: cada alta cae en tu hoja.
 
 ## Parte C · Flujo de aprobación (pre-aprobados)
 
-Para que cualquiera pueda proponer su negocio pero **tú decides qué se publica**:
+Con el Apps Script de la Parte B, cada alta del formulario hace dos cosas:
 
-1. El formulario (`alta.html`, Parte B) escribe cada alta en la hoja con la columna `activo`
-   **en blanco** → queda pendiente, no se ve en la gaceta.
-2. Revisas la fila y, si la apruebas, pones `x` en `activo`. En minutos aparece en el sitio.
-3. Para bajar un negocio, borra la `x` (o pon "no"): desaparece de la gaceta sin perder el registro.
+1. Agrega una fila **pendiente** (columna `activo` vacía) en la pestaña del directorio → **no se ve** todavía.
+2. Guarda los datos del CRM (dueño, contacto, afinidad…) en una pestaña aparte **`Altas (CRM)`** que **no se publica**.
 
-**Privado vs. público (clave):** "Publicar en la web" publica **toda la pestaña**, así que las
-columnas privadas del CRM (dueño, contacto, afinidad, temas) también se harían públicas si están en
-la misma pestaña. Para evitarlo:
+Para **aprobar**: pon `x` en `activo` de esa fila → aparece en la gaceta en minutos.
+Para **bajar**: borra la `x` (no pierdes el registro).
 
-- Pestaña **privada** `Altas`: aquí cae el formulario, con todas las columnas (incluido el CRM) y `activo`.
-- Pestaña **pública** `Directorio`: una fórmula jala solo las columnas públicas y solo las aprobadas, p. ej.
-  `=FILTER({Altas!A2:G, Altas!J2:J}, Altas!K2:K="x")` (ajusta las letras a tus columnas: públicas + fuente,
-  filtrando por `activo`). Publica **esta** pestaña como CSV y pégala en `data/gaceta-data.js`.
-
-Así el formulario alimenta tu CRM privado y la gaceta solo muestra lo aprobado y lo público.
+**Privacidad (clave):** publica en la web **solo la pestaña del directorio** (no "todo el documento")
+y **no** cambies el acceso del archivo a "cualquiera con el enlace". Así la pestaña `Altas (CRM)`
+con los datos sensibles queda privada.
 ```
