@@ -1,14 +1,82 @@
-# Conectar el formulario a Google Sheets (Camino C)
+# Conectar La Gaceta a Google Sheets
 
-El formulario `alta.html` ya funciona en **modo demostración** (guarda en el dispositivo). Para que las altas caigan en una **hoja de Google** de verdad, sigue estos pasos una sola vez (~10 min).
+Hay dos conexiones posibles, independientes:
 
-## 1. Crea la hoja
+- **Parte A — La gaceta (directorio):** editar los negocios desde una hoja y que el sitio los lea. *(Esto es lo nuevo.)*
+- **Parte B — El formulario de alta (`alta.html`):** que cada captura caiga en una hoja.
+
+---
+
+## Parte A · Editar el directorio desde Google Sheets
+
+Hoy la gaceta trae 71 negocios reales escritos en el código (`index.html`). Para poder
+**editarlos desde una hoja de Google** (agregar, corregir, quitar, marcar portada o acopio)
+sin tocar código, sigue esto una sola vez (~10 min). No requiere API key.
+
+### 1. Crea la hoja con los datos actuales
 1. Entra a [sheets.new](https://sheets.new) y nómbrala **Gaceta Cuauhtémoc - Negocios**.
-2. Cambia el nombre de la pestaña a `Negocios`.
+2. **Archivo → Importar → Subir** y sube el archivo `data/negocios.csv` de este repo.
+   - En las opciones de importación elige **"Reemplazar hoja actual"** y **detectar separador automático**.
+   - Quedan los 71 negocios con sus columnas listas.
+3. (Opcional) Renombra la pestaña a `Negocios`.
 
-## 2. Pega el script
-1. En la hoja: menú **Extensiones → Apps Script**.
-2. Borra lo que haya y pega esto:
+### 2. Columnas (encabezados de la fila 1)
+El sitio lee estas columnas por nombre (no importa el orden, ni mayúsculas/acentos):
+
+| Columna | Qué es | Ejemplo |
+|---|---|---|
+| `nombre` | Nombre del negocio | Fonda La Esquina |
+| `categoria` | **Debe ser una de las 7** (ver abajo) | Restaurantes y Antojitos |
+| `colonia` | Colonia de la Cuauhtémoc | Doctores |
+| `descripcion` | Una frase | Comida corrida casera… |
+| `direccion` | Calle y número | Dr. Lavista 88 |
+| `telefono` | Opcional (vacío = no se muestra) | 55 1234 5678 |
+| `horario` | Opcional (vacío = no se muestra) | L-S 8:00–18:00 |
+| `portada` | `x` en **un** negocio = el destacado | x |
+| `acopio` | `x` = centro de acopio de tapas (sale en la causa) | x |
+| `fuente` | Liga de dónde se verificó (no se muestra) | https://… |
+
+**Las 7 categorías válidas** (cópialas exactas para que tomen color e ícono):
+`Restaurantes y Antojitos`, `Cafés y Panaderías`, `Tiendas y Abarrotes`, `Servicios`,
+`Salud y Bienestar`, `Belleza y Estética`, `Cultura y Arte`.
+
+### 3. Publica la hoja como CSV
+1. En la hoja: **Archivo → Compartir → Publicar en la web**.
+2. Pestaña: `Negocios` (o "Todo el documento"). Formato: **Valores separados por comas (.csv)**.
+3. **Publicar** → copia la URL (termina en `…/pub?gid=0&single=true&output=csv`).
+
+### 4. Pega la URL en el sitio
+En `data/gaceta-data.js`, línea `SHEET_CSV_URL`:
+
+```javascript
+SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=0&single=true&output=csv",
+```
+
+Sube el cambio (commit + push). Listo: cada vez que edites la hoja, la gaceta se actualiza
+sola al recargar (Google tarda 1-5 min en refrescar el CSV publicado).
+
+### Notas
+- **Sin riesgo:** mientras `SHEET_CSV_URL` esté vacío, el sitio usa los datos locales. Si la
+  hoja falla o no hay internet, también cae a los datos locales. Nunca se queda en blanco.
+- **Una sola fuente para la causa:** la página `causa.html` lee la **misma** hoja y muestra como
+  centros de acopio las filas con `acopio` = `x`.
+- **Privado:** "Publicar en la web" hace el CSV **público** (cualquiera con la liga lo ve). No pongas
+  datos privados (teléfonos de dueños, notas internas) en esta hoja; eso va en el CRM (Parte B).
+
+---
+
+## Parte B · Conectar el formulario de alta (`alta.html`)
+
+El formulario `alta.html` funciona en **modo demostración** (guarda en el dispositivo). Para que
+las altas caigan en una hoja de Google, usa Apps Script (porque el formulario **escribe**, y un CSV
+publicado solo sirve para **leer**).
+
+### 1. Crea la hoja
+1. [sheets.new](https://sheets.new), nómbrala **Gaceta Cuauhtémoc - Altas (CRM)**.
+2. Renombra la pestaña a `Negocios`.
+
+### 2. Pega el script
+En la hoja: **Extensiones → Apps Script**. Borra lo que haya y pega:
 
 ```javascript
 function doPost(e){
@@ -27,23 +95,25 @@ function doPost(e){
 }
 ```
 
-## 3. Publícalo como Web App
-1. Botón **Implementar → Nueva implementación**.
-2. Tipo: **Aplicación web**.
-3. **Ejecutar como:** Yo. **Quién tiene acceso:** Cualquier persona.
-4. **Implementar** → autoriza con tu cuenta → copia la **URL de la app web** (termina en `/exec`).
+### 3. Publícalo como Web App
+1. **Implementar → Nueva implementación** → Tipo: **Aplicación web**.
+2. **Ejecutar como:** Yo. **Quién tiene acceso:** Cualquier persona.
+3. **Implementar** → autoriza → copia la **URL de la app web** (termina en `/exec`).
 
-## 4. Pega la URL en el formulario
+### 4. Pega la URL en el formulario
 En `alta.html`, línea de `CONFIG`:
 
 ```javascript
 const CONFIG = { endpoint: "https://script.google.com/macros/s/XXXXX/exec" };
 ```
 
-Sube el cambio (commit + push) y listo: cada alta cae en tu hoja.
+Sube el cambio y listo: cada alta cae en tu hoja.
 
-## Notas
-- **Públicos vs. privados:** las columnas Dueño/Contacto/Afinidad/Temas son tu **CRM** — no las publiques en la gaceta. Para la versión pública, conviene una segunda hoja/vista que solo lea las columnas públicas.
-- **Privacidad (LFPDPPP):** falta redactar el aviso de privacidad real (hoy es un placeholder en el formulario). Necesario antes de capturar datos de personas.
-- **Fotos:** hoy se captura una liga. Subir la foto del celular directo requiere un paso extra (Drive); lo vemos cuando toque.
-- **CORS:** el envío usa `mode:'no-cors'`, así que el navegador no lee la respuesta; asumimos éxito. Es lo normal con Apps Script desde una página estática.
+### Notas
+- **Públicos vs. privados:** las columnas Dueño/Contacto/Afinidad/Temas son tu **CRM** — no las
+  publiques en la gaceta. La hoja de la Parte A (pública) y la del CRM (Parte B, privada) son distintas.
+- **Privacidad (LFPDPPP):** falta redactar el aviso de privacidad real (hoy es placeholder).
+- **Fotos:** hoy se captura una liga; subir foto del celular directo requiere Drive (se ve después).
+- **CORS:** el envío usa `mode:'no-cors'`, así que el navegador no lee la respuesta; se asume éxito.
+  Es lo normal con Apps Script desde una página estática.
+```

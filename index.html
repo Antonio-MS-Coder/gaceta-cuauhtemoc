@@ -183,6 +183,7 @@
   <div><div class="small">Contacto</div><div class="small">Registra tu negocio<br>WhatsApp [pendiente]<br>Instagram [pendiente]</div></div>
 </div></footer>
 
+<script src="data/gaceta-data.js"></script>
 <script>
 const CATMETA = {
   "Restaurantes y Antojitos":{c:"#e23b2e", imgs:["img/restaurantes.png","img/restaurantes-2.png","img/restaurantes-3.png"]},
@@ -196,7 +197,7 @@ const CATMETA = {
 
 // Negocios REALES de la Alcaldía Cuauhtémoc, verificados con fuente (campo `src`, no se muestra).
 // Tel/horario quedan vacíos cuando no se pudieron confirmar en una fuente — verificar antes de imprimir.
-const NEGOCIOS = [
+const NEGOCIOS_LOCAL = [
   // ── Restaurantes y Antojitos ─────────────────────────────
   {n:"El Califa de León", c:"Restaurantes y Antojitos", col:"San Rafael", d:"La humilde taquería que ganó la primera Estrella Michelin del mundo para un puesto de tacos; aquí nació el mítico taco gaonera.", dir:"Av. Ribera de San Cosme 56", tel:"", h:"", fav:true, src:"https://guide.michelin.com/us/en/ciudad-de-mexico/cuauhtemoc_1995126/restaurant/taqueria-el-califa-de-leon"},
   {n:"La Ópera", c:"Restaurantes y Antojitos", col:"Centro", d:"Cantina legendaria de 1876 con techos dorados y el famoso balazo de Pancho Villa en el techo; ideal para botana y tequila.", dir:"5 de Mayo 10", tel:"", h:"", src:"https://foodandpleasure.com/cantinas-centro-historico-cdmx/"},
@@ -294,38 +295,57 @@ const ICON={
 };
 function icoFor(b){return ICON[b.c]||"🏪";}
 function imgFor(b){return b._img || ((CATMETA[b.c]||{}).imgs||[])[0] || "";}
-// Reparte una variante distinta a cada negocio dentro de su categoría (da dinamismo)
-(function(){const seen={};NEGOCIOS.forEach(b=>{const arr=(CATMETA[b.c]||{}).imgs||[];seen[b.c]=seen[b.c]||0;b._img=arr.length?arr[seen[b.c]%arr.length]:"";seen[b.c]++;});})();
-// Negocios que son centro de acopio de tapas (en la versión real saldrá de una columna del Sheet)
-const ACOPIO_SET=new Set(["Café Moka","BUNA La Tostadora","Pastelería Ideal","Florería Cleo","Ollin Pan y Café","Lavandería Más por Menos"]);
-NEGOCIOS.forEach(b=>{if(ACOPIO_SET.has(b.n))b.acopio=true;});
-const CATS=Object.keys(CATMETA).filter(c=>NEGOCIOS.some(b=>b.c===c));
+// ── Datos: del Google Sheet si está configurado; si no, los locales de arriba ──
+let NEGOCIOS = NEGOCIOS_LOCAL;
+let CATS = [];
 let activeCat="Todos", query="";
 
+// Centros de acopio de respaldo (se usan si la hoja no trae columna "acopio").
+const ACOPIO_SET=new Set(["Café Moka","BUNA La Tostadora","Pastelería Ideal","Florería Cleo","Ollin Pan y Café","Lavandería Más por Menos"]);
+
+// Asigna una variante de imagen por categoría (da dinamismo) y marca el acopio.
+function decorate(list){
+  const seen={};
+  list.forEach(b=>{
+    const arr=(CATMETA[b.c]||{}).imgs||[];
+    seen[b.c]=seen[b.c]||0;
+    b._img=arr.length?arr[seen[b.c]%arr.length]:"";
+    seen[b.c]++;
+    if(b.acopio===undefined) b.acopio=ACOPIO_SET.has(b.n);
+  });
+  return list;
+}
+
+// Fecha (una sola vez)
 const meses=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const dias=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 const D=new Date();
 const fechaTxt=`${dias[D.getDay()]}, ${D.getDate()} de ${meses[D.getMonth()]} de ${D.getFullYear()}`;
 document.getElementById('today').textContent=fechaTxt;
 document.getElementById('dateline-date').textContent=fechaTxt.charAt(0).toUpperCase()+fechaTxt.slice(1);
-document.getElementById('biz-total').textContent=NEGOCIOS.length+" negocios";
 
 const nav=document.getElementById('nav');
-["Todos",...CATS].forEach(cat=>{
-  const b=document.createElement('button');
-  b.className='chip'+(cat==="Todos"?' active':'');
-  b.textContent=cat;
-  if(CATMETA[cat]) b.style.setProperty('--chipc',CATMETA[cat].c);
-  b.onclick=()=>{activeCat=cat;[...nav.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');render();};
-  nav.appendChild(b);
-});
-document.getElementById('foot-secs').innerHTML=CATS.map(c=>`<a href="#">${c}</a>`).join('<br>');
-
-const favIdx=Math.max(0,NEGOCIOS.findIndex(b=>b.fav));
-const fav=NEGOCIOS[favIdx];
 const featEl=document.getElementById('featured');
-featEl.style.setProperty('--c',(CATMETA[fav.c]||{}).c||"#e4007c");
-featEl.innerHTML=`
+
+function buildNav(){
+  nav.innerHTML='';
+  ["Todos",...CATS].forEach(cat=>{
+    const b=document.createElement('button');
+    b.className='chip'+(cat==="Todos"?' active':'');
+    b.textContent=cat;
+    if(CATMETA[cat]) b.style.setProperty('--chipc',CATMETA[cat].c);
+    b.onclick=()=>{activeCat=cat;[...nav.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');render();};
+    nav.appendChild(b);
+  });
+  document.getElementById('foot-secs').innerHTML=CATS.map(c=>`<a href="#">${c}</a>`).join('<br>');
+}
+
+function buildFeatured(){
+  const favIdx=Math.max(0,NEGOCIOS.findIndex(b=>b.fav));
+  const fav=NEGOCIOS[favIdx];
+  if(!fav){featEl.innerHTML='';return;}
+  featEl.style.setProperty('--c',(CATMETA[fav.c]||{}).c||"#e4007c");
+  featEl.innerHTML=`
   <div class="fbg"></div>
   <span class="fg-ico">${icoFor(fav)}</span>
   <img class="fcov" src="${imgFor(fav)}" alt="${fav.n}" onerror="this.remove()">
@@ -336,6 +356,7 @@ featEl.innerHTML=`
     <p>${fav.d}</p>
     <div class="meta">${[fav.dir?`<span>📍 ${fav.dir}, ${fav.col}</span>`:`<span>📍 ${fav.col}</span>`, fav.tel?`<span>☎ ${fav.tel}</span>`:'', fav.h?`<span>🕑 ${fav.h}</span>`:''].join('')}</div>
   </div>`;
+}
 
 function infoRows(b){
   const rows=[
@@ -369,7 +390,7 @@ function render(){
   const q=query.trim().toLowerCase();
   const list=NEGOCIOS.map((b,i)=>({b,i})).filter(({b})=>{
     const okCat=activeCat==="Todos"||b.c===activeCat;
-    const okQ=!q||(b.n+" "+b.col+" "+b.dir+" "+b.c+" "+b.d).toLowerCase().includes(q);
+    const okQ=!q||((b.n||"")+" "+(b.col||"")+" "+(b.dir||"")+" "+(b.c||"")+" "+(b.d||"")).toLowerCase().includes(q);
     return okCat&&okQ;
   });
   document.getElementById('count').textContent=list.length+(list.length===1?" resultado":" resultados");
@@ -389,8 +410,25 @@ function render(){
   }
   cont.innerHTML=html;
 }
+function buildPage(){
+  decorate(NEGOCIOS);
+  CATS=Object.keys(CATMETA).filter(c=>NEGOCIOS.some(b=>b.c===c));
+  document.getElementById('biz-total').textContent=NEGOCIOS.length+" negocios";
+  buildNav();
+  buildFeatured();
+  render();
+}
+
 document.getElementById('q').addEventListener('input',e=>{query=e.target.value;render();});
-render();
+
+// Arranca con datos locales y, si hay un Google Sheet configurado, lo carga y re-renderiza.
+(async function init(){
+  buildPage();
+  if(window.GACETA && GACETA.SHEET_CSV_URL){
+    const sheet=await GACETA.load();
+    if(sheet && sheet.length){ NEGOCIOS=sheet; buildPage(); }
+  }
+})();
 </script>
 </body>
 </html>

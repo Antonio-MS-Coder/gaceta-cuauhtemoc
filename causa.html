@@ -161,10 +161,11 @@
   <a class="back" href="./index.html">← Volver a la gaceta</a>
 </div></footer>
 
+<script src="data/gaceta-data.js"></script>
 <script>
-// Centros de acopio de ejemplo (negocios REALES del directorio; su participación es voluntaria y está por confirmar).
-// Debe coincidir con ACOPIO_SET en index.html. En la versión real saldrá del Sheet con una columna "Acopio".
-const ACOPIO = [
+// Centros de acopio de respaldo (negocios REALES del directorio; participación voluntaria, por confirmar).
+// Si hay Google Sheet configurado (data/gaceta-data.js), se usan las filas con la columna "acopio" marcada.
+const ACOPIO_LOCAL = [
   {n:"Café Moka", col:"Santa María la Ribera", dir:"Santa María la Ribera 6"},
   {n:"BUNA La Tostadora", col:"Doctores", dir:"Dr. Lucio 181"},
   {n:"Pastelería Ideal", col:"Centro", dir:"16 de Septiembre 18"},
@@ -172,8 +173,20 @@ const ACOPIO = [
   {n:"Ollin Pan y Café", col:"San Rafael", dir:"Gabino Barreda 117"},
   {n:"Lavandería Más por Menos", col:"Obrera", dir:"Roa Bárcenas 4"},
 ];
-document.getElementById('acopio').innerHTML = ACOPIO.map(p=>`
-  <div class="pt"><span class="tag">🧢 Acopio de tapas</span><h4>${p.n}</h4><p>📍 ${p.dir}, ${p.col}</p></div>`).join('');
+function renderAcopio(list){
+  document.getElementById('acopio').innerHTML = list.map(p=>`
+    <div class="pt"><span class="tag">🧢 Acopio de tapas</span><h4>${p.n}</h4><p>📍 ${p.dir}${p.col?', '+p.col:''}</p></div>`).join('');
+}
+(async function(){
+  renderAcopio(ACOPIO_LOCAL);
+  if(window.GACETA && GACETA.SHEET_CSV_URL){
+    const sheet = await GACETA.load();
+    if(sheet){
+      const ac = sheet.filter(b=>b.acopio).map(b=>({n:b.n, col:b.col, dir:b.dir}));
+      if(ac.length) renderAcopio(ac);
+    }
+  }
+})();
 </script>
 </body>
 </html>
