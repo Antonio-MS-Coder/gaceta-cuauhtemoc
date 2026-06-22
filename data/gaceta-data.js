@@ -29,7 +29,8 @@ window.GACETA = {
       src: get('fuente','source','src'),
       fav:    truthy(get('portada','fav','destacado')),
       acopio: truthy(get('acopio','tapas')),
-      activo: truthy(get('activo','visible','estatus','status','publicar'))
+      activo: truthy(get('activo','visible','estatus','status','publicar')),
+      prioridad: parseFloat(get('prioridad','orden','rank','ranking'))||0
     };
   },
 

@@ -413,6 +413,8 @@ function render(){
   cont.innerHTML=html;
 }
 function buildPage(){
+  // Orden: prioridad más alta primero (qué tanto apoya el negocio); empate = orden original.
+  NEGOCIOS.sort((a,b)=>(b.prioridad||0)-(a.prioridad||0));
   decorate(NEGOCIOS);
   // Las categorías las define la hoja: primero las conocidas (con color/ícono), luego cualquier extra.
   CATS=Object.keys(CATMETA).filter(c=>NEGOCIOS.some(b=>b.c===c));

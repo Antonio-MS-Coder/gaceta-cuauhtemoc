@@ -35,6 +35,7 @@ El sitio lee estas columnas por nombre (no importa el orden, ni mayúsculas/acen
 | `portada` | `x` en **un** negocio = el destacado | x |
 | `acopio` | `x` = centro de acopio de tapas (sale en la causa) | x |
 | `activo` | `x` = visible en la gaceta · **vacío = oculto** (sirve para aprobar altas) | x |
+| `prioridad` | Número para ordenar: **más alto = más arriba** (según qué tanto apoya; vacío = 0) | 50 |
 | `fuente` | Liga de dónde se verificó (no se muestra) | https://… |
 
 > **Columna `activo`:** si la hoja la trae, la gaceta **solo muestra las filas con `x`**. Una fila
@@ -86,7 +87,7 @@ publicado solo sirve para **leer**).
 
 ### 1. Crea la hoja
 1. [sheets.new](https://sheets.new), nómbrala **Gaceta Cuauhtémoc - Altas (CRM)**.
-2. Renombra la pestaña a `Negocios`.
+2. Renombra la pestaña a `Altas`.
 
 ### 2. Pega el script
 En la hoja: **Extensiones → Apps Script**. Borra lo que haya y pega:
@@ -94,19 +95,22 @@ En la hoja: **Extensiones → Apps Script**. Borra lo que haya y pega:
 ```javascript
 function doPost(e){
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName('Negocios') || ss.insertSheet('Negocios');
+  var sheet = ss.getSheetByName('Altas') || ss.insertSheet('Altas');
   if (sheet.getLastRow() === 0){
-    sheet.appendRow(['Fecha','Nombre','Giro','Colonia','Dirección','Teléfono','Horario',
-      'Descripción','Foto','Dueño','Contacto','Afinidad','Tamaño','Moviliza','Temas',
-      'Seguimiento','Capturó','Consentimiento']);
+    // Columnas públicas primero (las que lee la gaceta), luego el CRM privado.
+    sheet.appendRow(['fecha','nombre','categoria','colonia','direccion','telefono','horario',
+      'descripcion','foto','activo','prioridad','fuente',
+      'dueno','contacto','afinidad','tamano','moviliza','temas','seguimiento','capturo','consentimiento']);
   }
   var d = JSON.parse(e.postData.contents);
   sheet.appendRow([d.fecha, d.nombre, d.giro, d.colonia, d.direccion, d.telefono, d.horario,
-    d.descripcion, d.fotoUrl, d.dueno, d.contacto, d.afinidad, d.tamano, d.moviliza, d.temas,
-    d.seguimiento, d.capturadoPor, d.consentimiento]);
+    d.descripcion, d.fotoUrl, '', '', '',   // activo (vacío = PENDIENTE), prioridad, fuente
+    d.dueno, d.contacto, d.afinidad, d.tamano, d.moviliza, d.temas, d.seguimiento, d.capturadoPor, d.consentimiento]);
   return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
 }
 ```
+
+> Cada alta entra con `activo` **vacío** (pendiente). Aparece en la gaceta hasta que tú escribas `x`.
 
 ### 3. Publícalo como Web App
 1. **Implementar → Nueva implementación** → Tipo: **Aplicación web**.
