@@ -90,8 +90,10 @@
       </div>
       <label>Descripción corta</label>
       <textarea name="descripcion" placeholder="¿Qué lo hace especial? Una o dos líneas."></textarea>
-      <label>Foto (liga, opcional)</label>
-      <input name="fotoUrl" placeholder="Pega una liga de foto (después la subimos directo)">
+      <label>Foto del negocio (opcional)</label>
+      <input type="file" name="fotoFile" accept="image/*">
+      <div class="hint" style="margin:6px 0 0">Súbela desde tu cel o computadora. O, si prefieres, pega una liga abajo.</div>
+      <input name="fotoUrl" placeholder="https://…/foto.jpg (opcional)">
     </fieldset>
 
     <fieldset class="priv" id="equipo" style="display:none">
@@ -159,12 +161,41 @@ const CONFIG = { endpoint: "https://script.google.com/macros/s/AKfycbzIi__zyM_9A
 const f=document.getElementById('f');
 if(CONFIG.endpoint) document.getElementById('modebar').style.display='none';
 
+// Achica la foto en el navegador (para que pese poco) y la regresa en base64.
+function leerFotoRedimensionada(file, maxLado){
+  return new Promise((resolve, reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        let w=img.width, h=img.height; const m=Math.max(w,h);
+        if(m>maxLado){ const r=maxLado/m; w=Math.round(w*r); h=Math.round(h*r); }
+        const c=document.createElement('canvas'); c.width=w; c.height=h;
+        c.getContext('2d').drawImage(img,0,0,w,h);
+        const dataUrl=c.toDataURL('image/jpeg',0.82);
+        resolve({ base64:dataUrl.split(',')[1], mime:'image/jpeg', name:((file.name||'foto').replace(/\.[^.]+$/,''))+'.jpg' });
+      };
+      img.onerror=reject; img.src=reader.result;
+    };
+    reader.onerror=reject; reader.readAsDataURL(file);
+  });
+}
+
 f.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const btn=document.getElementById('submit'); btn.disabled=true; btn.textContent='Guardando…';
   const data=Object.fromEntries(new FormData(f).entries());
+  delete data.fotoFile;
   data.consentimiento = f.consentimiento.checked ? 'sí' : 'no';
   data.fecha = new Date().toISOString();
+  // Si subió una foto, la achicamos y la mandamos en base64 (el Apps Script la guarda en Drive).
+  const _fi=f.querySelector('input[name="fotoFile"]');
+  const _file=_fi && _fi.files && _fi.files[0];
+  if(_file){
+    btn.textContent='Subiendo foto…';
+    try{ const ft=await leerFotoRedimensionada(_file,1200); if(ft){ data.fotoBase64=ft.base64; data.fotoMime=ft.mime; data.fotoNombre=ft.name; } }catch(_){}
+    btn.textContent='Guardando…';
+  }
 
   try{
     if(CONFIG.endpoint){

@@ -104,12 +104,23 @@ function doPost(e){
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var d = JSON.parse(e.postData.contents);
 
-  // 1) Fila PÚBLICA (pendiente: activo vacío) en la pestaña que lee la gaceta (la primera).
-  var pub = ss.getSheets()[0];
-  if (pub.getLastRow() === 0){
-    pub.appendRow(['nombre','categoria','colonia','descripcion','direccion','telefono','horario','portada','acopio','activo','prioridad','fuente']);
+  // --- Foto: si viene archivo, se guarda en Drive (Mi unidad) y se usa su liga ---
+  var imagenUrl = d.fotoUrl || '';
+  if (d.fotoBase64) {
+    try {
+      var bytes = Utilities.base64Decode(d.fotoBase64);
+      var blob = Utilities.newBlob(bytes, d.fotoMime || 'image/jpeg', d.fotoNombre || ((d.nombre||'foto')+'.jpg'));
+      var archivo = carpetaFotos().createFile(blob);
+      archivo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      imagenUrl = 'https://drive.google.com/thumbnail?id=' + archivo.getId() + '&sz=w1000';
+    } catch (err) { /* si falla, queda la liga (o vacío) */ }
   }
-  pub.appendRow([d.nombre, d.giro, d.colonia, d.descripcion, d.direccion, d.telefono, d.horario, '', '', '', '', '']);
+
+  // 1) Fila PÚBLICA (pendiente) en la pestaña del directorio — escribe por nombre de columna.
+  appendByHeader(ss.getSheets()[0], {
+    nombre:d.nombre, categoria:d.giro, colonia:d.colonia, descripcion:d.descripcion,
+    direccion:d.direccion, telefono:d.telefono, horario:d.horario, imagen:imagenUrl
+  });
 
   // 2) Fila PRIVADA (CRM) en una pestaña aparte que NO se publica.
   var crm = ss.getSheetByName('Altas (CRM)') || ss.insertSheet('Altas (CRM)');
@@ -119,6 +130,27 @@ function doPost(e){
   crm.appendRow([d.fecha, d.nombre, d.dueno, d.contacto, d.afinidad, d.tamano, d.moviliza, d.temas, d.seguimiento, d.capturadoPor, d.consentimiento]);
 
   return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Carpeta de fotos en tu Mi unidad. Crea "Gaceta - Fotos" si no existe.
+function carpetaFotos(){
+  var FOLDER_ID = '';  // (opcional) pega el ID de una carpeta tuya; vacío = usa/crea "Gaceta - Fotos"
+  if (FOLDER_ID) return DriveApp.getFolderById(FOLDER_ID);
+  var it = DriveApp.getFoldersByName('Gaceta - Fotos');
+  return it.hasNext() ? it.next() : DriveApp.createFolder('Gaceta - Fotos');
+}
+
+// Agrega una fila escribiendo cada dato en su columna por nombre de encabezado.
+function appendByHeader(sheet, obj){
+  var lastCol = sheet.getLastColumn();
+  var headers = sheet.getRange(1,1,1,lastCol).getValues()[0].map(function(h){ return String(h).trim().toLowerCase(); });
+  var row = [];
+  for (var i=0;i<lastCol;i++) row.push('');
+  Object.keys(obj).forEach(function(k){
+    var idx = headers.indexOf(k);
+    if (idx >= 0) row[idx] = obj[k];
+  });
+  sheet.appendRow(row);
 }
 ```
 
