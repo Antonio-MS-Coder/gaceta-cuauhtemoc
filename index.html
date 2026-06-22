@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- v7-causa -->
+<!-- v8-datos-reales -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,7 +123,7 @@
 </head>
 <body>
 
-<div class="draft">⚠ Boceto / muestra — fotos y datos de ejemplo · estilo de calle aplicado</div>
+<div class="draft">Negocios reales de la Alcaldía Cuauhtémoc · ilustraciones de muestra · verifica horarios antes de visitar</div>
 
 <div class="topbar"><div class="wrap">
   <span>Alcaldía Cuauhtémoc · CDMX</span>
@@ -175,7 +175,7 @@
 <footer><div class="wrap">
   <div>
     <h5>La Gaceta de Cuauhtémoc</h5>
-    <p style="margin:0;color:#9a9384;font-size:14px;font-family:'Spectral',serif;">Directorio digital del comercio local de la Alcaldía Cuauhtémoc, CDMX. Hecho por y para el barrio.</p>
+    <p style="margin:0;color:#9a9384;font-size:14px;font-family:'Spectral',serif;">Directorio digital del comercio local de la Alcaldía Cuauhtémoc, CDMX. Hecho por y para el barrio. 545,884 habitantes · 33 colonias · 39 mercados públicos (INEGI 2020 · Alcaldía Cuauhtémoc).</p>
     <!-- Firma discreta del movimiento -->
     <p style="margin:14px 0 0;"><span class="sig">Por Tu Barrio, Por Ti</span><br><span class="small" style="text-transform:none;">Una iniciativa vecino a vecino · Peralvillo, Cuauhtémoc</span></p>
   </div>
@@ -194,38 +194,93 @@ const CATMETA = {
   "Cultura y Arte":{c:"#7a3fb0", imgs:["img/cultura.png","img/cultura-2.png","img/cultura-3.png"]},
 };
 
+// Negocios REALES de la Alcaldía Cuauhtémoc, verificados con fuente (campo `src`, no se muestra).
+// Tel/horario quedan vacíos cuando no se pudieron confirmar en una fuente — verificar antes de imprimir.
 const NEGOCIOS = [
-  {n:"Fonda Doña Chole", c:"Restaurantes y Antojitos", col:"Doctores", d:"Comida corrida casera desde 1994. Famosa por su mole de los jueves.", dir:"Dr. Lavista 88", tel:"55 5512 0000", h:"L-S 8:00–18:00", fav:true},
-  {n:"Tacos El Güero", c:"Restaurantes y Antojitos", col:"Obrera", d:"Suadero y campechanos al carbón. Cola de fieles cada noche.", dir:"Av. Chapultepec 210", tel:"55 5511 1111", h:"Mar-Dom 19:00–02:00"},
-  {n:"Cocina La Roma", c:"Restaurantes y Antojitos", col:"Roma Sur", d:"Menú del día a buen precio, opción vegetariana diaria.", dir:"Tonalá 145", tel:"55 5564 2222", h:"L-V 9:00–17:00"},
-  {n:"Mariscos El Faro", c:"Restaurantes y Antojitos", col:"Buenavista", d:"Tostadas de pulpo y caldo de camarón estilo Sinaloa.", dir:"Aldama 30", tel:"55 5547 3333", h:"L-D 10:00–18:00"},
+  // ── Restaurantes y Antojitos ─────────────────────────────
+  {n:"El Califa de León", c:"Restaurantes y Antojitos", col:"San Rafael", d:"La humilde taquería que ganó la primera Estrella Michelin del mundo para un puesto de tacos; aquí nació el mítico taco gaonera.", dir:"Av. Ribera de San Cosme 56", tel:"", h:"", fav:true, src:"https://guide.michelin.com/us/en/ciudad-de-mexico/cuauhtemoc_1995126/restaurant/taqueria-el-califa-de-leon"},
+  {n:"La Ópera", c:"Restaurantes y Antojitos", col:"Centro", d:"Cantina legendaria de 1876 con techos dorados y el famoso balazo de Pancho Villa en el techo; ideal para botana y tequila.", dir:"5 de Mayo 10", tel:"", h:"", src:"https://foodandpleasure.com/cantinas-centro-historico-cdmx/"},
+  {n:"El Huequito", c:"Restaurantes y Antojitos", col:"Centro", d:"Cuna del taco al pastor desde 1959, donde un huequito de un metro cuadrado se volvió leyenda taquera de la ciudad.", dir:"Bolívar 58", tel:"", h:"", src:"https://www.elhuequito.mx/quienes-somos"},
+  {n:"Salón Corona", c:"Restaurantes y Antojitos", col:"Centro", d:"Cervecería y cantina desde 1928, famosa por sus tacos de guisado, sus tortas y la cerveza de barril del Centro.", dir:"Bolívar 24", tel:"", h:"", src:"https://www.saloncorona.com.mx/nuestra-historia/"},
+  {n:"El Cardenal", c:"Restaurantes y Antojitos", col:"Centro", d:"Cátedra del desayuno capitalino desde 1969: nata fresca, pan de su propia panadería y chocolate batido al momento.", dir:"Palma 23", tel:"", h:"", src:"https://www.restauranteelcardenal.com/"},
+  {n:"Salón Tenampa", c:"Restaurantes y Antojitos", col:"Centro", d:"La catedral del mariachi en Plaza Garibaldi desde 1925, para un tequila y cantar con la mejor música mexicana.", dir:"Plaza Garibaldi 12", tel:"", h:"L-J 13:00–00:00 · V-S 13:00–02:00 · D 13:00–23:00", src:"https://tenampa.com.mx/"},
+  {n:"Mercado de San Camilito", c:"Restaurantes y Antojitos", col:"Centro", d:"Pasillo de fondas en Plaza Garibaldi abierto 24 horas, famoso por su pozole y birria estilo Jalisco desde 1957.", dir:"San Camilito 25, Plaza Garibaldi", tel:"", h:"24 horas", src:"https://mexicocity.cdmx.gob.mx/venues/san-camilito-market/"},
+  {n:"Taquería Orinoco", c:"Restaurantes y Antojitos", col:"Tabacalera", d:"Taquería norteña querida por sus tacos al pastor y de chicharrón, perfecta para la antojadera de la madrugada.", dir:"Plaza de la República 117", tel:"", h:"", src:"https://www.taqueriaorinoco.com/"},
+  {n:"Contramar", c:"Restaurantes y Antojitos", col:"Roma Norte", d:"Icono de la cocina del mar en la Roma desde 1998, célebre por su pescado a la talla y sus tostadas de atún.", dir:"Durango 200", tel:"", h:"", src:"https://en.wikipedia.org/wiki/Contramar"},
+  {n:"Taquería El Greco", c:"Restaurantes y Antojitos", col:"Condesa", d:"Tradición taquera de más de 40 años en el corazón de la Condesa, famosa por sus tacos árabes y sus gringas.", dir:"Av. Michoacán 54", tel:"", h:"", src:"https://www.bridgeandtunnelclub.com/bigmap/outoftown/mexico/cdmx/condesa/elgreco/index.htm"},
+  {n:"Tacos Hola El Güero", c:"Restaurantes y Antojitos", col:"Hipódromo", d:"Taquería de guisados desde 1968 recomendada por la Guía Michelin, con quince guisos caseros servidos con cariño de barrio.", dir:"Ámsterdam 135", tel:"", h:"", src:"https://patijinich.com/es/tacos-hola-el-guero/"},
+  {n:"El Califa (Condesa)", c:"Restaurantes y Antojitos", col:"Hipódromo", d:"Clásico nocturno de la Condesa, famoso por su costra de queso y sus tacos hasta altas horas de la madrugada.", dir:"Cda. Altata 22", tel:"", h:"", src:"https://www.yelp.com/biz/taquer%C3%ADa-el-califa-ciudad-de-m%C3%A9xico-2"},
+  {n:"Oaxaquita", c:"Restaurantes y Antojitos", col:"Guerrero", d:"Auténtica fonda oaxaqueña en plena Guerrero, conocida por sus enormes tlayudas y un ambiente que sabe a Oaxaca.", dir:"Degollado 75", tel:"", h:"", src:"https://godinchilango.mx/oaxaquita-autentica-comida-oaxaquena-en-la-colonia-guerrero/"},
+  {n:"Cocina Barrio Obrera", c:"Restaurantes y Antojitos", col:"Obrera", d:"Cocina mexicana de barrio en el corazón de la Obrera, con recetas de siempre: tacos, enchiladas y mole.", dir:"Simón Bolívar 376-B", tel:"", h:"", src:"https://web.didiglobal.com/mx/food/ciudad-de-mexico-cdmx/barrio-obrera/5764608905980938972/"},
+  {n:"Carnitas Los Pelayos", c:"Restaurantes y Antojitos", col:"Peralvillo", d:"Carnitas estilo Michoacán muy jugosas y doraditas al comal, un clásico de Peralvillo junto al Metrobús.", dir:"Beethoven 134, Calz. de Guadalupe", tel:"", h:"", src:"https://www.adn40.mx/tiempo-libre/los-mejores-tacos-carnitas-en-cdmx"},
+  {n:"La Delicia Hogareña", c:"Restaurantes y Antojitos", col:"Buenavista", d:"Fondita de barrio en Buenavista que sirve un reconfortante pozole rojo estilo Jalisco para el antojo del fin.", dir:"Zaragoza 24", tel:"", h:"", src:"https://www.gastrolabweb.com/donde-comer/2022/9/14/mejores-pozolerias-en-cdmx.html"},
 
-  {n:"Café de la Esquina", c:"Cafés y Panaderías", col:"Roma Norte", d:"Tueste de la casa, pan dulce de horno y wifi para trabajar.", dir:"Córdoba 77", tel:"55 5208 4444", h:"L-D 7:00–21:00"},
-  {n:"Panadería La Esperanza", c:"Cafés y Panaderías", col:"Guerrero", d:"Bolillo, concha y rosca de temporada. Horneado desde las 5 a.m.", dir:"Mosqueta 12", tel:"55 5526 5555", h:"L-D 6:00–22:00"},
-  {n:"Churrería del Centro", c:"Cafés y Panaderías", col:"Centro", d:"Churros rellenos y chocolate espeso a la antigua.", dir:"Bolívar 40", tel:"55 5518 6666", h:"L-D 8:00–23:00"},
-  {n:"Tostado Condesa", c:"Cafés y Panaderías", col:"Condesa", d:"Café de especialidad, métodos de filtrado y repostería sin azúcar.", dir:"Michoacán 56", tel:"55 5211 7777", h:"L-D 8:00–20:00"},
+  // ── Cafés y Panaderías ───────────────────────────────────
+  {n:"Churrería El Moro", c:"Cafés y Panaderías", col:"Centro", d:"Templo de los churros con chocolate caliente desde 1935, un clásico imperdible junto a la Torre Latinoamericana.", dir:"Eje Central Lázaro Cárdenas 42", tel:"", h:"", src:"https://elmoro.mx/en/historia/"},
+  {n:"Pastelería Ideal", c:"Cafés y Panaderías", col:"Centro", d:"Panadería fundada en 1927 en un antiguo convento; un clásico del Centro por su pan dulce y sus pasteles de tres pisos.", dir:"16 de Septiembre 18", tel:"", h:"", src:"https://www.tripadvisor.com/Restaurant_Review-g150800-d2325685-Reviews-Pasteleria_Ideal-Mexico_City.html"},
+  {n:"Pastelería Madrid", c:"Cafés y Panaderías", col:"Centro", d:"Pastelería de tradición española desde 1939, famosa por su pan recién horneado y su chocolate con churros.", dir:"5 de Febrero 25", tel:"55 5518 2950", h:"L-D 7:30–21:30", src:"https://www.yelp.com/biz/pasteler%C3%ADa-madrid-ciudad-de-m%C3%A9xico"},
+  {n:"Café Trucha", c:"Cafés y Panaderías", col:"Roma Norte", d:"Cafetería de especialidad frente a la Plaza Río de Janeiro, con pan horneado a diario; ideal para una mañana sin prisas.", dir:"Plaza Río de Janeiro 53, local 2", tel:"", h:"L-V 8:00–23:00 · S 9:00–23:00 · D 9:00–18:00", src:"https://www.google.com/maps/place/Cafe+Trucha"},
+  {n:"Cardinal Casa de Café", c:"Cafés y Panaderías", col:"Roma Norte", d:"Casa de café de especialidad con ambiente cálido y de barrio, donde cada taza se prepara con dedicación.", dir:"Córdoba 132", tel:"", h:"L-S 7:30–20:30 · D 9:00–20:00", src:"https://tamancondesa.mx/cardinal-casa-de-cafe/"},
+  {n:"BUNA La Tostadora", c:"Cafés y Panaderías", col:"Doctores", d:"El corazón tostador de BUNA, escondido en una antigua fábrica de la Doctores, con café 100% mexicano recién tostado.", dir:"Dr. Lucio 181", tel:"", h:"L-S 8:00–19:00", src:"https://buna.mx/pages/cafeterias"},
+  {n:"Camino a Comala", c:"Cafés y Panaderías", col:"Roma Sur", d:"Cafetería de especialidad muy querida en la Roma Sur, con ambiente relajado para trabajar o platicar con calma.", dir:"Av. Baja California 145", tel:"", h:"", src:"https://www.corner.inc/place/570309"},
+  {n:"The Coffee", c:"Cafés y Panaderías", col:"Roma Sur", d:"Cafetería de inspiración japonesa, minimalista y luminosa, perfecta para un espresso o un filtrado con calma.", dir:"Manzanillo 52", tel:"", h:"", src:"https://www.dondeir.com/restaurantes/the-coffee-asi-es-el-cafe-con-inspiracion-japonesa-en-la-roma-sur/2024/12/"},
+  {n:"BUNA Condesa", c:"Cafés y Panaderías", col:"Condesa", d:"La sucursal en la Condesa de BUNA, con la misma apuesta por el café mexicano sostenible y un espacio acogedor.", dir:"Ámsterdam 285", tel:"", h:"L-D 8:00–21:00", src:"https://buna.mx/pages/cafeterias"},
+  {n:"Café Moka", c:"Cafés y Panaderías", col:"Santa María la Ribera", d:"Diminuto café familiar con casi un siglo de vida; su tostador de cobre perfuma de café toda la calle.", dir:"Santa María la Ribera 6", tel:"55 5535 8452", h:"L-V 10:00–14:00 y 16:00–20:00 · S 10:00–16:00", src:"https://heraldodemexico.com.mx/cultura/2024/9/20/cafe-moka-la-cafeteria-con-casi-un-siglo-de-vida-639107.html"},
+  {n:"Ollin Pan y Café", c:"Cafés y Panaderías", col:"San Rafael", d:"Panadería y café de barrio en la San Rafael, donde el pan artesanal y el café de la casa se acompañan a la perfección.", dir:"Gabino Barreda 117", tel:"", h:"", src:"https://cafeconpan.mx/ollin-pan-y-cafe-en-la-san-rafael-cdmx/"},
+  {n:"220 Panadería", c:"Cafés y Panaderías", col:"San Rafael", d:"Un pequeño paraíso de pan dulce y café con masa madre, con vitrinas que invitan a probar de todo.", dir:"Manuel María Contreras 45", tel:"", h:"Ma-D 8:00–21:00", src:"https://www.timeoutmexico.mx/ciudad-de-mexico/restaurantes/220-panaderia"},
 
-  {n:"Abarrotes Don Memo", c:"Tiendas y Abarrotes", col:"Santa María la Ribera", d:"La tiendita de siempre: del huevo al hielo, fían a los conocidos.", dir:"Sabino 33", tel:"55 5547 8888", h:"L-D 7:00–22:00"},
-  {n:"Mercería La Aguja de Oro", c:"Tiendas y Abarrotes", col:"Centro", d:"Hilos, botones, telas por metro y todo para coser.", dir:"Correo Mayor 110", tel:"55 5522 9999", h:"L-S 9:00–19:00"},
-  {n:"Ferretería El Tornillo Feliz", c:"Tiendas y Abarrotes", col:"San Rafael", d:"Plomería, eléctrico y herramienta. Asesoría honesta.", dir:"Serapio Rendón 14", tel:"55 5535 1212", h:"L-S 8:30–19:30"},
-  {n:"Florería Primavera", c:"Tiendas y Abarrotes", col:"Juárez", d:"Arreglos, coronas y plantas de interior. Envíos en la zona.", dir:"Berlín 25", tel:"55 5525 1313", h:"L-D 8:00–20:00"},
+  // ── Tiendas y Abarrotes ──────────────────────────────────
+  {n:"Mercado de San Juan", c:"Tiendas y Abarrotes", col:"Centro", d:"El legendario mercado gourmet del Centro: quesos, carnes finas e ingredientes exóticos que no hay en otro lado.", dir:"Ernesto Pugibet 21", tel:"", h:"", src:"https://es.wikipedia.org/wiki/Mercado_de_San_Juan_(Ciudad_de_M%C3%A9xico)"},
+  {n:"Mercado Abelardo L. Rodríguez", c:"Tiendas y Abarrotes", col:"Centro", d:"Mercado de 1934 decorado con murales de alumnos de Diego Rivera; aquí se hace el mandado entre arte de barrio.", dir:"República de Venezuela 72", tel:"", h:"", src:"https://es.wikipedia.org/wiki/Mercado_Abelardo_L._Rodr%C3%ADguez"},
+  {n:"Mercado de La Lagunilla", c:"Tiendas y Abarrotes", col:"Centro", d:"El clásico mercado del rumbo, famoso por su ropa, telas y el bullicio del fin de semana en pleno Centro.", dir:"República del Ecuador 59", tel:"", h:"", src:"https://en.wikipedia.org/wiki/La_Lagunilla_Market"},
+  {n:"Mercado Martínez de la Torre", c:"Tiendas y Abarrotes", col:"Guerrero", d:"El gran mercado de la Guerrero, con cientos de locales donde el barrio entero surte su despensa.", dir:"Eje 1 Norte s/n", tel:"", h:"", src:"https://mexicocity.cdmx.gob.mx/venues/mercado-martinez-de-la-torre/"},
+  {n:"Mercado de San Cosme", c:"Tiendas y Abarrotes", col:"San Rafael", d:"Corazón comercial de la San Rafael, conocido por sus flores, frutas y verduras frescas y su sabrosa zona de comida.", dir:"Ribera de San Cosme esq. Gabino Barreda", tel:"", h:"", src:"https://www.planetamexico.com.mx/mercado-san-cosme-F110BC20F1DD643"},
+  {n:"Dulcería de Celaya", c:"Tiendas y Abarrotes", col:"Centro", d:"La dulcería más antigua de la ciudad (1874): cocadas, jamoncillos y dulces tradicionales hechos a mano.", dir:"5 de Mayo 39", tel:"", h:"", src:"https://www.elfinanciero.com.mx/food-and-drink/2022/12/03/dulces-celaya-historia-de-la-dulceria-mas-antigua-cdmx/"},
+  {n:"Mercería del Refugio", c:"Tiendas y Abarrotes", col:"Centro", d:"Una de las mercerías más longevas de la ciudad, con tres pisos de hilos, botones y todo para coser y tejer.", dir:"Venustiano Carranza 109", tel:"", h:"", src:"https://www.excelsior.com.mx/comunidad/merceria-del-refugio-el-establecimiento-mas-antiguo-del-centro-historico/1425089"},
+  {n:"Florería Cleo", c:"Tiendas y Abarrotes", col:"Roma Norte", d:"Florería de tradición en la Roma desde 1939, donde arman ramos y arreglos con flores frescas para toda ocasión.", dir:"Colima 100", tel:"56 2080 2791", h:"L-V 9:00–18:00 · S 10:00–14:00", src:"https://floreriacleo.com/"},
+  {n:"Ferretería La Santa María", c:"Tiendas y Abarrotes", col:"Santa María la Ribera", d:"Ferretería y tlapalería de barrio donde el vecino encuentra clavos, herramienta y todo para el arreglo de casa.", dir:"Santa María la Ribera 22", tel:"", h:"", src:"https://en.guiamexican.com/directory/1011451/ferreteria"},
 
-  {n:"Lavandería Burbujas", c:"Servicios", col:"Roma Sur", d:"Autoservicio y encargo por kilo. Entrega el mismo día.", dir:"Zacatecas 99", tel:"55 5564 1414", h:"L-S 8:00–21:00"},
-  {n:"Cerrajería El Candado", c:"Servicios", col:"Tabacalera", d:"Aperturas, copias y chapas de seguridad a domicilio. 24 horas.", dir:"Ramos Arizpe 8", tel:"55 5566 1515", h:"24 horas"},
-  {n:"Taller El Pistón", c:"Servicios", col:"Obrera", d:"Afinación, frenos y diagnóstico. Presupuesto sin compromiso.", dir:"Bolívar 320", tel:"55 5519 1616", h:"L-S 9:00–18:00"},
-  {n:"Imprenta Gutenberg", c:"Servicios", col:"Centro", d:"Tarjetas, lonas y volantes. Trabajo urgente en 2 horas.", dir:"Donceles 55", tel:"55 5510 1717", h:"L-V 9:00–19:00"},
+  // ── Servicios ────────────────────────────────────────────
+  {n:"Lavandería Más por Menos", c:"Servicios", col:"Obrera", d:"Lavandería de autoservicio del barrio, con WiFi y espacio pet-friendly mientras esperas tu ropa limpia.", dir:"Roa Bárcenas 4", tel:"55 5134 3127", h:"L,Ma,J,V,S 7:30–20:30 · D 8:00–19:00", src:"https://maspormenoslavanderia.mx/"},
+  {n:"Centro de Servicio Automotriz", c:"Servicios", col:"Doctores", d:"Taller mecánico de confianza: afinación, frenos, clutch, suspensión y diagnóstico con escáner cerca del Metro Doctores.", dir:"Dr. Barragán 112, acc. 6", tel:"55 6841 1030", h:"L-V 9:00–18:00 · S 16:00–19:00", src:"https://centroservicioautomotriz.com/"},
+  {n:"Servi Impresos", c:"Servicios", col:"Doctores", d:"Imprenta del barrio para tarjetas, volantes, lonas y papelería, con buen servicio y precios accesibles.", dir:"Dr. Ildefonso Velasco 42", tel:"55 5525 1477", h:"L-V 9:00–19:00", src:"https://imprentasmexico.com.mx/servi-impresos-s-a-de-c-v/"},
+  {n:"Cerrajería Quintana", c:"Servicios", col:"Condesa", d:"Cerrajería de barrio que hace llaves, cambia chapas y resuelve pendientes de plomería y electricidad.", dir:"Fernando Montes de Oca 123", tel:"55 5553 5380", h:"", src:"https://guiamexico.com.mx/empresas/cerrajeria-quintana.html"},
+  {n:"Cerrajería Técnica", c:"Servicios", col:"Roma Norte", d:"Cerrajería experta en llaves con chip, controles de auto y sistemas de seguridad para casa y negocio.", dir:"Puebla 354", tel:"55 5264 5771", h:"", src:"https://www.cerrajeria-tecnica.com.mx/contacto-ubicaci%C3%B3n/"},
+  {n:"Maestro Zapatero", c:"Servicios", col:"Roma Sur", d:"Taller de reparación y restauración de calzado, muy querido para devolverle la vida a botas y zapatos finos.", dir:"Bajío 96, local 1", tel:"55 7693 0163", h:"", src:"https://maestrozapatero.mx/"},
+  {n:"Imprenta América", c:"Servicios", col:"Obrera", d:"Imprenta de toda la vida en la Obrera para impresión y trabajos de papelería con atención de barrio.", dir:"José Peón Contreras 76, int. 5", tel:"", h:"L-V 10:00–18:00 · S 10:00–14:30", src:"https://directoriodeimprentas.com.mx/cdmx/cuauhtemoc/imprenta-america-cuauhtemoc/"},
 
-  {n:"Farmacia del Pueblo", c:"Salud y Bienestar", col:"Doctores", d:"Medicamento genérico y de patente, consultorio anexo.", dir:"Dr. Vértiz 120", tel:"55 5578 1818", h:"L-D 8:00–23:00"},
-  {n:"Dental Sonríe", c:"Salud y Bienestar", col:"Roma Norte", d:"Limpieza, ortodoncia y blanqueamiento. Primera cita sin costo.", dir:"Orizaba 60", tel:"55 5207 1919", h:"L-S 10:00–19:00"},
-  {n:"Óptica Visión Clara", c:"Salud y Bienestar", col:"Juárez", d:"Examen de la vista gratis al comprar tus armazones.", dir:"Liverpool 8", tel:"55 5525 2020", h:"L-S 10:00–20:00"},
+  // ── Salud y Bienestar ────────────────────────────────────
+  {n:"Hospital Veterinario Rampu", c:"Salud y Bienestar", col:"Roma Norte", d:"Hospital veterinario de la Roma con servicio las 24 horas, un clásico del barrio para cuidar a las mascotas.", dir:"Av. Cuauhtémoc 149", tel:"55 5761 3333", h:"24 horas", src:"https://www.fresha.com/lvp/veterinary-hospital-rampu-avenida-cuauhtemoc-ciudad-de-mexico-gn5Q9W"},
+  {n:"VETME Condesa", c:"Salud y Bienestar", col:"Condesa", d:"Hospital veterinario abierto las 24 horas, con urgencias, cirugía y planes de salud para tus compañeros peludos.", dir:"Pachuca 7", tel:"55 5211 7938", h:"24 horas", src:"https://vetme.com.mx/hospital-veterinario-vetme/"},
+  {n:"Dentistas en la Roma", c:"Salud y Bienestar", col:"Roma Norte", d:"Consultorio dental con trato cálido y odontología integral para toda la familia del barrio.", dir:"Durango 209", tel:"55 4560 3492", h:"L-V 9:00–19:00 · S 10:00–15:00", src:"https://www.dentistasenlaroma.com.mx/"},
+  {n:"Punto Clínico Especialistas", c:"Salud y Bienestar", col:"Juárez", d:"Clínica de especialidades médicas cerca de la Zona Rosa, con consulta, laboratorio y farmacia.", dir:"Liverpool 195", tel:"55 5527 5527", h:"L-V 7:00–20:00 · S 7:00–14:00", src:"https://www.puntoclinico.com.mx/"},
+  {n:"Ponte Pila Studio", c:"Salud y Bienestar", col:"Roma Norte", d:"Estudio boutique de Pilates Reformer y Barré en el corazón de la Roma, con clases cálidas e incluyentes.", dir:"Colima 220, 1er piso", tel:"55 5466 9483", h:"L-V 6:00–21:00 · S 7:00–19:00 · D 8:00–17:00", src:"https://www.pontepila.com/sobre-ponte-pila"},
 
-  {n:"Estética Glamour", c:"Belleza y Estética", col:"Guerrero", d:"Corte, tinte y peinado de evento. 20 años en la colonia.", dir:"Galeana 18", tel:"55 5526 2121", h:"Mar-Dom 10:00–20:00"},
-  {n:"Barbería El Navajazo", c:"Belleza y Estética", col:"Condesa", d:"Corte clásico, afeitado a toalla caliente y ambiente de barrio.", dir:"Tamaulipas 90", tel:"55 5211 2222", h:"L-S 11:00–21:00"},
-  {n:"Uñas & Spa Bella", c:"Belleza y Estética", col:"Roma Sur", d:"Manicure, pedicure y faciales. Promoción de martes.", dir:"Coahuila 70", tel:"55 5564 2323", h:"L-S 10:00–20:00"},
+  // ── Belleza y Estética ───────────────────────────────────
+  {n:"The Barber's Spa (Roma)", c:"Belleza y Estética", col:"Roma Norte", d:"Barbería-spa donde el corte y el arreglo de barba se viven como un ritual relajado.", dir:"Colima 220, loc. 202", tel:"55 9688 6590", h:"L-V 10:00–20:00 · S 10:00–19:00 · D 10:00–17:00", src:"https://www.thebarbersspa.mx/tbsromanorte"},
+  {n:"Oh! Culto Barber Studio", c:"Belleza y Estética", col:"Roma Norte", d:"Barbería de culto sobre Oaxaca, especialista en cabello largo de hombre y atención personalizada con cita.", dir:"Av. Oaxaca 86", tel:"", h:"L-V 10:00–20:00 · S 10:00–18:00", src:"https://ohculto.setmore.com/"},
+  {n:"The Gentleman's Barbershop", c:"Belleza y Estética", col:"Hipódromo", d:"Barbería referente de la zona Condesa-Hipódromo, con cortes clásicos y experiencia premium de caballeros.", dir:"Av. México 184", tel:"56 1008 0724", h:"L-V 11:00–21:00 · S 10:00–19:00 · D 11:00–17:00", src:"https://www.fresha.com/lvp/the-gentlemans-barbershop-avenida-mexico-ciudad-de-mexico-Wq7rwo"},
+  {n:"Bardo's Barber", c:"Belleza y Estética", col:"Condesa", d:"Barbería con servicios de spa en la Condesa: corte, barba, faciales y manicure en un mismo lugar.", dir:"Nuevo León 144", tel:"55 9559 5470", h:"L-V 11:00–21:00 · S-D 10:00–19:00", src:"https://www.timeoutmexico.mx/ciudad-de-mexico/salud-y-belleza/bardos-barber-condesa"},
+  {n:"Believe Hair Salon", c:"Belleza y Estética", col:"Hipódromo", d:"Salón de belleza especializado en color, cuidado del cabello, maquillaje y uñas.", dir:"Alfonso Reyes 216, P.A.", tel:"55 2068 8620", h:"L-S 10:00–20:00 · D 10:00–17:00", src:"https://www.believehairsalon.com/"},
+  {n:"Scalper Studio (Juárez)", c:"Belleza y Estética", col:"Juárez", d:"Sucursal en la Juárez de esta barbería premium, ideal para un buen corte y arreglo de barba cerca de Reforma.", dir:"Berlín 38", tel:"55 5204 6824", h:"", src:"https://www.scalperstudio.com/"},
+  {n:"Beauty Nails", c:"Belleza y Estética", col:"Centro", d:"Estudio de uñas en el Centro Histórico, abierto todos los días para manicure y pedicure a la mano del barrio.", dir:"5 de Febrero 40", tel:"55 7196 6549", h:"L-D 9:00–21:00", src:"https://www.fresha.com/lvp/beauty-nails-calle-5-de-febrero-ciudad-de-mexico-KzPaXx"},
 
-  {n:"Librería El Hojaldre", c:"Cultura y Arte", col:"Centro", d:"Libros usados, primeras ediciones y rincón de poesía.", dir:"Donceles 80", tel:"55 5512 2424", h:"L-S 10:00–19:00"},
-  {n:"Galería Arte Acá", c:"Cultura y Arte", col:"Morelos", d:"Exposición de artistas del barrio y clases de grabado.", dir:"Av. del Trabajo 15", tel:"55 5526 2525", h:"Mié-Dom 11:00–18:00"},
-  {n:"Danza Folklórica Raíces", c:"Cultura y Arte", col:"Santa María la Ribera", d:"Clases para niños y adultos. Presentaciones en el kiosco morisco.", dir:"Dr. Atl 44", tel:"55 5547 2626", h:"L-V 16:00–20:00"},
+  // ── Cultura y Arte ───────────────────────────────────────
+  {n:"Museo Universitario del Chopo", c:"Cultura y Arte", col:"Santa María la Ribera", d:"Emblema de fierro y cristal art nouveau que late con arte contemporáneo, música y cine en Santa María la Ribera.", dir:"Dr. Enrique González Martínez 10", tel:"55 5546 3471", h:"Mié-D 11:00–18:00", src:"https://www.chopo.unam.mx/"},
+  {n:"Museo de Geología de la UNAM", c:"Cultura y Arte", col:"Santa María la Ribera", d:"Joya porfiriana frente a la Alameda del barrio, con meteoritos, fósiles y vitrinas de madera que enamoran.", dir:"Jaime Torres Bodet 176", tel:"55 5547 3948", h:"Ma-D 10:00–17:00", src:"https://www.geologia.unam.mx/igl/museo/"},
+  {n:"Teatro San Rafael", c:"Cultura y Arte", col:"San Rafael", d:"Un clásico de la cartelera teatral de la ciudad, corazón escénico del barrio de San Rafael desde 1977.", dir:"Virginia Fábregas 40", tel:"", h:"", src:"https://mexicocity.cdmx.gob.mx/venues/teatro-san-rafael/"},
+  {n:"Galería OMR", c:"Cultura y Arte", col:"Roma Norte", d:"Galería pionera de arte contemporáneo en una casona de inicios del siglo XX, referente del circuito de la Roma.", dir:"Córdoba 100", tel:"55 5207 1080", h:"Ma-V 10:00–19:00 · S 11:00–16:00", src:"https://www.omr.art/"},
+  {n:"Casa Bosques", c:"Cultura y Arte", col:"Roma Norte", d:"Librería independiente de culto especializada en arte, fotografía, diseño y moda, escondida en una casona.", dir:"Córdoba 25, int. 3", tel:"55 9627 9987", h:"", src:"https://casabosques.net/"},
+  {n:"Casa del Poeta Ramón López Velarde", c:"Cultura y Arte", col:"Roma Norte", d:"Refugio literario en la antigua casa del poeta, con biblioteca, galería y lecturas que mantienen viva la poesía.", dir:"Álvaro Obregón 73", tel:"55 5533 5456", h:"Ma-V 10:00–18:00 · S 10:00–15:00", src:"https://www.mexicoescultura.com/recinto/57323/casa-del-poeta-ramon-lopez-velarde.html"},
+  {n:"Casa Lamm", c:"Cultura y Arte", col:"Roma Norte", d:"El edificio más bello de la Roma alberga galería, librería, biblioteca y escuela de arte y letras.", dir:"Álvaro Obregón 99", tel:"55 5525 1332", h:"", src:"https://mexicocity.cdmx.gob.mx/venues/casa-lamm/"},
+  {n:"Foro Shakespeare", c:"Cultura y Arte", col:"Condesa", d:"Espacio escénico independiente de la Condesa con teatro, stand up, cine y café-bar, con espíritu social.", dir:"Zamora 7", tel:"55 5256 0014", h:"", src:"https://foroshakespeare.com/"},
+  {n:"Museo Nacional de San Carlos", c:"Cultura y Arte", col:"Tabacalera", d:"Palacio neoclásico que resguarda la mejor colección de arte europeo del país, oasis sobre Puente de Alvarado.", dir:"Puente de Alvarado 50", tel:"55 8647 5800", h:"Ma-D 10:00–18:00", src:"https://mnsancarlos.inba.gob.mx/"},
+  {n:"Museo Mural Diego Rivera", c:"Cultura y Arte", col:"Centro", d:"Casa del mural 'Sueño de una tarde dominical en la Alameda Central', a un paso del corazón del Centro.", dir:"Balderas y Colón s/n", tel:"55 1555 1900", h:"Ma-D 10:00–18:00", src:"https://museomuraldiegorivera.inba.gob.mx/"},
+  {n:"Museo del Estanquillo", c:"Cultura y Arte", col:"Centro", d:"Las colecciones de Carlos Monsiváis celebran la cultura popular mexicana en una esquina de la calle Madero.", dir:"Isabel la Católica 26", tel:"", h:"Mié-L 10:00–18:00", src:"https://www.museodelestanquillo.cdmx.gob.mx/"},
+  {n:"Centro Cultural de España", c:"Cultura y Arte", col:"Centro", d:"Detrás de la Catedral, ofrece exposiciones, conciertos y talleres gratuitos en dos edificios históricos.", dir:"Guatemala 18", tel:"55 5521 1925", h:"Ma-S 11:00–21:00 · D 10:00–16:00", src:"https://mexicocity.cdmx.gob.mx/venues/espana-cultural-center-forum/"},
+  {n:"Centro Cultural Casa Talavera", c:"Cultura y Arte", col:"Centro", d:"Casona patrimonial del barrio de la Merced, hoy centro cultural de la UACM con talleres y vida comunitaria.", dir:"Talavera 20", tel:"", h:"L-V 10:00–17:00", src:"https://uacm.edu.mx/casatalavera/"},
+  {n:"Museo Casa Rivas Mercado", c:"Cultura y Arte", col:"Guerrero", d:"Mansión porfiriana del arquitecto Antonio Rivas Mercado, joya del siglo XIX que se recorre con visita guiada.", dir:"Héroes 45", tel:"55 2591 6666", h:"S-D, visita guiada con reservación", src:"https://casarivasmercado.com/"},
+  {n:"Casa de Francia", c:"Cultura y Arte", col:"Juárez", d:"La galería de la Embajada de Francia, con exposiciones, ciclos de cine y actividades culturales gratuitas.", dir:"Havre 15", tel:"55 5566 0777", h:"L-S 10:00–20:00", src:"https://mx.ambafrance.org/Casa-de-Francia"},
 ];
 
 const ICON={
@@ -242,7 +297,7 @@ function imgFor(b){return b._img || ((CATMETA[b.c]||{}).imgs||[])[0] || "";}
 // Reparte una variante distinta a cada negocio dentro de su categoría (da dinamismo)
 (function(){const seen={};NEGOCIOS.forEach(b=>{const arr=(CATMETA[b.c]||{}).imgs||[];seen[b.c]=seen[b.c]||0;b._img=arr.length?arr[seen[b.c]%arr.length]:"";seen[b.c]++;});})();
 // Negocios que son centro de acopio de tapas (en la versión real saldrá de una columna del Sheet)
-const ACOPIO_SET=new Set(["Fonda Doña Chole","Café de la Esquina","Abarrotes Don Memo","Farmacia del Pueblo","Panadería La Esperanza","Barbería El Navajazo"]);
+const ACOPIO_SET=new Set(["Café Moka","BUNA La Tostadora","Pastelería Ideal","Florería Cleo","Ollin Pan y Café","Lavandería Más por Menos"]);
 NEGOCIOS.forEach(b=>{if(ACOPIO_SET.has(b.n))b.acopio=true;});
 const CATS=Object.keys(CATMETA).filter(c=>NEGOCIOS.some(b=>b.c===c));
 let activeCat="Todos", query="";
@@ -279,9 +334,17 @@ featEl.innerHTML=`
     <span class="label">★ Negocio de la portada</span>
     <h2>${fav.n}</h2>
     <p>${fav.d}</p>
-    <div class="meta"><span>📍 ${fav.dir}, ${fav.col}</span><span>☎ ${fav.tel}</span><span>🕑 ${fav.h}</span></div>
+    <div class="meta">${[fav.dir?`<span>📍 ${fav.dir}, ${fav.col}</span>`:`<span>📍 ${fav.col}</span>`, fav.tel?`<span>☎ ${fav.tel}</span>`:'', fav.h?`<span>🕑 ${fav.h}</span>`:''].join('')}</div>
   </div>`;
 
+function infoRows(b){
+  const rows=[
+    b.dir?`<div><span class="k">📍</span><span>${b.dir}</span></div>`:'',
+    b.tel?`<div><span class="k">☎</span><span>${b.tel}</span></div>`:'',
+    b.h?`<div><span class="k">🕑</span><span>${b.h}</span></div>`:''
+  ].join('');
+  return rows?`<div class="info">${rows}</div>`:'';
+}
 function card(b,i){
   const c=(CATMETA[b.c]||{}).c||"#e4007c";
   return `<article class="card" style="--c:${c}">
@@ -295,11 +358,7 @@ function card(b,i){
     <div class="body">
       <h4>${b.n}</h4>
       <p class="desc">${b.d}</p>
-      <div class="info">
-        <div><span class="k">📍</span><span>${b.dir}</span></div>
-        <div><span class="k">☎</span><span>${b.tel}</span></div>
-        <div><span class="k">🕑</span><span>${b.h}</span></div>
-      </div>
+      ${infoRows(b)}
       <span class="colonia">${b.col}</span>
       ${b.acopio?'<span class="acopio-badge">🧢 Acopio de tapas</span>':''}
     </div>

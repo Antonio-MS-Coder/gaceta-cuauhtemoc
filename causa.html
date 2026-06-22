@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- causa v1 -->
+<!-- causa v2-datos-reales -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tapatón por el barrio — La Gaceta de Cuauhtémoc</title>
-<meta name="description" content="Junta tapas, salva vidas. Campaña de acopio de tapas para apoyar quimioterapias de niños de la Alcaldía Cuauhtémoc.">
+<meta name="description" content="Junta tapas y ayuda. Campaña de acopio de tapas de plástico que se reciclan para apoyar el tratamiento de niñas y niños con cáncer, en la Alcaldía Cuauhtémoc.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=Permanent+Marker&family=Oswald:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -90,7 +90,7 @@
   <div class="wrap in">
     <span class="kick">por tu barrio, por ti</span>
     <h1>Tapatón por el barrio</h1>
-    <p>Junta tapas, salva vidas. Cada tapa de plástico se convierte en apoyo para las quimioterapias de niñas y niños de Cuauhtémoc.</p>
+    <p>Junta tapas, ayuda a sanar. Las tapas de plástico se reciclan y se convierten en apoyo para el tratamiento de niñas y niños con cáncer del barrio.</p>
   </div>
 </header>
 
@@ -106,7 +106,7 @@
 <main class="wrap">
 
   <section>
-    <h2>Esta edición es por <span class="ac">[Diego]</span></h2>
+    <h2>Esta edición es por <span class="ac">[nombre por confirmar]</span></h2>
     <div class="nino">
       <div class="pic">🧒</div>
       <div>
@@ -119,7 +119,7 @@
 
   <section>
     <h2>¿Por qué <span class="ac">tapas</span> y no dinero?</h2>
-    <p class="lead">Porque es transparente y limpio: las tapas de plástico (PET) se acopian, se pesan y se entregan a una fundación que las vende para financiar tratamientos. <b>Nadie maneja efectivo</b> — solo juntamos tapas. Así la ayuda llega sin dudas y todo el barrio puede participar, aunque no tenga un peso de más.</p>
+    <p class="lead">Porque es transparente y limpio: a diferencia de una moneda suelta que se gasta y se olvida, las tapas se juntan en grandes volúmenes, se reciclan y se venden por kilo a la industria del plástico. Ese ingreso lo usa una fundación de cáncer infantil para comprar lo que más falta —medicamentos, estudios y apoyos— para que el tratamiento siga sin parar. <b>Nadie maneja efectivo</b>: solo juntamos tapas. Así, algo que iba a la basura se vuelve ayuda real y cualquier vecino puede sumar, aunque no tenga un peso de más.</p>
   </section>
 
   <section>
@@ -133,7 +133,7 @@
 
   <section>
     <h2>Centros de <span class="ac">acopio</span></h2>
-    <p class="lead" style="margin-bottom:18px;">Negocios del barrio donde puedes dejar tus tapas:</p>
+    <p class="lead" style="margin-bottom:18px;">Negocios del barrio donde puedes dejar tus tapas <span style="font-style:italic;color:#8a7e63;">(lista de ejemplo — cada negocio se suma de forma voluntaria):</span></p>
     <div class="acopio" id="acopio"></div>
   </section>
 
@@ -147,7 +147,9 @@
 
   <section style="border:none;padding-top:0;">
     <div class="transp">
-      <b>Transparencia:</b> esta es una campaña de acopio de tapas, no de dinero. Las tapas se entregan a [fundación aliada — por definir]. Publicaremos cuántos kilos se juntan y a dónde van. [Pendiente: confirmar fundación y datos del caso.]
+      <b>Transparencia:</b> esta es una campaña de acopio de tapas, no de dinero. En México hay fundaciones que reciben tapitas, las reciclan y con ese ingreso apoyan a niñas y niños con cáncer; las dos más sólidas son <b>AMANC</b> (I.A.P., aliada del Gobierno de la CDMX en la recolección de tapitas) y <b>Banco de Tapitas A.C.</b> (que en 2025 recicló más de 1,100 toneladas de tapas). El Tapatón junta las tapas del barrio y las entrega a la fundación aliada; publicaremos cuántos kilos se juntan y a dónde van.
+      <br><br>
+      <b>Por confirmar antes de la versión final:</b> la alianza y el permiso de la fundación elegida; el punto de acopio vecinal (ninguna fundación tiene centro propio dentro de Cuauhtémoc —AMANC está en Tlalpan y Banco de Tapitas en Iztacalco—, así que el barrio junta y traslada); y la historia y foto del caso, con permiso de la familia. No prometemos recibos deducibles ni equivalencias del tipo "X tapas = un tratamiento" hasta confirmarlo con la fundación.
     </div>
   </section>
 
@@ -160,14 +162,15 @@
 </div></footer>
 
 <script>
-// Centros de acopio (muestra). En la versión real saldrán del Sheet con una columna "Acopio".
+// Centros de acopio de ejemplo (negocios REALES del directorio; su participación es voluntaria y está por confirmar).
+// Debe coincidir con ACOPIO_SET en index.html. En la versión real saldrá del Sheet con una columna "Acopio".
 const ACOPIO = [
-  {n:"Fonda Doña Chole", col:"Doctores", dir:"Dr. Lavista 88"},
-  {n:"Café de la Esquina", col:"Roma Norte", dir:"Córdoba 77"},
-  {n:"Abarrotes Don Memo", col:"Santa María la Ribera", dir:"Sabino 33"},
-  {n:"Farmacia del Pueblo", col:"Doctores", dir:"Dr. Vértiz 120"},
-  {n:"Panadería La Esperanza", col:"Guerrero", dir:"Mosqueta 12"},
-  {n:"Barbería El Navajazo", col:"Condesa", dir:"Tamaulipas 90"},
+  {n:"Café Moka", col:"Santa María la Ribera", dir:"Santa María la Ribera 6"},
+  {n:"BUNA La Tostadora", col:"Doctores", dir:"Dr. Lucio 181"},
+  {n:"Pastelería Ideal", col:"Centro", dir:"16 de Septiembre 18"},
+  {n:"Florería Cleo", col:"Roma Norte", dir:"Colima 100"},
+  {n:"Ollin Pan y Café", col:"San Rafael", dir:"Gabino Barreda 117"},
+  {n:"Lavandería Más por Menos", col:"Obrera", dir:"Roa Bárcenas 4"},
 ];
 document.getElementById('acopio').innerHTML = ACOPIO.map(p=>`
   <div class="pt"><span class="tag">🧢 Acopio de tapas</span><h4>${p.n}</h4><p>📍 ${p.dir}, ${p.col}</p></div>`).join('');
