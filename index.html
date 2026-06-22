@@ -295,6 +295,8 @@ const ICON={
 };
 function icoFor(b){return ICON[b.c]||"🏪";}
 function imgFor(b){return b._img || ((CATMETA[b.c]||{}).imgs||[])[0] || "";}
+// Escapa texto antes de meterlo al HTML (la data viene del Sheet, así que no se confía).
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 // ── Datos: del Google Sheet si está configurado; si no, los locales de arriba ──
 let NEGOCIOS = NEGOCIOS_LOCAL;
 let CATS = [];
@@ -348,21 +350,21 @@ function buildFeatured(){
   featEl.innerHTML=`
   <div class="fbg"></div>
   <span class="fg-ico">${icoFor(fav)}</span>
-  <img class="fcov" src="${imgFor(fav)}" alt="${fav.n}" onerror="this.remove()">
+  <img class="fcov" src="${imgFor(fav)}" alt="${esc(fav.n)}" onerror="this.remove()">
   <div class="scrim"></div>
   <div class="body">
     <span class="label">★ Negocio de la portada</span>
-    <h2>${fav.n}</h2>
-    <p>${fav.d}</p>
-    <div class="meta">${[fav.dir?`<span>📍 ${fav.dir}, ${fav.col}</span>`:`<span>📍 ${fav.col}</span>`, fav.tel?`<span>☎ ${fav.tel}</span>`:'', fav.h?`<span>🕑 ${fav.h}</span>`:''].join('')}</div>
+    <h2>${esc(fav.n)}</h2>
+    <p>${esc(fav.d)}</p>
+    <div class="meta">${[fav.dir?`<span>📍 ${esc(fav.dir)}, ${esc(fav.col)}</span>`:`<span>📍 ${esc(fav.col)}</span>`, fav.tel?`<span>☎ ${esc(fav.tel)}</span>`:'', fav.h?`<span>🕑 ${esc(fav.h)}</span>`:''].join('')}</div>
   </div>`;
 }
 
 function infoRows(b){
   const rows=[
-    b.dir?`<div><span class="k">📍</span><span>${b.dir}</span></div>`:'',
-    b.tel?`<div><span class="k">☎</span><span>${b.tel}</span></div>`:'',
-    b.h?`<div><span class="k">🕑</span><span>${b.h}</span></div>`:''
+    b.dir?`<div><span class="k">📍</span><span>${esc(b.dir)}</span></div>`:'',
+    b.tel?`<div><span class="k">☎</span><span>${esc(b.tel)}</span></div>`:'',
+    b.h?`<div><span class="k">🕑</span><span>${esc(b.h)}</span></div>`:''
   ].join('');
   return rows?`<div class="info">${rows}</div>`:'';
 }
@@ -371,16 +373,16 @@ function card(b,i){
   return `<article class="card" style="--c:${c}">
     <div class="ph">
       <span class="giro">${icoFor(b)}</span>
-      <img class="cov" src="${imgFor(b)}" alt="${b.n}" loading="lazy" onerror="this.remove()">
-      <span class="ribbon">${b.c}</span>
+      <img class="cov" src="${imgFor(b)}" alt="${esc(b.n)}" loading="lazy" onerror="this.remove()">
+      <span class="ribbon">${esc(b.c)}</span>
       ${b.fav?'<span class="star">★</span>':''}
       <span class="phtag">ilustración de muestra</span>
     </div>
     <div class="body">
-      <h4>${b.n}</h4>
-      <p class="desc">${b.d}</p>
+      <h4>${esc(b.n)}</h4>
+      <p class="desc">${esc(b.d)}</p>
       ${infoRows(b)}
-      <span class="colonia">${b.col}</span>
+      <span class="colonia">${esc(b.col)}</span>
       ${b.acopio?'<span class="acopio-badge">🧢 Acopio de tapas</span>':''}
     </div>
   </article>`;

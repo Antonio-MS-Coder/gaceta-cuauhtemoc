@@ -173,9 +173,11 @@ const ACOPIO_LOCAL = [
   {n:"Ollin Pan y Café", col:"San Rafael", dir:"Gabino Barreda 117"},
   {n:"Lavandería Más por Menos", col:"Obrera", dir:"Roa Bárcenas 4"},
 ];
+// Escapa texto antes de meterlo al HTML (la data puede venir del Sheet).
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function renderAcopio(list){
   document.getElementById('acopio').innerHTML = list.map(p=>`
-    <div class="pt"><span class="tag">🧢 Acopio de tapas</span><h4>${p.n}</h4><p>📍 ${p.dir}${p.col?', '+p.col:''}</p></div>`).join('');
+    <div class="pt"><span class="tag">🧢 Acopio de tapas</span><h4>${esc(p.n)}</h4><p>📍 ${esc(p.dir)}${p.col?', '+esc(p.col):''}</p></div>`).join('');
 }
 (async function(){
   renderAcopio(ACOPIO_LOCAL);
