@@ -100,6 +100,8 @@ privado (CRM) en una pestaña aparte `Altas (CRM)` que **no** se publica.
 En la hoja: **Extensiones → Apps Script**. Borra lo que haya y pega:
 
 ```javascript
+var TOKEN = 'gct-cuauh-2026-7Yx9q';  // para el panel admin — debe coincidir con admin.html
+
 function doPost(e){
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var d = JSON.parse(e.postData.contents);
@@ -173,6 +175,51 @@ function appendByHeader(sheet, obj){
     if (idx >= 0) row[idx] = obj[k];
   });
   sheet.appendRow(row);
+}
+
+// ===== Panel admin: leer y editar en vivo (JSONP con token) =====
+function doGet(e){
+  var p = e.parameter || {};
+  if (p.token !== TOKEN) return _out(p, {ok:false, error:'no-auth'});
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (p.action === 'set')  return _out(p, _aplicar(ss, p));
+  if (p.action === 'data') return _out(p, {ok:true, negocios:_tabla(ss.getSheets()[0]), ajustes:_ajustes(ss), reportes:_tabla(ss.getSheetByName('Reportes'))});
+  return _out(p, {ok:true});
+}
+function _out(p, obj){
+  var j = JSON.stringify(obj);
+  if (p.callback) return ContentService.createTextOutput(p.callback + '(' + j + ')').setMimeType(ContentService.MimeType.JAVASCRIPT);
+  return ContentService.createTextOutput(j).setMimeType(ContentService.MimeType.JSON);
+}
+function _tabla(sh){
+  if (!sh) return [];
+  var d = sh.getDataRange().getValues(); if (d.length < 2) return [];
+  var h = d[0].map(function(x){ return String(x).trim().toLowerCase(); });
+  var out = [];
+  for (var i=1;i<d.length;i++){ var o={}, any=false; h.forEach(function(k,c){ o[k]=d[i][c]; if(String(d[i][c]).trim()!=='') any=true; }); if(any) out.push(o); }
+  return out;
+}
+function _ajustes(ss){
+  var aj = ss.getSheetByName('Ajustes'); if(!aj) return {};
+  var v = aj.getDataRange().getValues(), o={};
+  for (var i=0;i<v.length;i++){ var k=String(v[i][0]).trim().toLowerCase(); if(k && k!=='ajuste') o[k]=v[i][1]; }
+  return o;
+}
+function _aplicar(ss, p){
+  if (p.set === 'activo'){
+    var sh = ss.getSheets()[0], d = sh.getDataRange().getValues();
+    var h = d[0].map(function(x){ return String(x).trim().toLowerCase(); });
+    var cN = h.indexOf('nombre'), cA = h.indexOf('activo');
+    if (cA < 0) return {ok:false, error:'falta columna activo'};
+    for (var i=1;i<d.length;i++){ if (String(d[i][cN]).trim() === String(p.nombre).trim()){ sh.getRange(i+1, cA+1).setValue(p.valor); return {ok:true}; } }
+    return {ok:false, error:'no encontrado'};
+  }
+  if (p.set === 'ajuste'){
+    var aj = ss.getSheetByName('Ajustes') || ss.insertSheet('Ajustes'), v = aj.getDataRange().getValues();
+    for (var j=0;j<v.length;j++){ if (String(v[j][0]).trim().toLowerCase() === String(p.clave).trim().toLowerCase()){ aj.getRange(j+1,2).setValue(p.valor); return {ok:true}; } }
+    aj.appendRow([p.clave, p.valor]); return {ok:true};
+  }
+  return {ok:false, error:'accion'};
 }
 ```
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- panel v1 -->
+<!-- panel v2 (editable) -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&family=Oswald:wght@400;500;600;700&family=Spectral:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root{--concreto:#23211e;--cal:#f4f1ea;--cal2:#ece5d4;--tinta:#141312;--rosa:#e4007c;--turquesa:#00a39a;--amarillo:#ffb400;--verde:#2faa4f;--anil:#1f4ea1;--naranja:#f5821f;--morado:#7a3fb0;--rojo:#e23b2e;}
+  :root{--concreto:#23211e;--cal:#f4f1ea;--cal2:#ece5d4;--tinta:#141312;--rosa:#e4007c;--turquesa:#00a39a;--amarillo:#ffb400;--verde:#2faa4f;--anil:#1f4ea1;}
   *{box-sizing:border-box;}
   body{margin:0;background:var(--cal);color:var(--tinta);font-family:'Spectral',Georgia,serif;
     background-image:radial-gradient(rgba(35,33,30,.06) 1.1px,transparent 1.1px);background-size:6px 6px;}
@@ -25,45 +25,57 @@
   .btn.alt{background:#fff;}
   .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.4);}
 
-  h2.sec{font-family:'Bungee',sans-serif;font-size:clamp(16px,3vw,22px);margin:34px 0 14px;display:flex;align-items:center;gap:10px;}
+  .mode{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:12px;padding:10px 14px;margin:20px 0 0;border:2px solid var(--tinta);}
+  .mode.edit{background:#e6f7ec;border-color:var(--verde);}
+  .mode.ro{background:#fff6e0;border-color:var(--amarillo);}
+
+  h2.sec{font-family:'Bungee',sans-serif;font-size:clamp(16px,3vw,22px);margin:30px 0 14px;display:flex;align-items:center;gap:10px;}
   h2.sec .bar{height:10px;width:30px;background:var(--rosa);box-shadow:2px 2px 0 var(--tinta);}
 
-  /* KPIs */
-  .kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:16px;margin-top:22px;}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:16px;margin-top:18px;}
   .kpi{background:#fff;border:3px solid var(--tinta);box-shadow:5px 5px 0 var(--tinta);padding:16px 16px 14px;}
   .kpi .n{font-family:'Archivo Black',sans-serif;font-size:34px;line-height:1;}
   .kpi .l{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:#5b554a;margin-top:8px;}
   .kpi .bar{height:8px;width:36px;margin-top:10px;background:var(--c,var(--rosa));}
 
-  /* card */
   .card{background:#fff;border:3px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta);padding:20px;}
   .grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;}
   @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
   .pill{display:inline-block;font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:11px;padding:3px 10px;color:#fff;}
   .pill.on{background:var(--verde);}.pill.off{background:#9a9384;}
-  .prog{height:26px;background:#ece5d4;border:2px solid var(--tinta);position:relative;overflow:hidden;margin:10px 0 4px;}
+  .prog{height:24px;background:#ece5d4;border:2px solid var(--tinta);position:relative;overflow:hidden;margin:10px 0 4px;}
   .prog>i{display:block;height:100%;background:repeating-linear-gradient(45deg,var(--amarillo) 0 12px,#ffc63d 12px 24px);}
   .muted{color:#7a7263;font-size:13px;}
+  .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:11px;letter-spacing:.08em;color:#5b554a;margin:12px 0 4px;}
+  .card input,.card textarea{width:100%;border:2px solid var(--tinta);background:var(--cal);padding:9px;font-family:'Spectral',serif;font-size:15px;}
+  .card textarea{min-height:60px;resize:vertical;}
+  .row2{display:flex;gap:10px;}.row2>div{flex:1;}
   .catbars div{display:flex;align-items:center;gap:8px;margin:6px 0;font-family:'Oswald',sans-serif;font-size:13px;}
   .catbars .b{height:14px;background:var(--c,#888);min-width:2px;}
   .catbars .n{margin-left:auto;font-weight:600;}
 
-  /* table */
   .tbl-wrap{background:#fff;border:3px solid var(--tinta);box-shadow:6px 6px 0 var(--tinta);overflow:auto;}
-  table{border-collapse:collapse;width:100%;min-width:560px;}
+  table{border-collapse:collapse;width:100%;min-width:620px;}
   th{position:sticky;top:0;background:var(--tinta);color:#fff;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.05em;font-size:11px;text-align:left;padding:10px 12px;white-space:nowrap;}
   td{padding:9px 12px;border-top:1px solid var(--cal2);font-size:14px;vertical-align:top;}
   tr:nth-child(even) td{background:#faf7f0;}
   .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle;}
   .tag{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.06em;padding:2px 8px;color:#fff;}
   .tag.act{background:var(--verde);}.tag.pen{background:var(--amarillo);color:#111;}
+  .mini{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.05em;padding:5px 10px;border:2px solid var(--tinta);cursor:pointer;color:#fff;white-space:nowrap;}
+  .mini.on{background:var(--verde);}.mini.off{background:#9a9384;}
+  .mini:disabled{opacity:.5;cursor:wait;}
   .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 12px;}
   .toolbar input,.toolbar select{border:2px solid var(--tinta);background:#fff;padding:9px 11px;font-family:'Spectral',serif;font-size:15px;}
   .toolbar input{flex:1;min-width:200px;}
   .count{font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;color:#5b554a;text-transform:uppercase;letter-spacing:.06em;}
+  .saverow{display:flex;align-items:center;gap:12px;margin-top:14px;}
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--tinta);color:#fff;font-family:'Oswald',sans-serif;font-size:13px;padding:10px 18px;box-shadow:4px 4px 0 rgba(0,0,0,.4);opacity:0;transition:opacity .2s;z-index:60;}
+  .toast.show{opacity:1;}
   a.lk{color:var(--anil);}
+  .switch{font-family:'Bungee',sans-serif;font-size:14px;border:3px solid var(--tinta);padding:10px 16px;cursor:pointer;box-shadow:3px 3px 0 var(--tinta);}
+  .switch.on{background:var(--verde);color:#06310f;}.switch.off{background:#9a9384;color:#fff;}
 
-  /* gate */
   .gate{position:fixed;inset:0;background:var(--concreto);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px;
     background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:5px 5px;}
   .gate .box{background:#fff;border:3px solid var(--tinta);box-shadow:8px 8px 0 var(--rosa);padding:28px;max-width:360px;width:100%;text-align:center;}
@@ -71,7 +83,6 @@
   .gate p{margin:0 0 16px;font-size:14px;color:#5b554a;}
   .gate input{width:100%;border:2px solid var(--tinta);padding:12px;font-size:16px;font-family:'Spectral',serif;margin-bottom:12px;}
   .gate button{width:100%;border:3px solid var(--tinta);background:var(--rosa);color:#fff;font-family:'Bungee',sans-serif;font-size:16px;padding:12px;cursor:pointer;box-shadow:4px 4px 0 var(--tinta);}
-  .loading{padding:40px;text-align:center;color:#7a7263;font-style:italic;}
 </style>
 </head>
 <body>
@@ -91,13 +102,14 @@
     <h1>La Gaceta de Cuauhtémoc</h1>
   </div>
   <div class="toolsbar">
-    <a class="btn alt" id="lnkSheet" href="#" target="_blank" rel="noopener">✎ Editar en la hoja</a>
+    <a class="btn alt" id="lnkSheet" href="#" target="_blank" rel="noopener">✎ Abrir la hoja</a>
     <a class="btn alt" href="./index.html" target="_blank" rel="noopener">Ver gaceta</a>
     <button class="btn" id="btnRefresh">↻ Actualizar</button>
   </div>
 </div></header>
 
 <main class="wrap" id="app" style="display:none">
+  <div class="mode" id="mode"></div>
   <div class="kpis" id="kpis"></div>
 
   <h2 class="sec"><span class="bar" style="background:var(--rosa)"></span>Causa (Tapatón)</h2>
@@ -117,145 +129,172 @@
     <span class="count" id="negCount"></span>
   </div>
   <div class="tbl-wrap"><table id="tblNeg"><thead><tr>
-    <th>Negocio</th><th>Categoría</th><th>Colonia</th><th>Estado</th><th>Prior.</th><th>Tel</th><th>Foto</th>
+    <th>Negocio</th><th>Categoría</th><th>Colonia</th><th>Estado</th><th>Prior.</th><th>Tel</th><th>Foto</th><th>Acción</th>
   </tr></thead><tbody></tbody></table></div>
 
   <h2 class="sec"><span class="bar" style="background:var(--anil)"></span>Reportes del barrio</h2>
   <div id="repWrap"></div>
 </main>
 
+<div class="toast" id="toast"></div>
+
 <script src="data/gaceta-data.js"></script>
 <script>
-// Contraseña del panel (cámbiala aquí). Candado de interfaz, no seguridad fuerte.
-const ADMIN_PASS = "orlez";
+// ===== Config =====
+const ADMIN_PASS  = "orlez";                 // contraseña para ENTRAR al panel (cámbiala)
+const ADMIN_TOKEN = "gct-cuauh-2026-7Yx9q";  // debe coincidir con TOKEN en el Apps Script
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyW-hHC0o-4x8SkSS85WsvQY14QzA6FrQbRgPi4CMphLLZulnJzsioHUj1Iuu9kRUAPOQ/exec";
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const CATCOLOR = {
-  "Restaurantes y Antojitos":"#e23b2e","Cafés y Panaderías":"#f5821f","Tiendas y Abarrotes":"#2faa4f",
-  "Servicios":"#1f4ea1","Salud y Bienestar":"#00a39a","Belleza y Estética":"#e4007c","Cultura y Arte":"#7a3fb0"
-};
+const CATCOLOR = {"Restaurantes y Antojitos":"#e23b2e","Cafés y Panaderías":"#f5821f","Tiendas y Abarrotes":"#2faa4f","Servicios":"#1f4ea1","Salud y Bienestar":"#00a39a","Belleza y Estética":"#e4007c","Cultura y Arte":"#7a3fb0"};
 const num = s => { var n=parseFloat(String(s||'').replace(/[^0-9.]/g,'')); return isNaN(n)?0:n; };
 const fmt = n => Math.round(n).toLocaleString('es-MX');
 const onlyDate = s => String(s||'').slice(0,10);
+const esSi = v => GACETA.esSi(v);
 
-let NEG=[], REP=[], CFG={};
+let NEG=[], REP=[], CFG={}, EDITABLE=false;
+
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+
+// ===== JSONP al Apps Script (lee y escribe con token) =====
+function api(params){
+  return new Promise((resolve,reject)=>{
+    const cb='cb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+    const s=document.createElement('script'); let done=false;
+    function cleanup(){ try{delete window[cb];}catch(e){} if(s.parentNode) s.remove(); }
+    window[cb]=d=>{ done=true; resolve(d); cleanup(); };
+    s.onerror=()=>{ if(!done){ cleanup(); reject(new Error('jsonp')); } };
+    const q=Object.assign({token:ADMIN_TOKEN, callback:cb}, params);
+    s.src=APPS_SCRIPT_URL+'?'+Object.keys(q).map(k=>encodeURIComponent(k)+'='+encodeURIComponent(q[k])).join('&');
+    document.body.appendChild(s);
+    setTimeout(()=>{ if(!done){ cleanup(); reject(new Error('timeout')); } },12000);
+  });
+}
 
 async function cargar(){
   $('app').style.opacity=.5;
-  [NEG, CFG, REP] = await Promise.all([
-    GACETA.loadTable(GACETA.SHEET_CSV_URL),
-    GACETA.loadConfig(),
-    GACETA.loadTable(GACETA.REPORTES_CSV_URL)
-  ]);
-  NEG = NEG.filter(r => (r.nombre||'').trim());
-  REP = REP.filter(r => (r.problema||r.descripcion||'').trim());
+  try{
+    const data=await api({action:'data'});
+    if(!data||!data.ok) throw new Error((data&&data.error)||'sin datos');
+    EDITABLE=true;
+    NEG=(data.negocios||[]); CFG=data.ajustes||{}; REP=(data.reportes||[]);
+  }catch(e){
+    EDITABLE=false;  // modo solo lectura vía CSV publicado
+    const [neg,cfg,rep]=await Promise.all([GACETA.loadTable(GACETA.SHEET_CSV_URL),GACETA.loadConfig(),GACETA.loadTable(GACETA.REPORTES_CSV_URL)]);
+    NEG=neg; CFG=cfg; REP=rep;
+  }
+  NEG=NEG.filter(r=>(r.nombre||'').toString().trim());
+  REP=REP.filter(r=>((r.problema||r.descripcion||'')+'').trim());
   pintar();
   $('app').style.opacity=1;
 }
 
-function esActivo(r){ return GACETA.esSi(r.activo || r.estado || r.visibilidad || r.publicacion); }
+function esActivo(r){ return esSi(r.activo||r.estado||r.visibilidad||r.publicacion); }
 
 function pintar(){
-  if($('lnkSheet')) $('lnkSheet').href = GACETA.SHEET_EDIT_URL || '#';
-  const activos = NEG.filter(esActivo);
-  const pend = NEG.length - activos.length;
-  const conFoto = NEG.filter(r=>(r.imagen||r.foto||'').trim()).length;
-  const acopio = NEG.filter(r=>GACETA.esSi(r.acopio)).length;
-  const causaOn = GACETA.esSi(CFG.causa_activa||CFG.causa);
+  $('lnkSheet').href = GACETA.SHEET_EDIT_URL || '#';
+  $('mode').className='mode '+(EDITABLE?'edit':'ro');
+  $('mode').innerHTML = EDITABLE
+    ? '✏️ Edición activada — puedes publicar/ocultar negocios y editar la causa desde aquí.'
+    : '👁️ Solo lectura — para editar, actualiza el Apps Script (doGet con token) y recarga. Mientras, edita en la hoja.';
 
-  // KPIs
+  const activos=NEG.filter(esActivo), pend=NEG.length-activos.length;
+  const conFoto=NEG.filter(r=>((r.imagen||r.foto||'')+'').trim()).length;
+  const acopio=NEG.filter(r=>esSi(r.acopio)).length;
+  const causaOn=esSi(CFG.causa_activa||CFG.causa);
+
   const kpi=(n,l,c)=>`<div class="kpi"><div class="n">${n}</div><div class="l">${l}</div><div class="bar" style="--c:${c}"></div></div>`;
-  $('kpis').innerHTML =
-    kpi(activos.length,'Negocios publicados','#2faa4f') +
-    kpi(pend,'Pendientes de aprobar','#ffb400') +
-    kpi(conFoto,'Con foto','#1f4ea1') +
-    kpi(acopio,'Acopio de tapas','#e4007c') +
-    kpi(REP.length,'Reportes del barrio','#e23b2e') +
-    kpi((causaOn?'ON':'OFF'),'Causa','#7a3fb0');
+  $('kpis').innerHTML=kpi(activos.length,'Negocios publicados','#2faa4f')+kpi(pend,'Pendientes','#ffb400')+kpi(conFoto,'Con foto','#1f4ea1')+kpi(acopio,'Acopio de tapas','#e4007c')+kpi(REP.length,'Reportes','#e23b2e')+kpi(causaOn?'ON':'OFF','Causa','#7a3fb0');
 
-  // Causa
-  const meta=num(CFG.meta_tapas||CFG.tapas_meta), llev=num(CFG.tapas_llevamos||CFG.llevamos);
-  const pct = meta>0 ? Math.max(0,Math.min(100,Math.round(llev/meta*100))) : 0;
-  $('causaCard').innerHTML = `
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-      <span class="pill ${causaOn?'on':'off'}">${causaOn?'Activa':'Apagada'}</span>
-      <b style="font-family:'Oswald',sans-serif">Tapatón</b>
-    </div>
-    <div class="muted" style="margin-bottom:10px">${esc(CFG.banner_texto||'—')}</div>
-    ${meta>0?`<div><b>${fmt(llev)}</b> de <b>${fmt(meta)}</b> tapas · ${pct}%</div>
-      <div class="prog"><i style="width:${pct}%"></i></div>`:`<div class="muted">Sin meta configurada.</div>`}
-    <div style="margin-top:14px;border-top:2px solid var(--cal2);padding-top:12px">
-      <div class="l" style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:11px;letter-spacing:.08em;color:#5b554a">Caso de la edición</div>
-      <div style="margin-top:4px"><b>${esc(CFG.nino_nombre||'[por confirmar]')}</b>${CFG.nino_edad?(', '+esc(CFG.nino_edad)+(/^\d+$/.test(String(CFG.nino_edad).trim())?' años':'')):''}</div>
-      <div class="muted">${esc(CFG.nino_historia||'—')}</div>
-    </div>`;
-
-  // Categorías
-  const cats=Object.keys(CATCOLOR);
-  const counts=cats.map(c=>({c, n:activos.filter(r=>(r.categoria||'')===c).length}));
-  const maxN=Math.max(1,...counts.map(x=>x.n));
-  $('catCard').innerHTML = `<div class="l" style="font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:11px;letter-spacing:.08em;color:#5b554a;margin-bottom:8px">Publicados por categoría</div>
-    <div class="catbars">${counts.map(x=>`<div><span class="dot" style="background:${CATCOLOR[x.c]}"></span>${esc(x.c)}
-      <span class="b" style="--c:${CATCOLOR[x.c]};width:${Math.round(x.n/maxN*120)}px"></span><span class="n">${x.n}</span></div>`).join('')}</div>`;
-
+  pintarCausa(causaOn);
+  pintarCat(activos);
   pintarNeg();
-  pintarReportes(causaOn);
+  pintarReportes();
+}
+
+function pintarCausa(causaOn){
+  const meta=CFG.meta_tapas||'', llev=CFG.tapas_llevamos||'';
+  const pct=num(meta)>0?Math.max(0,Math.min(100,Math.round(num(llev)/num(meta)*100))):0;
+  if(EDITABLE){
+    $('causaCard').innerHTML=`
+      <div class="saverow" style="margin-top:0;justify-content:space-between">
+        <b style="font-family:'Oswald',sans-serif">Campaña Tapatón</b>
+        <button class="switch ${causaOn?'on':'off'}" id="swCausa">${causaOn?'ACTIVA':'APAGADA'}</button>
+      </div>
+      <div class="row2"><div><div class="lbl">Meta de tapas</div><input id="aMeta" value="${esc(meta)}"></div>
+        <div><div class="lbl">Llevamos</div><input id="aLlev" value="${esc(llev)}"></div></div>
+      <div class="prog"><i style="width:${pct}%"></i></div><div class="muted">${pct}%</div>
+      <div class="lbl">Texto del banner</div><input id="aBanner" value="${esc(CFG.banner_texto||'')}">
+      <div class="row2"><div><div class="lbl">Caso: nombre</div><input id="aNombre" value="${esc(CFG.nino_nombre||'')}"></div>
+        <div><div class="lbl">Edad</div><input id="aEdad" value="${esc(CFG.nino_edad||'')}"></div></div>
+      <div class="lbl">Historia del caso</div><textarea id="aHist">${esc(CFG.nino_historia||'')}</textarea>
+      <div class="lbl">Foto del caso (liga)</div><input id="aFoto" value="${esc(CFG.nino_foto||'')}">
+      <div class="saverow"><button class="btn" id="btnGuardarCausa">Guardar cambios</button><span class="muted">Se reflejan al instante.</span></div>`;
+    $('swCausa').onclick=async()=>{ const nv=causaOn?'No':'Sí'; try{ await setAjuste('causa_activa',nv); toast('Causa '+(nv==='Sí'?'activada':'apagada')); pintar(); }catch(e){ toast('Error: '+e.message); } };
+    $('btnGuardarCausa').onclick=guardarCausa;
+  } else {
+    $('causaCard').innerHTML=`<div style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><span class="pill ${causaOn?'on':'off'}">${causaOn?'Activa':'Apagada'}</span><b style="font-family:'Oswald',sans-serif">Tapatón</b></div>
+      <div class="muted" style="margin-bottom:10px">${esc(CFG.banner_texto||'—')}</div>
+      ${num(meta)>0?`<div><b>${fmt(num(llev))}</b> de <b>${fmt(num(meta))}</b> tapas · ${pct}%</div><div class="prog"><i style="width:${pct}%"></i></div>`:`<div class="muted">Sin meta.</div>`}
+      <div style="margin-top:14px;border-top:2px solid var(--cal2);padding-top:12px"><div class="lbl">Caso</div>
+      <div><b>${esc(CFG.nino_nombre||'[por confirmar]')}</b>${CFG.nino_edad?(', '+esc(CFG.nino_edad)):''}</div><div class="muted">${esc(CFG.nino_historia||'—')}</div></div>`;
+  }
+}
+
+async function guardarCausa(){
+  const btn=$('btnGuardarCausa'); btn.disabled=true; btn.textContent='Guardando…';
+  const campos={meta_tapas:$('aMeta').value,tapas_llevamos:$('aLlev').value,banner_texto:$('aBanner').value,nino_nombre:$('aNombre').value,nino_edad:$('aEdad').value,nino_historia:$('aHist').value,nino_foto:$('aFoto').value};
+  try{ for(const k of Object.keys(campos)) await setAjuste(k,campos[k]); toast('Cambios guardados'); pintar(); }
+  catch(e){ toast('Error: '+e.message); btn.disabled=false; btn.textContent='Guardar cambios'; }
+}
+
+function pintarCat(activos){
+  const cats=Object.keys(CATCOLOR);
+  const counts=cats.map(c=>({c,n:activos.filter(r=>(r.categoria||'')===c).length}));
+  const maxN=Math.max(1,...counts.map(x=>x.n));
+  $('catCard').innerHTML=`<div class="lbl">Publicados por categoría</div><div class="catbars">${counts.map(x=>`<div><span class="dot" style="background:${CATCOLOR[x.c]}"></span>${esc(x.c)}<span class="b" style="--c:${CATCOLOR[x.c]};width:${Math.round(x.n/maxN*120)}px"></span><span class="n">${x.n}</span></div>`).join('')}</div>`;
 }
 
 function pintarNeg(){
   const q=($('q').value||'').trim().toLowerCase(), est=$('estado').value;
-  const list=NEG.filter(r=>{
-    const act=esActivo(r);
-    if(est==='activos'&&!act) return false;
-    if(est==='pendientes'&&act) return false;
-    if(q && !((r.nombre||'')+' '+(r.colonia||'')+' '+(r.categoria||'')).toLowerCase().includes(q)) return false;
-    return true;
-  });
-  $('negCount').textContent = list.length+' negocio'+(list.length===1?'':'s');
-  $('tblNeg').querySelector('tbody').innerHTML = list.map(r=>{
-    const act=esActivo(r), col=CATCOLOR[r.categoria]||'#888';
-    return `<tr>
-      <td><b>${esc(r.nombre)}</b></td>
-      <td><span class="dot" style="background:${col}"></span>${esc(r.categoria||'')}</td>
-      <td>${esc(r.colonia||'')}</td>
-      <td><span class="tag ${act?'act':'pen'}">${act?'Publicado':'Pendiente'}</span></td>
-      <td>${esc(r.prioridad||'')}</td>
-      <td>${esc(r.telefono||r.tel||'')}</td>
-      <td>${(r.imagen||r.foto||'').trim()?'✅':'—'}</td>
-    </tr>`;
-  }).join('') || `<tr><td colspan="7" class="muted" style="padding:20px;text-align:center">Sin resultados.</td></tr>`;
+  const list=NEG.filter(r=>{const act=esActivo(r); if(est==='activos'&&!act)return false; if(est==='pendientes'&&act)return false; if(q&&!((r.nombre||'')+' '+(r.colonia||'')+' '+(r.categoria||'')).toLowerCase().includes(q))return false; return true;});
+  $('negCount').textContent=list.length+' negocio'+(list.length===1?'':'s');
+  $('tblNeg').querySelector('tbody').innerHTML=list.map(r=>{
+    const act=esActivo(r), col=CATCOLOR[r.categoria]||'#888', nom=esc(r.nombre);
+    const accion=EDITABLE?`<button class="mini ${act?'off':'on'}" onclick="togglar(this,'${nom.replace(/'/g,"\\'")}',${act?0:1})">${act?'Ocultar':'Publicar'}</button>`:'—';
+    return `<tr><td><b>${nom}</b></td><td><span class="dot" style="background:${col}"></span>${esc(r.categoria||'')}</td><td>${esc(r.colonia||'')}</td><td><span class="tag ${act?'act':'pen'}">${act?'Publicado':'Pendiente'}</span></td><td>${esc(r.prioridad||'')}</td><td>${esc(r.telefono||r.tel||'')}</td><td>${((r.imagen||r.foto||'')+'').trim()?'✅':'—'}</td><td>${accion}</td></tr>`;
+  }).join('')||`<tr><td colspan="8" class="muted" style="padding:20px;text-align:center">Sin resultados.</td></tr>`;
 }
 
-function pintarReportes(causaOn){
-  if(!GACETA.REPORTES_CSV_URL){
-    $('repWrap').innerHTML = `<div class="card muted">
-      Para ver los reportes aquí, publica la pestaña <b>Reportes</b> como CSV y pega la URL en
-      <code>REPORTES_CSV_URL</code> (en <code>data/gaceta-data.js</code>).<br><br>
-      ⚠️ Ojo: eso haría los reportes <b>públicos</b> (traen contactos de vecinos). Si prefieres privacidad,
-      mejor revísalos directo en la hoja: <a class="lk" href="${esc(GACETA.SHEET_EDIT_URL)}" target="_blank" rel="noopener">abrir Reportes en Google Sheets →</a>
-    </div>`;
-    return;
+async function togglar(btn, nombre, publicar){
+  btn.disabled=true; const prev=btn.textContent; btn.textContent='…';
+  try{ await setActivo(nombre, !!publicar); toast(publicar?'Publicado':'Ocultado'); pintar(); }
+  catch(e){ toast('Error: '+e.message); btn.disabled=false; btn.textContent=prev; }
+}
+async function setActivo(nombre, publicar){
+  const r=await api({action:'set', set:'activo', nombre:nombre, valor:publicar?'Publicado':'Oculto'});
+  if(!r||!r.ok) throw new Error((r&&r.error)||'error');
+  const row=NEG.find(x=>(x.nombre||'').toString().trim()===nombre.trim()); if(row) row.activo=publicar?'Publicado':'Oculto';
+}
+async function setAjuste(clave, valor){
+  const r=await api({action:'set', set:'ajuste', clave:clave, valor:valor});
+  if(!r||!r.ok) throw new Error((r&&r.error)||'error');
+  CFG[clave]=valor;
+}
+
+function pintarReportes(){
+  if(!REP.length){
+    const extra = EDITABLE ? 'Aún no hay reportes.' : `Los reportes se ven en modo edición (vía Apps Script) o publicando la pestaña en <code>REPORTES_CSV_URL</code>. También en la hoja: <a class="lk" href="${esc(GACETA.SHEET_EDIT_URL)}" target="_blank" rel="noopener">abrir →</a>`;
+    $('repWrap').innerHTML=`<div class="card muted">${extra}</div>`; return;
   }
-  if(!REP.length){ $('repWrap').innerHTML = `<div class="card muted">Aún no hay reportes.</div>`; return; }
-  $('repWrap').innerHTML = `<div class="tbl-wrap"><table><thead><tr>
-    <th>Fecha</th><th>Problema</th><th>Colonia</th><th>Ubicación</th><th>Contacto</th><th>Estatus</th>
-  </tr></thead><tbody>${REP.slice().reverse().map(r=>`<tr>
-    <td>${esc(onlyDate(r.fecha))}</td>
-    <td><b>${esc(r.problema||'')}</b><div class="muted">${esc(r.descripcion||'')}</div></td>
-    <td>${esc(r.colonia||'')}</td>
-    <td>${esc(r.ubicacion||'')}</td>
-    <td>${esc(r.nombre||'')}${r.contacto?'<br>'+esc(r.contacto):''}</td>
-    <td>${esc(r.estatus||'—')}</td>
-  </tr>`).join('')}</tbody></table></div>`;
+  $('repWrap').innerHTML=`<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Problema</th><th>Colonia</th><th>Ubicación</th><th>Contacto</th><th>Estatus</th></tr></thead><tbody>${REP.slice().reverse().map(r=>`<tr><td>${esc(onlyDate(r.fecha))}</td><td><b>${esc(r.problema||'')}</b><div class="muted">${esc(r.descripcion||'')}</div></td><td>${esc(r.colonia||'')}</td><td>${esc(r.ubicacion||'')}</td><td>${esc(r.nombre||'')}${r.contacto?'<br>'+esc(r.contacto):''}</td><td>${esc(r.estatus||'—')}</td></tr>`).join('')}</tbody></table></div>`;
 }
 
-// Eventos
 $('q').addEventListener('input', pintarNeg);
 $('estado').addEventListener('change', pintarNeg);
 $('btnRefresh').addEventListener('click', cargar);
 
-// Gate
 function abrir(){ $('gate').style.display='none'; $('app').style.display='block'; cargar(); }
 $('gateForm').addEventListener('submit', e=>{
   e.preventDefault();
