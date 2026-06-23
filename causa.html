@@ -95,11 +95,11 @@
 </header>
 
 <div class="prog"><div class="wrap">
-  <div class="bar"><div class="fill"></div></div>
+  <div class="bar"><div class="fill" id="prog-fill"></div></div>
   <div class="nums">
-    <span>Meta: <b>50,000</b> tapas</span>
-    <span>Llevamos: <b>18,400</b> (37%)</span>
-    <span>[cifras de muestra]</span>
+    <span>Meta: <b id="prog-meta">50,000</b> tapas</span>
+    <span>Llevamos: <b id="prog-llevamos">18,400</b> (<span id="prog-pct">37</span>%)</span>
+    <span id="prog-nota">[cifras de muestra]</span>
   </div>
 </div></div>
 
@@ -183,6 +183,24 @@ function renderAcopio(list){
   renderAcopio(ACOPIO_LOCAL);
   // Si la causa está apagada en "Ajustes", muestra un aviso arriba.
   const cfg = (window.GACETA && GACETA.CONFIG_CSV_URL) ? await GACETA.loadConfig() : {};
+
+  // Meta y avance de tapas desde "Ajustes" (mueve la barra y los números solos)
+  (function(){
+    const num = s => { var n = parseFloat(String(s||'').replace(/[^0-9.]/g,'')); return isNaN(n)?0:n; };
+    const meta = num(cfg.meta_tapas || cfg.tapas_meta || cfg.meta);
+    const llev = num(cfg.tapas_llevamos || cfg.llevamos || cfg.tapas_actual || cfg.tapas);
+    if(meta > 0){
+      const pct = Math.max(0, Math.min(100, Math.round(llev/meta*100)));
+      const fmt = n => Math.round(n).toLocaleString('es-MX');
+      const $ = id => document.getElementById(id);
+      if($('prog-meta')) $('prog-meta').textContent = fmt(meta);
+      if($('prog-llevamos')) $('prog-llevamos').textContent = fmt(llev);
+      if($('prog-pct')) $('prog-pct').textContent = pct;
+      if($('prog-fill')) $('prog-fill').style.width = pct + '%';
+      if($('prog-nota')) $('prog-nota').textContent = '';
+    }
+  })();
+
   const tieneAjuste = ('causa_activa' in cfg)||('causa' in cfg);
   const activa = tieneAjuste ? GACETA.esSi(cfg.causa_activa||cfg.causa) : true;
   if(!activa){

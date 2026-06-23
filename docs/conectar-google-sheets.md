@@ -208,9 +208,13 @@ En tu hoja, nueva pestaña llamada **`Ajustes`**, con dos columnas:
 |---|---|
 | causa_activa | sí |
 | banner_texto | Edición con causa: Tapatón por el barrio — junta tapas. |
+| meta_tapas | 50000 |
+| tapas_llevamos | 18400 |
 
 - **`causa_activa`**: `sí` = se ve el banner y los badges de acopio · `no` = se ocultan.
 - **`banner_texto`** (opcional): cambia el texto del banner. Vacío = usa el de siempre.
+- **`meta_tapas`** y **`tapas_llevamos`**: la meta y cuántas tapas llevan. La página de la causa
+  mueve la barra y los números solos (el % se calcula). Escríbelos sin comas (50000, no 50,000).
 
 ### 2. Publica la pestaña `Ajustes` como CSV
 **Archivo → Compartir → Publicar en la web** → pestaña **Ajustes** → **CSV** → Publicar → copia la URL.
