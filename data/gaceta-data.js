@@ -17,6 +17,12 @@ window.GACETA = {
   // 👇 CSV publicado de la pestaña "Ajustes" (prende/apaga la causa y el banner).
   CONFIG_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vThzEmLuywepHg9dJH-ohe7eSNVFE_DGxp_cEr8Mc9M8sTk58fIugedzZbsPn3GEYfDjOMp4lQKk5OP/pub?gid=447529694&single=true&output=csv",
 
+  // 👇 (Opcional, para el panel) CSV publicado de la pestaña "Reportes".
+  REPORTES_CSV_URL: "",
+
+  // Liga para EDITAR la hoja directo (la usa el panel de administración).
+  SHEET_EDIT_URL: "https://docs.google.com/spreadsheets/d/1Jpq8vJcdGlsbPjhaQJk3PTHggRcgo3xgdoxzqINSfvU/edit",
+
   // Palabras que cuentan como "sí / visible" (en columnas y en Ajustes). Todo lo demás = "no".
   AFIRMATIVO: ['x','✓','✔','sí','si','s','true','verdadero','1','yes','on',
     'activo','activa','visible','público','publico','publicado','publicada',
@@ -107,5 +113,19 @@ window.GACETA = {
       });
       return cfg;
     }catch(e){ console.warn('No se pudo cargar Ajustes:', e); return {}; }
+  },
+
+  // Descarga un CSV y regresa filas como objetos {encabezado: valor} (para el panel).
+  async loadTable(url){
+    url = url && url.trim();
+    if(!url) return [];
+    try{
+      const res = await fetch(url, {cache:'no-store'});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const rows = this.parseCSV(await res.text()).filter(r=>r.some(c=>String(c).trim()!==''));
+      if(rows.length < 2) return [];
+      const headers = rows[0].map(h=>h.trim().toLowerCase());
+      return rows.slice(1).map(cells=>{ const o={}; headers.forEach((h,i)=>o[h]=cells[i]!=null?cells[i]:''); return o; });
+    }catch(e){ console.warn('No se pudo cargar la tabla:', e); return []; }
   }
 };
