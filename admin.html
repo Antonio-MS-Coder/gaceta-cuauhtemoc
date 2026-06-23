@@ -262,7 +262,7 @@ function pintarNeg(){
   $('negCount').textContent=list.length+' negocio'+(list.length===1?'':'s');
   $('tblNeg').querySelector('tbody').innerHTML=list.map(r=>{
     const act=esActivo(r), col=CATCOLOR[r.categoria]||'#888', nom=esc(r.nombre);
-    const accion=EDITABLE?`<button class="mini ${act?'off':'on'}" onclick="togglar(this,'${nom.replace(/'/g,"\\'")}',${act?0:1})">${act?'Ocultar':'Publicar'}</button>`:'—';
+    const accion=EDITABLE?`<button class="mini ${act?'off':'on'}" data-nombre="${nom}" data-pub="${act?0:1}">${act?'Ocultar':'Publicar'}</button>`:'—';
     return `<tr><td><b>${nom}</b></td><td><span class="dot" style="background:${col}"></span>${esc(r.categoria||'')}</td><td>${esc(r.colonia||'')}</td><td><span class="tag ${act?'act':'pen'}">${act?'Publicado':'Pendiente'}</span></td><td>${esc(r.prioridad||'')}</td><td>${esc(r.telefono||r.tel||'')}</td><td>${((r.imagen||r.foto||'')+'').trim()?'✅':'—'}</td><td>${accion}</td></tr>`;
   }).join('')||`<tr><td colspan="8" class="muted" style="padding:20px;text-align:center">Sin resultados.</td></tr>`;
 }
@@ -294,6 +294,8 @@ function pintarReportes(){
 $('q').addEventListener('input', pintarNeg);
 $('estado').addEventListener('change', pintarNeg);
 $('btnRefresh').addEventListener('click', cargar);
+// Delegación: el botón Publicar/Ocultar usa data-* (sin onclick en línea) para evitar inyección.
+$('tblNeg').addEventListener('click', e=>{ const b=e.target.closest('.mini'); if(b && EDITABLE) togglar(b, b.dataset.nombre, b.dataset.pub==='1'); });
 
 function abrir(){ $('gate').style.display='none'; $('app').style.display='block'; cargar(); }
 $('gateForm').addEventListener('submit', e=>{
