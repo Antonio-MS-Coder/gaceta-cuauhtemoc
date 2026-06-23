@@ -104,6 +104,8 @@ function doPost(e){
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var d = JSON.parse(e.postData.contents);
 
+  if (d.tipo === 'reporte') return guardarReporte(ss, d);   // reportes del barrio
+
   // --- Foto: si viene archivo, se guarda en Drive (Mi unidad) y se usa su liga ---
   var imagenUrl = d.fotoUrl || '';
   if (d.fotoBase64) {
@@ -129,6 +131,26 @@ function doPost(e){
   }
   crm.appendRow([d.fecha, d.nombre, d.dueno, d.contacto, d.afinidad, d.tamano, d.moviliza, d.temas, d.seguimiento, d.capturadoPor, d.consentimiento]);
 
+  return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
+}
+
+// Guarda un reporte del barrio en la pestaña "Reportes" (con foto opcional).
+function guardarReporte(ss, d){
+  var imagenUrl = '';
+  if (d.fotoBase64) {
+    try {
+      var bytes = Utilities.base64Decode(d.fotoBase64);
+      var blob = Utilities.newBlob(bytes, d.fotoMime || 'image/jpeg', d.fotoNombre || 'reporte.jpg');
+      var archivo = carpetaFotos().createFile(blob);
+      archivo.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      imagenUrl = 'https://drive.google.com/thumbnail?id=' + archivo.getId() + '&sz=w1000';
+    } catch (err) {}
+  }
+  var rep = ss.getSheetByName('Reportes') || ss.insertSheet('Reportes');
+  if (rep.getLastRow() === 0){
+    rep.appendRow(['fecha','problema','colonia','ubicacion','descripcion','foto','nombre','contacto','estatus','consentimiento']);
+  }
+  rep.appendRow([d.fecha, d.problema, d.colonia, d.ubicacion, d.descripcion, imagenUrl, d.nombre, d.contacto, '', d.consentimiento]);
   return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
 }
 
