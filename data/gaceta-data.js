@@ -14,8 +14,8 @@ window.GACETA = {
   // 👇 URL CSV publicada de tu hoja (pestaña pública del directorio).
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vThzEmLuywepHg9dJH-ohe7eSNVFE_DGxp_cEr8Mc9M8sTk58fIugedzZbsPn3GEYfDjOMp4lQKk5OP/pub?gid=1619426642&single=true&output=csv",
 
-  // 👇 (Opcional) CSV publicado de la pestaña "Ajustes" para prender/apagar la causa y el banner.
-  CONFIG_CSV_URL: "",
+  // 👇 CSV publicado de la pestaña "Ajustes" (prende/apaga la causa y el banner).
+  CONFIG_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vThzEmLuywepHg9dJH-ohe7eSNVFE_DGxp_cEr8Mc9M8sTk58fIugedzZbsPn3GEYfDjOMp4lQKk5OP/pub?gid=447529694&single=true&output=csv",
 
   // Palabras que cuentan como "sí / visible" (en columnas y en Ajustes). Todo lo demás = "no".
   AFIRMATIVO: ['x','✓','✔','sí','si','s','true','verdadero','1','yes','on',
