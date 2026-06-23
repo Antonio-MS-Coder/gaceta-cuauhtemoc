@@ -34,6 +34,7 @@ window.GACETA = {
       d:   get('descripcion','descripción','desc','d'),
       dir: get('direccion','dirección','dir'),
       tel: get('telefono','teléfono','tel'),
+      wa:  get('whatsapp','wa','celular'),
       h:   get('horario','horarios','h'),
       src: get('fuente','source','src'),
       img: get('imagen','foto','image','img','foto_url','fotourl'),

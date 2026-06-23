@@ -101,6 +101,11 @@
   .card .info .k{color:var(--c,#8a7e63);min-width:15px;text-align:center;}
   .card .colonia{display:inline-block;margin-top:12px;align-self:flex-start;font-family:'Oswald',sans-serif;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--tinta);color:#fff;padding:3px 10px;transform:rotate(-1.5deg);}
   .card .acopio-badge{display:inline-block;margin-top:8px;align-self:flex-start;font-family:'Oswald',sans-serif;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--anil);color:#fff;padding:3px 9px;}
+  .card .acts{display:flex;gap:8px;margin-top:13px;}
+  .card .act{flex:1;text-align:center;font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.04em;font-size:12px;padding:9px 6px;text-decoration:none;border:2px solid var(--tinta);color:#fff;box-shadow:2px 2px 0 var(--tinta);transition:transform .1s,box-shadow .1s;}
+  .card .act:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--tinta);}
+  .card .act-wa{background:#25D366;color:#08361d;}
+  .card .act-map{background:var(--anil);}
 
   .empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:#5b554a;font-style:italic;font-size:18px;}
 
@@ -359,6 +364,25 @@ function buildFeatured(){
   </div>`;
 }
 
+// Liga de WhatsApp a partir de un teléfono (MX: 10 dígitos → +52).
+function waLink(tel){
+  let d=String(tel||'').replace(/\D/g,'');
+  if(!d) return '';
+  if(d.length===10) d='52'+d;
+  else if(d.length===11 && d[0]==='1') d='52'+d.slice(1);
+  return 'https://wa.me/'+d;
+}
+// Liga de Google Maps a partir de la dirección + colonia.
+function mapsLink(b){
+  const q=[b.dir,b.col,'Cuauhtémoc, CDMX'].filter(Boolean).join(', ');
+  return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+}
+function actionRows(b){
+  const tel=b.wa||b.tel, btns=[];
+  if(tel){ const w=waLink(tel); if(w) btns.push(`<a class="act act-wa" href="${esc(w)}" target="_blank" rel="noopener">WhatsApp</a>`); }
+  if(b.dir){ btns.push(`<a class="act act-map" href="${esc(mapsLink(b))}" target="_blank" rel="noopener">Cómo llegar</a>`); }
+  return btns.length?`<div class="acts">${btns.join('')}</div>`:'';
+}
 function infoRows(b){
   const rows=[
     b.dir?`<div><span class="k">📍</span><span>${esc(b.dir)}</span></div>`:'',
@@ -383,6 +407,7 @@ function card(b,i){
       ${infoRows(b)}
       <span class="colonia">${esc(b.col)}</span>
       ${(b.acopio && CAUSA_ACTIVA)?'<span class="acopio-badge">🧢 Acopio de tapas</span>':''}
+      ${actionRows(b)}
     </div>
   </article>`;
 }
