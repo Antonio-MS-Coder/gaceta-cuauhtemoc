@@ -106,13 +106,13 @@
 <main class="wrap">
 
   <section>
-    <h2>Esta edición es por <span class="ac">[nombre por confirmar]</span></h2>
+    <h2>Esta edición es por <span class="ac" id="nino-nombre-h2">[nombre por confirmar]</span></h2>
     <div class="nino">
-      <div class="pic">🧒</div>
+      <div class="pic" id="nino-pic">🧒</div>
       <div>
-        <h3>[Nombre del niño/a], [edad] años</h3>
-        <p>[Breve historia: diagnóstico, hospital, qué necesita.] Con el apoyo del barrio juntamos tapas para ayudar a cubrir su tratamiento.</p>
-        <p class="ph">📷 Aquí va la foto real (con permiso de la familia).</p>
+        <h3 id="nino-titulo">[Nombre del niño/a], [edad] años</h3>
+        <p id="nino-historia">[Breve historia: diagnóstico, hospital, qué necesita.] Con el apoyo del barrio juntamos tapas para ayudar a cubrir su tratamiento.</p>
+        <p class="ph" id="nino-nota">📷 Aquí va la foto real (con permiso de la familia).</p>
       </div>
     </div>
   </section>
@@ -198,6 +198,30 @@ function renderAcopio(list){
       if($('prog-pct')) $('prog-pct').textContent = pct;
       if($('prog-fill')) $('prog-fill').style.width = pct + '%';
       if($('prog-nota')) $('prog-nota').textContent = '';
+    }
+  })();
+
+  // Datos del caso (niño/a) desde "Ajustes"
+  (function(){
+    const g=(...ks)=>{for(const k of ks){const v=cfg[k]; if(v!=null && String(v).trim()!=='') return String(v).trim();} return '';};
+    const nombre=g('nino_nombre','nino_nombre','nombre_nino','caso_nombre');
+    const edad=g('nino_edad','nino_edad','caso_edad','edad');
+    const historia=g('nino_historia','nino_historia','historia','caso_historia');
+    const foto=g('nino_foto','nino_foto','foto_nino','caso_foto');
+    const $=id=>document.getElementById(id);
+    if(nombre){
+      if($('nino-nombre-h2')) $('nino-nombre-h2').textContent=nombre;
+      const edadTxt = edad ? (/^\d+$/.test(edad) ? edad+' años' : edad) : '';
+      if($('nino-titulo')) $('nino-titulo').textContent = edadTxt ? (nombre+', '+edadTxt) : nombre;
+    }
+    if(historia && $('nino-historia')) $('nino-historia').textContent=historia;
+    if(foto && $('nino-pic')){
+      $('nino-pic').textContent='';
+      const im=document.createElement('img');
+      im.src=foto; im.alt=nombre||'Foto del caso'; im.style.cssText='width:100%;height:100%;object-fit:cover;';
+      im.onerror=function(){ $('nino-pic').textContent='🧒'; if($('nino-nota')) $('nino-nota').textContent='📷 Aquí va la foto real (con permiso de la familia).'; };
+      $('nino-pic').appendChild(im);
+      if($('nino-nota')) $('nino-nota').textContent='';
     }
   })();
 
